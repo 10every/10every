@@ -279,7 +279,7 @@ export function EndOfDayRecap({ tracks, onNewDay, onShowManifesto }: EndOfDayRec
                       {track.albumArt && (
                         <div className="w-10 h-10 rounded overflow-hidden flex-shrink-0">
                           <img
-                            src={track.albumArt}
+                            src={typeof track.albumArt === 'string' ? track.albumArt : track.albumArt.src}
                             alt={`${track.artist} - ${track.title}`}
                             className="w-full h-full object-cover"
                           />
