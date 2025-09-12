@@ -1,11 +1,6 @@
-/* eslint-disable @next/next/no-img-element, react/no-unescaped-entities, @typescript-eslint/no-explicit-any */
-
-e
-at 
-
-
-
 'use client';
+
+/* eslint-disable @next/next/no-img-element, react/no-unescaped-entities, @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
