@@ -9,7 +9,7 @@ type TrackTileProps = {
 };
 
 export default function TrackTile({ track, onClick }: TrackTileProps) {
-  const indicators: JSX.Element[] = [];
+  const indicators: React.ReactElement[] = [];
 
   if (track.listened && !track.revealed) {
     indicators.push(<Check key="check" className="w-3 h-3 text-muted-foreground" />);
