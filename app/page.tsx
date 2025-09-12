@@ -86,7 +86,7 @@ const fetchFeaturedTracks = async (): Promise<Track[]> => {
       rating: null,
       downloaded: false,
       listenProgress: 0,
-      revealed: false,
+      revealed: false, // Start as unrevealed - will reveal after 10% listen
       score: 0,
     }));
   } catch (error) {
@@ -170,9 +170,17 @@ export default function App() {
 
   const handleTrackUpdate = (updatedTrack: Track) => {
     setState((prev) => {
-      const updatedTracks = prev.tracks.map((t) =>
-        t.id === updatedTrack.id ? updatedTrack : t
-      );
+      const updatedTracks = prev.tracks.map((t) => {
+        if (t.id === updatedTrack.id) {
+          // Check if track should be revealed (10% listen progress)
+          const shouldReveal = updatedTrack.listenProgress >= 10 && !updatedTrack.revealed;
+          return {
+            ...updatedTrack,
+            revealed: shouldReveal || updatedTrack.revealed
+          };
+        }
+        return t;
+      });
       return { ...prev, tracks: calculateRankings(updatedTracks) };
     });
   };
