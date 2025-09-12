@@ -373,7 +373,7 @@ export default function App() {
         {state.showManifesto && <Manifesto onClose={handleCloseManifesto} />}
         {state.showSubmission && <SubmissionPage onClose={handleCloseSubmission} />}
 
-        <div className="fixed bottom-4 right-4 flex items-center gap-2">
+        <div className="fixed bottom-2 right-2 flex items-center gap-2">
           <Button
             onClick={() => handleDemoStateChange(getPrevDemoState())}
             variant="outline"
