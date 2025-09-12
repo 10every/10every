@@ -4,13 +4,13 @@ interface LogoProps {
   className?: string;
 }
 
-export function Logo({ className = "h-10 w-auto" }: LogoProps) {
+export function Logo({ className = "h-12 w-auto" }: LogoProps) {
   return (
     <Image
       src="/logo.png"
       alt="10every"
-      width={40}
-      height={40}
+      width={46}
+      height={46}
       className={className}
     />
   );

@@ -1,5 +1,8 @@
 /* eslint-disable @next/next/no-img-element, react/no-unescaped-entities, @typescript-eslint/no-explicit-any */
 
+e
+at 
+
 
 
 'use client';
@@ -23,6 +26,7 @@ const logoImage = '/logo.png';
 // -----------------------------------------------------------------------------
 // Mock data
 // -----------------------------------------------------------------------------
+
 
 const generateMockTracks = (): Track[] => {
   const realSpotifyTracks = [
@@ -330,7 +334,7 @@ export default function App() {
               manifesto
             </Button>
             <Button
-              onClick={() => window.open('/admin', '_blank')}
+              onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}
               variant="ghost"
               size="sm"
               className="text-muted-foreground hover:text-foreground text-xs tracking-wide"
@@ -342,13 +346,13 @@ export default function App() {
 
         <main>
           {state.allTracksGone ? (
-            <div className="text-center py-20">
+            <div className="text-center py-12">
               <p className="text-muted-foreground text-lg tracking-wide">
                 Today&apos;s algorithm has concluded...
               </p>
             </div>
           ) : state.tracks.length === 0 ? (
-            <div className="text-center py-20">
+            <div className="text-center py-12">
               <p className="text-muted-foreground text-lg tracking-wide">
                 Loading tracks...
               </p>
@@ -369,7 +373,7 @@ export default function App() {
         {state.showManifesto && <Manifesto onClose={handleCloseManifesto} />}
         {state.showSubmission && <SubmissionPage onClose={handleCloseSubmission} />}
 
-        <div className="fixed bottom-8 right-8 flex items-center gap-2">
+        <div className="fixed bottom-4 right-4 flex items-center gap-2">
           <Button
             onClick={() => handleDemoStateChange(getPrevDemoState())}
             variant="outline"
