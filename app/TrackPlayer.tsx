@@ -110,7 +110,7 @@ export function TrackPlayer({ track, onClose, onUpdate }: TrackPlayerProps) {
               {track.albumArt && (
                 <div className="w-16 h-16 rounded overflow-hidden">
                   <img
-                    src={typeof track.albumArt === 'string' ? track.albumArt : (track.albumArt as any).src}
+                    src={typeof track.albumArt === 'string' ? track.albumArt : track.albumArt.src}
                     alt={`${track.artist ?? ''} - ${track.title ?? ''}`}
                     className="w-full h-full object-cover"
                   />
