@@ -42,19 +42,24 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "embla-carousel-react": "^8.6.0",
+    "formidable": "^3.5.4",
     "framer-motion": "^12.23.12",
+    "glob": "^11.0.3",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.544.0",
     "next": "15.5.3",
+    "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-day-picker": "^9.9.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.62.0",
     "react-resizable-panels": "^3.0.6",
     "recharts": "^3.2.0",
+    "rimraf": "^6.0.1",
     "sonner": "^2.0.7",
     "spotify-web-api-node": "^5.0.2",
     "sqlite3": "^5.1.7",
+    "superagent": "^10.2.3",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2"
   },
@@ -64,9 +69,17 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/spotify-web-api-node": "^5.0.11",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "rimraf": "^6.0.1",
+    "glob": "^11.0.3",
+    "formidable": "^3.5.4",
+    "superagent": "^10.2.3",
+    "@npmcli/move-file": "^3.0.0"
   }
 }
