@@ -66,7 +66,7 @@ export function useSpotifyPlayer({
 
     // Ready
     spotifyPlayer.addListener('ready', ({ device_id }: { device_id: string }) => {
-      console.log('Ready with Device ID', device_id);
+      console.log('🎵 Spotify player ready with Device ID:', device_id);
       setDeviceId(device_id);
       setIsReady(true);
       onPlayerReady?.(device_id);
@@ -91,19 +91,19 @@ export function useSpotifyPlayer({
 
     // Error handling
     spotifyPlayer.addListener('initialization_error', ({ message }: { message: string }) => {
-      console.error('Failed to initialize:', message);
+      console.error('❌ Spotify player initialization error:', message);
     });
 
     spotifyPlayer.addListener('authentication_error', ({ message }: { message: string }) => {
-      console.error('Failed to authenticate:', message);
+      console.error('❌ Spotify player authentication error:', message);
     });
 
     spotifyPlayer.addListener('account_error', ({ message }: { message: string }) => {
-      console.error('Failed to validate Spotify account:', message);
+      console.error('❌ Spotify player account error:', message);
     });
 
     spotifyPlayer.addListener('playback_error', ({ message }: { message: string }) => {
-      console.error('Failed to perform playback:', message);
+      console.error('❌ Spotify player playback error:', message);
     });
 
     // Connect to the player

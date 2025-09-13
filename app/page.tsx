@@ -224,6 +224,7 @@ export default function App() {
     console.log('Tile clicked:', track);
     console.log('Spotify access token:', spotifyAccessToken ? 'Present' : 'Missing');
     console.log('Spotify URL:', track.spotifyUrl);
+    console.log('Spotify player ready:', spotifyReady);
     
     if (spotifyAccessToken && track.spotifyUrl) {
       // Extract Spotify track ID from URL
@@ -233,8 +234,20 @@ export default function App() {
       if (spotifyId) {
         const spotifyUri = `spotify:track:${spotifyId}`;
         console.log('Playing Spotify URI:', spotifyUri);
-        console.log('Spotify player ready:', spotifyReady);
-        await playTrack(spotifyUri);
+        
+        if (!spotifyReady) {
+          console.warn('Spotify player not ready yet, waiting...');
+          // Wait a bit and try again
+          setTimeout(() => {
+            if (spotifyReady) {
+              playTrack(spotifyUri);
+            } else {
+              console.error('Spotify player still not ready after timeout');
+            }
+          }, 2000);
+        } else {
+          await playTrack(spotifyUri);
+        }
       }
     }
     setState((prev) => ({ ...prev, selectedTrack: track }));
