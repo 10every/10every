@@ -65,8 +65,17 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
       }
     } else {
       console.warn('No Spotify player available, trying fallback...');
-      // Fallback: show a message that user needs Spotify Premium
-      alert('Spotify Web Playback requires Spotify Premium. Please upgrade your account to play full tracks.');
+      // Fallback: Use HTML5 audio with preview URL
+      if (track.audioUrl && track.audioUrl !== 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav') {
+        console.log('Using HTML5 audio fallback with preview URL');
+        const audio = new Audio(track.audioUrl);
+        audio.play().catch(err => {
+          console.error('HTML5 audio playback failed:', err);
+          alert('Unable to play track. This may be due to browser restrictions or the track not being available.');
+        });
+      } else {
+        alert('Spotify Web Playback requires Spotify Premium. Please upgrade your account to play full tracks.');
+      }
     }
   };
 
