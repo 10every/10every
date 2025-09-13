@@ -197,7 +197,8 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
                   className="h-7 w-7 sm:h-8 sm:w-8 p-0 touch-manipulation"
                 >
                   <Star
-                    className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${star <= rating ? 'text-primary fill-primary' : 'text-muted-foreground'}`}
+                    className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${star <= rating ? 'text-primary' : 'text-muted-foreground'}`}
+                    fill={star <= rating ? 'currentColor' : 'none'}
                   />
                 </Button>
               ))}

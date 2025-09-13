@@ -137,7 +137,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                     <div className="space-y-2">
                       <h3 className="tracking-wide">Submit</h3>
                       <p className="text-muted-foreground tracking-wide">
-                        Share your Spotify track link with us
+                        Share your Spotify track link with us.
                       </p>
                     </div>
                   </div>
@@ -151,7 +151,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                     <div className="space-y-2">
                       <h3 className="tracking-wide">Selection</h3>
                       <p className="text-muted-foreground tracking-wide">
-                        First <span className="helvetica-oblique">10</span> tracks submitted daily get featured
+                        First <span className="helvetica-oblique">10</span> tracks submitted daily get featured.
                       </p>
                     </div>
                   </div>
@@ -165,7 +165,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                     <div className="space-y-2">
                       <h3 className="tracking-wide">Anonymous Release</h3>
                       <p className="text-muted-foreground tracking-wide">
-                        Tracks appear without artist names at <span className="helvetica-oblique">10am</span>
+                        Tracks appear without artist names at <span className="helvetica-oblique">10am</span>.
                       </p>
                     </div>
                   </div>
@@ -179,7 +179,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                     <div className="space-y-2">
                       <h3 className="tracking-wide">Discovery</h3>
                       <p className="text-muted-foreground tracking-wide">
-                        Listeners must hear <span className="helvetica-oblique">10%</span> before revealing artist
+                        Listeners must hear <span className="helvetica-oblique">10%</span> before revealing artist.
                       </p>
                     </div>
                   </div>
