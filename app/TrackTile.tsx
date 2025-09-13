@@ -63,76 +63,143 @@ export default function TrackTile({ track, onClick }: TrackTileProps) {
         </button>
 
         {/* BACK */}
-        <button
-          type="button"
-          onClick={onClick}
-          className="absolute inset-0 w-full h-full [backface-visibility:hidden]
-          [transform:rotateY(180deg)] border-2 border-primary/30 shadow-lg
-          hover:shadow-xl hover:border-primary/50
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        >
-          {track.albumArt && (
-            <>
-              <img
-                src={
-                  typeof track.albumArt === 'string'
-                    ? track.albumArt
-                    : (track.albumArt as any).src
-                }
-                alt={`${track.artist ?? ''} - ${track.title ?? ''}`}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          {track.spotifyUrl ? (
+            <div className="relative w-full h-full">
+              <iframe
+                src={`https://open.spotify.com/embed/track/${track.spotifyUrl.split('/').pop()?.split('?')[0]}?utm_source=generator&theme=0`}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                className="rounded-lg"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/70" />
-
-              <div className="absolute inset-0 flex flex-col justify-end p-4">
-                <div className="bg-black/50 backdrop-blur-sm rounded-lg p-3 space-y-1">
-                  <div className="text-white font-semibold text-base leading-tight truncate">
-                    {track.title}
-                  </div>
-                  <div className="text-white/90 text-sm truncate">{track.artist}</div>
-                  <div className="flex items-center justify-between pt-1">
-                    <div className="flex items-center gap-1">
-                      <Eye className="w-3 h-3 text-green-400" />
-                      <span className="text-green-400 text-xs font-medium">REVEALED</span>
+              
+              {/* Overlay with track info */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70 pointer-events-none">
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <div className="bg-black/50 backdrop-blur-sm rounded-lg p-3 space-y-1">
+                    <div className="text-white font-semibold text-sm leading-tight truncate">
+                      {track.title}
                     </div>
-
-                    {track.rank && track.rank <= 3 && (
-                      <div className="bg-yellow-500/90 text-black text-xs font-bold px-2 py-1 rounded helvetica-oblique">
-                        #{track.rank}
+                    <div className="text-white/90 text-xs truncate">{track.artist}</div>
+                    <div className="flex items-center justify-between pt-1">
+                      <div className="flex items-center gap-1">
+                        <Eye className="w-3 h-3 text-green-400" />
+                        <span className="text-green-400 text-xs font-medium">REVEALED</span>
                       </div>
-                    )}
 
-                    <span className="text-white/60 text-xs font-mono helvetica-oblique">
-                      {String(track.id).padStart(2, '0')}
-                    </span>
+                      {track.rank && track.rank <= 3 && (
+                        <div className="bg-yellow-500/90 text-black text-xs font-bold px-2 py-1 rounded helvetica-oblique">
+                          #{track.rank}
+                        </div>
+                      )}
+
+                      <span className="text-white/60 text-xs font-mono helvetica-oblique">
+                        {String(track.id).padStart(2, '0')}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </>
-          )}
 
-          {track.listenProgress > 0 && track.listenProgress < 100 && (
-            <div className="absolute top-0 left-0 right-0 h-1 bg-black/30">
-              <div
-                className="h-full bg-white/80 transition-all duration-300"
-                style={{ width: `${track.listenProgress}%` }}
-              />
+              {/* Progress bar */}
+              {track.listenProgress > 0 && track.listenProgress < 100 && (
+                <div className="absolute top-0 left-0 right-0 h-1 bg-black/30">
+                  <div
+                    className="h-full bg-white/80 transition-all duration-300"
+                    style={{ width: `${track.listenProgress}%` }}
+                  />
+                </div>
+              )}
+
+              {/* Rating and download indicators */}
+              <div className="absolute top-3 right-3 flex gap-1">
+                {(track.rating ?? 0) > 0 && (
+                  <div className="bg-yellow-500/90 text-black rounded-full p-1">
+                    <Star className="w-3 h-3 fill-current" />
+                  </div>
+                )}
+                {track.downloaded && (
+                  <div className="bg-green-500/90 text-white rounded-full p-1">
+                    <Plus className="w-3 h-3" />
+                  </div>
+                )}
+              </div>
             </div>
-          )}
+          ) : (
+            <button
+              type="button"
+              onClick={onClick}
+              className="absolute inset-0 w-full h-full border-2 border-primary/30 shadow-lg
+              hover:shadow-xl hover:border-primary/50
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              {track.albumArt && (
+                <>
+                  <img
+                    src={
+                      typeof track.albumArt === 'string'
+                        ? track.albumArt
+                        : (track.albumArt as any).src
+                    }
+                    alt={`${track.artist ?? ''} - ${track.title ?? ''}`}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/70" />
 
-          <div className="absolute top-3 right-3 flex gap-1">
-            {(track.rating ?? 0) > 0 && (
-              <div className="bg-yellow-500/90 text-black rounded-full p-1">
-                <Star className="w-3 h-3 fill-current" />
+                  <div className="absolute inset-0 flex flex-col justify-end p-4">
+                    <div className="bg-black/50 backdrop-blur-sm rounded-lg p-3 space-y-1">
+                      <div className="text-white font-semibold text-base leading-tight truncate">
+                        {track.title}
+                      </div>
+                      <div className="text-white/90 text-sm truncate">{track.artist}</div>
+                      <div className="flex items-center justify-between pt-1">
+                        <div className="flex items-center gap-1">
+                          <Eye className="w-3 h-3 text-green-400" />
+                          <span className="text-green-400 text-xs font-medium">REVEALED</span>
+                        </div>
+
+                        {track.rank && track.rank <= 3 && (
+                          <div className="bg-yellow-500/90 text-black text-xs font-bold px-2 py-1 rounded helvetica-oblique">
+                            #{track.rank}
+                          </div>
+                        )}
+
+                        <span className="text-white/60 text-xs font-mono helvetica-oblique">
+                          {String(track.id).padStart(2, '0')}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {track.listenProgress > 0 && track.listenProgress < 100 && (
+                <div className="absolute top-0 left-0 right-0 h-1 bg-black/30">
+                  <div
+                    className="h-full bg-white/80 transition-all duration-300"
+                    style={{ width: `${track.listenProgress}%` }}
+                  />
+                </div>
+              )}
+
+              <div className="absolute top-3 right-3 flex gap-1">
+                {(track.rating ?? 0) > 0 && (
+                  <div className="bg-yellow-500/90 text-black rounded-full p-1">
+                    <Star className="w-3 h-3 fill-current" />
+                  </div>
+                )}
+                {track.downloaded && (
+                  <div className="bg-green-500/90 text-white rounded-full p-1">
+                    <Plus className="w-3 h-3" />
+                  </div>
+                )}
               </div>
-            )}
-            {track.downloaded && (
-              <div className="bg-green-500/90 text-white rounded-full p-1">
-                <Plus className="w-3 h-3" />
-              </div>
-            )}
-          </div>
-        </button>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
