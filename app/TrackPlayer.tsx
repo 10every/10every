@@ -9,55 +9,56 @@ type TrackPlayerProps = {
   track: Track;
   onClose: () => void;
   onUpdate: (t: Track) => void;
+  spotifyPlayer?: {
+    isPlaying: boolean;
+    currentTrack: any;
+    position: number;
+    duration: number;
+    pause: () => void;
+    resume: () => void;
+  };
 };
 
-export function TrackPlayer({ track, onClose, onUpdate }: TrackPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
+export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPlayerProps) {
   const [rating, setRating] = useState(track.rating ?? 0);
   const [downloaded, setDownloaded] = useState(track.downloaded);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSentPct = useRef<number>(-1);
 
-  // Start/stop the mock timer
-  useEffect(() => {
-    if (!isPlaying) {
-      if (timerRef.current) clearInterval(timerRef.current);
-      timerRef.current = null;
-      return;
-    }
+  // Use Spotify player state if available, otherwise fallback to local state
+  const isPlaying = spotifyPlayer?.isPlaying ?? false;
+  const currentTime = spotifyPlayer ? Math.floor(spotifyPlayer.position / 1000) : 0;
+  const duration = spotifyPlayer ? Math.floor(spotifyPlayer.duration / 1000) : track.duration;
 
-    timerRef.current = setInterval(() => {
-      setCurrentTime((prev) => Math.min(prev + 1, Math.floor(track.duration)));
-    }, 1000);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-      timerRef.current = null;
-    };
-  }, [isPlaying, track.duration]);
-
-  // Send progress/reveal updates to parent AFTER render (no setState in render)
+  // Update progress based on Spotify player or local state
   useEffect(() => {
     if (currentTime <= 0) return;
-    const pct = Math.min(100, Math.round((currentTime / track.duration) * 100));
+    const pct = Math.min(100, Math.round((currentTime / duration) * 100));
     if (pct === lastSentPct.current) return;
     lastSentPct.current = pct;
+
+    const shouldReveal = track.revealed || pct >= 10;
 
     onUpdate({
       ...track,
       listened: true,
       listenProgress: pct,
-      revealed: track.revealed || pct >= 10,
+      revealed: shouldReveal,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTime]);
+  }, [currentTime, duration, track, onUpdate]);
+
 
   const handlePlayPause = () => {
     if (!isPlaying && !track.listened) {
       onUpdate({ ...track, listened: true });
     }
-    setIsPlaying((p) => !p);
+    
+    if (spotifyPlayer) {
+      if (isPlaying) {
+        spotifyPlayer.pause();
+      } else {
+        spotifyPlayer.resume();
+      }
+    }
   };
 
   const handleRate = (newRating: number) => {
@@ -164,20 +165,27 @@ export function TrackPlayer({ track, onClose, onUpdate }: TrackPlayerProps) {
 
         {/* Actions */}
         <div className="flex justify-center items-center gap-8">
-          <div className="flex gap-1">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Button
-                key={star}
-                variant="ghost"
-                size="sm"
-                onClick={() => handleRate(star)}
-                className="h-8 w-8 p-0"
-              >
-                <Star
-                  className={`w-4 h-4 ${star <= rating ? 'text-primary fill-primary' : 'text-muted-foreground'}`}
-                />
-              </Button>
-            ))}
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Button
+                  key={star}
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleRate(star)}
+                  className="h-8 w-8 p-0"
+                >
+                  <Star
+                    className={`w-4 h-4 ${star <= rating ? 'text-primary fill-primary' : 'text-muted-foreground'}`}
+                  />
+                </Button>
+              ))}
+            </div>
+            {rating > 0 && (
+              <span className="text-xs text-muted-foreground">
+                Rated {rating}/5
+              </span>
+            )}
           </div>
           <Button
             variant="ghost"

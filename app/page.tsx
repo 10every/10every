@@ -10,9 +10,11 @@ import { CountdownTimer } from './CountdownTimer';
 import { EndOfDayRecap } from './EndOfDayRecap';
 import { Manifesto } from './Manifesto';
 import { SubmissionPage } from './SubmissionPage';
+import { SpotifyAuth } from './components/SpotifyAuth';
 import { ChevronLeft, ChevronRight, FileText, Upload } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Logo } from './components/Logo';
+import { useSpotifyPlayer } from './hooks/useSpotifyPlayer';
 import type { Track, AppState, DemoState } from './types';
 
 const placeholderAlbum = '/placeholder.png';
@@ -70,7 +72,7 @@ const fetchFeaturedTracks = async (): Promise<Track[]> => {
     
     // Convert API data to Track format
     return tracks.map((track: any, index: number) => ({
-      id: track.id,
+      id: index + 1, // Use sequential numbering 1-10
       title: track.title,
       artist: track.artist,
       albumArt: track.album_art_url || placeholderAlbum,
@@ -129,6 +131,67 @@ export default function App() {
     demoState: 'initial',
   }));
 
+  // Spotify authentication state
+  const [spotifyAccessToken, setSpotifyAccessToken] = useState<string | null>(null);
+  const [showSpotifyAuth, setShowSpotifyAuth] = useState(false);
+
+  // Initialize Spotify authentication
+  useEffect(() => {
+    const token = localStorage.getItem('spotify_access_token');
+    if (token) {
+      setSpotifyAccessToken(token);
+    } else {
+      setShowSpotifyAuth(true);
+    }
+  }, []);
+
+  // Spotify Web Playback SDK
+  const {
+    isReady: spotifyReady,
+    isPlaying,
+    currentTrack: spotifyCurrentTrack,
+    position,
+    duration,
+    playTrack,
+    pause,
+    resume,
+  } = useSpotifyPlayer({
+    accessToken: spotifyAccessToken || '',
+    onPlayerStateChanged: (state) => {
+      if (state && state.track_window?.current_track) {
+        // Update track progress based on full track duration
+        const progressPercent = Math.round((state.position / state.duration) * 100);
+        if (progressPercent >= 10 && state.track_window.current_track.uri) {
+          // Find and reveal the track
+          const trackUri = state.track_window.current_track.uri;
+          setState(prev => ({
+            ...prev,
+            tracks: prev.tracks.map(track => {
+              if (track.spotifyUrl?.includes(trackUri.split(':')[2])) {
+                return { ...track, revealed: true, listenProgress: progressPercent };
+              }
+              return track;
+            })
+          }));
+        }
+      }
+    },
+  });
+
+  // Spotify authentication handlers
+  const handleSpotifyAuthSuccess = (accessToken: string) => {
+    setSpotifyAccessToken(accessToken);
+    setShowSpotifyAuth(false);
+  };
+
+  const handleSpotifyLogout = () => {
+    localStorage.removeItem('spotify_access_token');
+    localStorage.removeItem('spotify_refresh_token');
+    localStorage.removeItem('spotify_token_expires');
+    setSpotifyAccessToken(null);
+    setShowSpotifyAuth(true);
+  };
+
   // Load real tracks on component mount
   useEffect(() => {
     const loadTracks = async () => {
@@ -157,8 +220,17 @@ export default function App() {
   // Handlers
   // ---------------------------------------------------------------------------
 
-  const handleTileClick = (track: Track) =>
+  const handleTileClick = async (track: Track) => {
+    if (spotifyAccessToken && track.spotifyUrl) {
+      // Extract Spotify track ID from URL
+      const spotifyId = track.spotifyUrl.split('/').pop()?.split('?')[0];
+      if (spotifyId) {
+        const spotifyUri = `spotify:track:${spotifyId}`;
+        await playTrack(spotifyUri);
+      }
+    }
     setState((prev) => ({ ...prev, selectedTrack: track }));
+  };
 
   const handleClosePlayer = () =>
     setState((prev) => ({ ...prev, selectedTrack: null }));
@@ -273,7 +345,7 @@ export default function App() {
 
         {state.showManifesto && <Manifesto onClose={handleCloseManifesto} />}
 
-        <div className="fixed bottom-8 right-8">
+        <div className="fixed bottom-2 right-2">
           <Button
             onClick={() => handleDemoStateChange('some-revealed')}
             variant="outline"
@@ -311,10 +383,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Spotify Authentication Modal */}
+      {showSpotifyAuth && (
+        <SpotifyAuth onAuthSuccess={handleSpotifyAuthSuccess} />
+      )}
+
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8 md:mb-10 relative">
           <div className="mb-4">
-            <Logo className="mx-auto h-10 sm:h-12 md:h-14 lg:h-16 max-h-[4rem] md:max-h-[3.75rem] lg:max-h-[4rem] w-auto" />
+            <Logo className="mx-auto h-24 w-auto" />
           </div>
 
           <div className="absolute top-0 right-0 flex items-center gap-2">
@@ -344,6 +421,16 @@ export default function App() {
             >
               admin
             </Button>
+            {spotifyAccessToken && (
+              <Button
+                onClick={handleSpotifyLogout}
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-foreground text-xs tracking-wide"
+              >
+                spotify logout
+              </Button>
+            )}
           </div>
         </header>
 
@@ -370,13 +457,21 @@ export default function App() {
             track={state.selectedTrack}
             onClose={handleClosePlayer}
             onUpdate={handleTrackUpdate}
+            spotifyPlayer={spotifyAccessToken ? {
+              isPlaying,
+              currentTrack: spotifyCurrentTrack,
+              position,
+              duration,
+              pause,
+              resume,
+            } : undefined}
           />
         )}
 
         {state.showManifesto && <Manifesto onClose={handleCloseManifesto} />}
         {state.showSubmission && <SubmissionPage onClose={handleCloseSubmission} />}
 
-        <div className="fixed bottom-2 right-2 flex items-center gap-2">
+        <div className="fixed bottom-0 right-0 flex items-center gap-2 p-2">
           <Button
             onClick={() => handleDemoStateChange(getPrevDemoState())}
             variant="outline"

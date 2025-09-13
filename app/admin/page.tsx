@@ -125,7 +125,7 @@ export default function AdminPage() {
         <header className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Logo className="h-8" />
+              <Logo className="h-24" />
               <div>
                 <h1 className="text-3xl font-bold tracking-wide">Admin Dashboard</h1>
                 <p className="text-muted-foreground mt-2">Select 10 tracks to feature today</p>
