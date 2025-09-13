@@ -22,17 +22,24 @@ type TrackPlayerProps = {
 export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPlayerProps) {
   const [rating, setRating] = useState(track.rating ?? 0);
   const [downloaded, setDownloaded] = useState(track.downloaded);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(track.duration);
   const lastSentPct = useRef<number>(-1);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   // Use Spotify player state if available, otherwise fallback to local state
-  const isPlaying = spotifyPlayer?.isPlaying ?? false;
-  const currentTime = spotifyPlayer ? Math.floor(spotifyPlayer.position / 1000) : 0;
-  const duration = spotifyPlayer ? Math.floor(spotifyPlayer.duration / 1000) : track.duration;
+  const spotifyIsPlaying = spotifyPlayer?.isPlaying ?? false;
+  const spotifyCurrentTime = spotifyPlayer ? Math.floor(spotifyPlayer.position / 1000) : 0;
+  const spotifyDuration = spotifyPlayer ? Math.floor(spotifyPlayer.duration / 1000) : track.duration;
 
   // Update progress based on Spotify player or local state
   useEffect(() => {
-    if (currentTime <= 0) return;
-    const pct = Math.min(100, Math.round((currentTime / duration) * 100));
+    const currentTimeValue = spotifyPlayer ? spotifyCurrentTime : currentTime;
+    const durationValue = spotifyPlayer ? spotifyDuration : duration;
+    
+    if (currentTimeValue <= 0) return;
+    const pct = Math.min(100, Math.round((currentTimeValue / durationValue) * 100));
     if (pct === lastSentPct.current) return;
     lastSentPct.current = pct;
 
@@ -44,37 +51,33 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
       listenProgress: pct,
       revealed: shouldReveal,
     });
-  }, [currentTime, duration, track, onUpdate]);
+  }, [spotifyCurrentTime, spotifyDuration, currentTime, duration, track, onUpdate, spotifyPlayer]);
 
 
   const handlePlayPause = () => {
-    console.log('Play button clicked, isPlaying:', isPlaying);
+    const currentIsPlaying = spotifyPlayer ? spotifyIsPlaying : isPlaying;
+    console.log('Play button clicked, isPlaying:', currentIsPlaying);
     console.log('Spotify player available:', !!spotifyPlayer);
     
-    if (!isPlaying && !track.listened) {
+    if (!currentIsPlaying && !track.listened) {
       onUpdate({ ...track, listened: true });
     }
     
-    if (spotifyPlayer) {
-      if (isPlaying) {
-        console.log('Pausing track...');
-        spotifyPlayer.pause();
-      } else {
-        console.log('Playing track...');
-        spotifyPlayer.play();
+    // Always use HTML5 audio for now - simpler and more reliable
+    if (currentIsPlaying) {
+      console.log('Pausing track...');
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setIsPlaying(false);
       }
     } else {
-      console.warn('No Spotify player available, trying fallback...');
-      // Fallback: Use HTML5 audio with preview URL
-      if (track.audioUrl && track.audioUrl !== 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav') {
-        console.log('Using HTML5 audio fallback with preview URL');
-        const audio = new Audio(track.audioUrl);
-        audio.play().catch(err => {
-          console.error('HTML5 audio playback failed:', err);
+      console.log('Playing track...');
+      if (audioRef.current) {
+        audioRef.current.play().catch(err => {
+          console.error('Audio playback failed:', err);
           alert('Unable to play track. This may be due to browser restrictions or the track not being available.');
         });
-      } else {
-        alert('Spotify Web Playback requires Spotify Premium. Please upgrade your account to play full tracks.');
+        setIsPlaying(true);
       }
     }
   };
@@ -97,9 +100,11 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
     return `${mins}:${String(secs).padStart(2, '0')}`;
   };
 
+  const currentTimeValue = spotifyPlayer ? spotifyCurrentTime : currentTime;
+  const durationValue = spotifyPlayer ? spotifyDuration : duration;
   const progressPercentage = Math.min(
     100,
-    Math.round((currentTime / track.duration) * 100)
+    Math.round((currentTimeValue / durationValue) * 100)
   );
 
   return (
@@ -163,7 +168,7 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
             />
             <div className="absolute inset-0 grid place-items-center">
               <div className="text-xs text-muted-foreground font-mono helvetica-oblique">
-                {formatTime(currentTime)} / {formatTime(Math.floor(track.duration))}
+                {formatTime(currentTimeValue)} / {formatTime(Math.floor(durationValue))}
               </div>
             </div>
           </div>
@@ -177,7 +182,7 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
             onClick={handlePlayPause}
             className="h-16 w-16 rounded-full"
           >
-            {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
+            {(spotifyPlayer ? spotifyIsPlaying : isPlaying) ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
           </Button>
         </div>
 
@@ -223,6 +228,25 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
             <>Anonymous • Listen to <span className="helvetica-oblique">10%</span> to reveal • Archived at midnight</>
           )}
         </div>
+        
+        {/* Hidden audio element */}
+        <audio
+          ref={audioRef}
+          src={track.audioUrl}
+          onTimeUpdate={() => {
+            if (audioRef.current) {
+              setCurrentTime(audioRef.current.currentTime);
+            }
+          }}
+          onLoadedMetadata={() => {
+            if (audioRef.current) {
+              setDuration(audioRef.current.duration);
+            }
+          }}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onEnded={() => setIsPlaying(false)}
+        />
       </div>
     </div>
   );
