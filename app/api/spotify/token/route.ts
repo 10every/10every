@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
     const clientId = process.env.SPOTIFY_CLIENT_ID;
     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-    const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback`;
+    const redirectUri = 'https://10every.com/callback';
 
     const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',

@@ -16,7 +16,7 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
     
     // Spotify OAuth parameters
     const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-    const redirectUri = `${window.location.origin}/callback`;
+    const redirectUri = 'https://10every.com/callback';
     const scopes = [
       'streaming',
       'user-read-email',
