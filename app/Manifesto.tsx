@@ -28,11 +28,11 @@ export function Manifesto({ onClose }: ManifestoProps) {
         <div className="space-y-8 leading-relaxed">
           <div className="space-y-6">
             <p className="text-lg">
-              Algorithms have become the most destructive force in modern music. Gatekeeping has always existed, but now virality and paid streams dominate discovery, leaving emerging artists invisible. The result is an overcrowded, manipulated ecosystem where the best work rarely surfaces.
+              Platform manipulation has become the most destructive force in modern music. Gatekeeping has always existed, but now virality and paid promotion dominate discovery, leaving emerging artists invisible. The result is an overcrowded, manipulated ecosystem where the best work rarely surfaces.
             </p>
 
             <p className="text-lg">
-              <span className="helvetica-oblique">10</span>every is a new way to share and discover music that's fair, random, and human-first. Every day at <span className="helvetica-oblique">10</span>am, the first ten tracks submitted are released anonymously. No algorithms, no favoritism — just music, stripped of hype and bias.
+              <span className="helvetica-oblique">10</span>every is a new way to share and discover music that's fair, random, and human-first. Every day at <span className="helvetica-oblique">10</span>am, the first ten tracks submitted are released anonymously. No manipulation, no favoritism — just music, stripped of hype and bias.
             </p>
           </div>
 
@@ -60,7 +60,7 @@ export function Manifesto({ onClose }: ManifestoProps) {
 
           <div className="space-y-6 pt-4">
             <p className="text-lg">
-              <span className="helvetica-oblique">10</span>every removes algorithmic control and creates a more equitable landscape where discovery is random, authentic, and artist-driven. It's a platform built to give unheard voices their moment — and to restore the thrill of finding music outside the noise.
+              <span className="helvetica-oblique">10</span>every removes platform manipulation and creates a more equitable landscape where discovery is random, authentic, and artist-driven. It's a platform built to give unheard voices their moment — and to restore the thrill of finding music outside the noise.
             </p>
           </div>
 
@@ -87,7 +87,7 @@ export function Manifesto({ onClose }: ManifestoProps) {
             variant="outline"
             className="tracking-wide"
           >
-            Return to Today's Algorithm
+            Return to Today's Selection
           </Button>
         </div>
       </div>

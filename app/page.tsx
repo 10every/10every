@@ -5,8 +5,6 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { TileGrid } from './TileGrid';
-import { TrackPlayer } from './TrackPlayer';
-import { CountdownTimer } from './CountdownTimer';
 import { EndOfDayRecap } from './EndOfDayRecap';
 import { Manifesto } from './Manifesto';
 import { SubmissionPage } from './SubmissionPage';
@@ -122,7 +120,6 @@ const calculateRankings = (tracks: Track[]): Track[] => {
 export default function App() {
   const [state, setState] = useState<AppState>(() => ({
     tracks: generateMockTracks(), // Start with mock tracks immediately
-    selectedTrack: null,
     showRecap: false,
     allTracksGone: false,
     showManifesto: false,
@@ -221,10 +218,18 @@ export default function App() {
 
   const handleTileClick = async (track: Track) => {
     console.log('Tile clicked:', track);
-    console.log('Spotify access token:', spotifyAccessToken ? 'Present' : 'Missing');
-    console.log('Spotify URL:', track.spotifyUrl);
-    console.log('Spotify player ready:', spotifyReady);
     
+    // Immediately reveal the track and mark as listened
+    setState((prev) => ({
+      ...prev,
+      tracks: prev.tracks.map((t) => 
+        t.id === track.id 
+          ? { ...t, revealed: true, listened: true, listenProgress: 10 }
+          : t
+      )
+    }));
+    
+    // If user has Spotify access, also play the track
     if (spotifyAccessToken && track.spotifyUrl) {
       // Extract Spotify track ID from URL
       const spotifyId = track.spotifyUrl.split('/').pop()?.split('?')[0];
@@ -249,33 +254,12 @@ export default function App() {
         }
       }
     }
-    setState((prev) => ({ ...prev, selectedTrack: track }));
   };
 
-  const handleClosePlayer = () =>
-    setState((prev) => ({ ...prev, selectedTrack: null }));
-
-  const handleTrackUpdate = (updatedTrack: Track) => {
-    setState((prev) => {
-      const updatedTracks = prev.tracks.map((t) => {
-        if (t.id === updatedTrack.id) {
-          // Check if track should be revealed (10% listen progress)
-          const shouldReveal = updatedTrack.listenProgress >= 10 && !updatedTrack.revealed;
-          return {
-            ...updatedTrack,
-            revealed: shouldReveal || updatedTrack.revealed
-          };
-        }
-        return t;
-      });
-      return { ...prev, tracks: calculateRankings(updatedTracks) };
-    });
-  };
 
   const handleNewDay = () =>
     setState({
       tracks: generateMockTracks(),
-      selectedTrack: null,
       showRecap: false,
       allTracksGone: false,
       showManifesto: false,
@@ -372,7 +356,7 @@ export default function App() {
           {state.allTracksGone ? (
             <div className="text-center py-12">
               <p className="text-muted-foreground text-lg tracking-wide">
-                Today&apos;s algorithm has concluded...
+                Today&apos;s selection has concluded...
               </p>
             </div>
           ) : state.tracks.length === 0 ? (
@@ -386,21 +370,6 @@ export default function App() {
           )}
         </main>
 
-        {state.selectedTrack && (
-          <TrackPlayer
-            track={state.selectedTrack}
-            onClose={handleClosePlayer}
-            onUpdate={handleTrackUpdate}
-            spotifyPlayer={spotifyAccessToken ? {
-              isPlaying,
-              currentTrack: spotifyCurrentTrack,
-              position,
-              duration,
-              pause,
-              play: resume, // resume is actually the play function
-            } : undefined}
-          />
-        )}
 
         {state.showManifesto && <Manifesto onClose={handleCloseManifesto} />}
         {state.showSubmission && <SubmissionPage onClose={handleCloseSubmission} />}

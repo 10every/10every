@@ -24,7 +24,6 @@ export type DemoState = "initial" | "some-revealed" | "end-of-day";
 
 export type AppState = {
   tracks: Track[];
-  selectedTrack: Track | null;
   showRecap: boolean;
   allTracksGone: boolean;
   showManifesto: boolean;

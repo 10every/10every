@@ -20,7 +20,7 @@ export function TileGrid({ tracks, onTileClick }: TileGridProps) {
       </div>
 
       <div className="text-center mt-12 text-muted-foreground text-sm tracking-wide">
-        tracks reveal after <span className="helvetica-oblique">10%</span> listen • disappear at midnight
+        tracks reveal after <span className="helvetica-oblique">10%</span> listen • daily selection resets at midnight
       </div>
     </div>
   );

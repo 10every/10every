@@ -37,34 +37,47 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-      <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-700 max-w-lg w-full p-10 shadow-2xl text-center rounded-2xl">
-        <div className="mb-8">
-          <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
-            <Music2 className="w-10 h-10 text-white" />
+    <div className="fixed inset-0 bg-background z-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full text-center space-y-8">
+        <div className="space-y-4">
+          <h1 className="text-6xl font-bold tracking-tight">10every</h1>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-medium">Connect & Discover</h2>
+            <div className="w-16 h-0.5 bg-foreground mx-auto"></div>
           </div>
-          <h2 className="text-3xl font-bold mb-3 text-white">Welcome to 10every</h2>
-          <p className="text-gray-300 text-lg leading-relaxed">
-            Connect your Spotify account to experience full tracks and discover new music through our daily algorithm
+        </div>
+        
+        <div className="space-y-6">
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            Connect your Spotify account to access the daily selection of curated tracks.
+          </p>
+          <p className="text-lg">
+            Each day, ten tracks. Rate, discover, collect.
           </p>
         </div>
         
         <Button
           onClick={handleSpotifyLogin}
           disabled={isLoading}
-          className="w-full bg-green-500 hover:bg-green-600 text-white text-lg py-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+          className="w-full bg-foreground text-background hover:bg-foreground/90 text-lg py-6 rounded-lg font-medium"
         >
-          <ExternalLink className="w-5 h-5 mr-3" />
-          {isLoading ? 'Connecting...' : 'Connect with Spotify'}
+          <Music2 className="w-5 h-5 mr-3" />
+          {isLoading ? 'Connecting...' : 'Connect Spotify'}
         </Button>
         
-        <div className="mt-6 space-y-2">
-          <p className="text-sm text-gray-400">
-            🔒 Secure authentication via Spotify
-          </p>
-          <p className="text-xs text-gray-500">
-            We only access playback controls, never your personal data
-          </p>
+        <div className="space-y-4">
+          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <span>🔒</span>
+            <span>We access only playback controls and track metadata. Your listening history and personal data remain private.</span>
+          </div>
+          
+          <button className="text-sm text-muted-foreground hover:text-foreground underline">
+            Continue without Spotify
+          </button>
+        </div>
+        
+        <div className="text-sm text-muted-foreground">
+          Daily selection resets at midnight
         </div>
       </div>
     </div>

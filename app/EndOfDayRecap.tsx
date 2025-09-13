@@ -340,7 +340,7 @@ export function EndOfDayRecap({ tracks, onNewDay, onShowManifesto }: EndOfDayRec
             <>
               <div className="text-center py-6">
                 <p className="text-muted-foreground text-sm mb-4">
-                  Today's algorithm has concluded. Tracks archived.
+                  Today's selection has concluded. Tracks archived.
                 </p>
                 <p className="text-xs text-muted-foreground/60">
                   Return tomorrow for the next iteration of discovery.
