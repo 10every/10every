@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Music2, ExternalLink } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface SpotifyAuthProps {
   onAuthSuccess: (accessToken: string) => void;
@@ -40,7 +41,7 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
     <div className="fixed inset-0 bg-background z-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full text-center space-y-8">
         <div className="space-y-4">
-          <h1 className="text-6xl font-bold tracking-tight">10every</h1>
+          <Logo className="mx-auto h-16 w-auto" />
           <div className="space-y-2">
             <h2 className="text-2xl font-medium">Connect & Discover</h2>
             <div className="w-16 h-0.5 bg-foreground mx-auto"></div>
