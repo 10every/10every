@@ -139,7 +139,7 @@ export function useSpotifyPlayer({
 
   const resume = () => {
     if (!player) return;
-    player.resume();
+    player.play();
   };
 
   const seek = (positionMs: number) => {
