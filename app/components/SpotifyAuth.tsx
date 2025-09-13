@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { ExternalLink, Lock } from 'lucide-react';
 import { Button } from './ui/button';
-import { Music2, ExternalLink } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface SpotifyAuthProps {
@@ -10,10 +10,10 @@ interface SpotifyAuthProps {
 }
 
 export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
 
-  const handleSpotifyLogin = () => {
-    setIsLoading(true);
+  const handleConnect = async () => {
+    setIsConnecting(true);
     
     // Spotify OAuth parameters
     const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
@@ -38,47 +38,76 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-background z-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full text-center space-y-8">
-        <div className="space-y-4">
-          <Logo className="mx-auto h-16 w-auto" />
-          <div className="space-y-2">
-            <h2 className="text-2xl font-medium">Connect & Discover</h2>
-            <div className="w-16 h-0.5 bg-foreground mx-auto"></div>
-          </div>
-        </div>
-        
-        <div className="space-y-6">
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Connect your Spotify account to access the daily selection of curated tracks.
-          </p>
-          <p className="text-lg">
-            Each day, ten tracks. Rate, discover, collect.
-          </p>
-        </div>
-        
-        <Button
-          onClick={handleSpotifyLogin}
-          disabled={isLoading}
-          className="w-full bg-foreground text-background hover:bg-foreground/90 text-lg py-6 rounded-lg font-medium"
-        >
-          <Music2 className="w-5 h-5 mr-3" />
-          {isLoading ? 'Connecting...' : 'Connect Spotify'}
-        </Button>
-        
-        <div className="space-y-4">
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <span>🔒</span>
-            <span>We access only playback controls and track metadata. Your listening history and personal data remain private.</span>
-          </div>
+    <div className="fixed inset-0 bg-background z-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="text-center mb-12">
+          <Logo className="h-24 mx-auto mb-8" />
           
-          <button className="text-sm text-muted-foreground hover:text-foreground underline">
-            Continue without Spotify
-          </button>
+          <div className="space-y-2">
+            <h1 className="tracking-wide text-2xl">Connect & Discover</h1>
+            <div className="w-12 h-px bg-foreground mx-auto"></div>
+          </div>
         </div>
-        
-        <div className="text-sm text-muted-foreground">
-          Daily selection resets at midnight
+
+        {/* Content */}
+        <div className="space-y-8">
+          <div className="text-center space-y-4">
+            <p className="text-muted-foreground leading-relaxed">
+              Connect your Spotify account to access the daily selection of curated tracks.
+            </p>
+            
+            <p className="text-muted-foreground leading-relaxed">
+              Each day, ten tracks. Rate, discover, collect.
+            </p>
+          </div>
+
+          {/* Connection Button */}
+          <div className="space-y-4">
+            <Button
+              onClick={handleConnect}
+              disabled={isConnecting}
+              className="w-full bg-foreground text-background hover:bg-foreground/90 py-4 tracking-wide"
+            >
+              {isConnecting ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-background/30 border-t-background rounded-full animate-spin"></div>
+                  <span>Initializing...</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Connect Spotify</span>
+                </div>
+              )}
+            </Button>
+
+            {/* Security Note */}
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <Lock className="w-3 h-3 mt-0.5 flex-shrink-0" />
+              <p className="leading-relaxed">
+                We access only playback controls and track metadata. 
+                Your listening history and personal data remain private.
+              </p>
+            </div>
+          </div>
+
+          {/* Skip Option */}
+          <div className="text-center pt-4 border-t border-border">
+            <button className="text-xs text-muted-foreground hover:text-foreground transition-colors tracking-wide">
+              Continue without Spotify
+            </button>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-12 pt-8 border-t border-border">
+          <p className="text-xs text-muted-foreground tracking-wide">
+            Daily selection resets at midnight
+          </p>
+          <div className="helvetica-oblique text-xs text-muted-foreground mt-1">
+            00:00:00
+          </div>
         </div>
       </div>
     </div>
