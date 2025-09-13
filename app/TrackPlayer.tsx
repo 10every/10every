@@ -15,7 +15,7 @@ type TrackPlayerProps = {
     position: number;
     duration: number;
     pause: () => void;
-    resume: () => void;
+    play: () => void;
   };
 };
 
