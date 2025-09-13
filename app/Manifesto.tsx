@@ -12,7 +12,7 @@ export function Manifesto({ onClose }: ManifestoProps) {
         {/* Header */}
         <div className="flex items-center justify-between mb-12">
           <div className="flex items-center">
-            <Logo className="h-8" />
+            <Logo className="h-20 sm:h-24 w-auto" />
           </div>
           <Button
             onClick={onClose}

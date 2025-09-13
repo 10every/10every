@@ -24,16 +24,16 @@ const logoImage = '/logo.png';
 
 const generateMockTracks = (): Track[] => {
   const realSpotifyTracks = [
-    { artist: "CMAT", title: "Where Are Your Kids Tonight?", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/4qjVtuuXzU8O6Z3I80JjB" },
-    { artist: "CMAT", title: "Stay For Something", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2jgbxTfK1U2leeuUudxAaD" },
-    { artist: "CMAT", title: "Can't Make You Happy", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/3h7cIUPJ0Re2JryPOxW0bL" },
-    { artist: "CMAT", title: "Such a Diva", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/4f7WXvbpugXffV1I2L5i5G" },
-    { artist: "CMAT", title: "California", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2T6d8iUQo1a1Lt9TboNqRW" },
-    { artist: "CMAT", title: "Have Fun!", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5S0uPH9I35AgMZJlu6LjkX" },
-    { artist: "CMAT", title: "Whatever You Want", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/3kSxrNy5X5yzaXk5hTdLb6" },
-    { artist: "CMAT", title: "I Don't Really Care for You", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2Iyz3f0diV6eLkfNDZLqYN" },
-    { artist: "CMAT", title: "Phone Me (ft. John Grant)", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5v2VXH3R9vNtUr0i5XL9iF" },
-    { artist: "CMAT", title: "I Want It All", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/3o4xJ0fJwmx6SF5XLs4f50" }
+    { artist: "Radiohead", title: "Creep", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/70LcF31zb1H0PyJoS1Sx1r" },
+    { artist: "The Beatles", title: "Come Together", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2EqlS6tkEnglzr7tkKAAYD" },
+    { artist: "Nirvana", title: "Smells Like Teen Spirit", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5ghIJDpPoe3CfHMGu71E6T" },
+    { artist: "Pink Floyd", title: "Wish You Were Here", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/6mFkJmJqdDVQ1REhVfGgd1" },
+    { artist: "Led Zeppelin", title: "Stairway to Heaven", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5CQ30WqJwcep0pYcV4AMNc" },
+    { artist: "Queen", title: "Bohemian Rhapsody", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/4u7EnebtmKWzUH433cf5Qv" },
+    { artist: "David Bowie", title: "Space Oddity", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/72Z17vmmeQKAg8bptWvpVG" },
+    { artist: "The Rolling Stones", title: "Paint It Black", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/63T7DJ1AFDD6Bn8VzG6JE8" },
+    { artist: "Bob Dylan", title: "Like a Rolling Stone", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/3AhXZa8sUQht0UEdBJgpGc" },
+    { artist: "The Doors", title: "Light My Fire", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5UVbMTQfoQ2fHsxO5XqTZf" }
   ];
 
   return Array.from({ length: 10 }, (_, i) => ({
