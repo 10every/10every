@@ -63,22 +63,18 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
       onUpdate({ ...track, listened: true });
     }
     
-    // Always use HTML5 audio for now - simpler and more reliable
-    if (currentIsPlaying) {
-      console.log('Pausing track...');
-      if (audioRef.current) {
-        audioRef.current.pause();
-        setIsPlaying(false);
+    // Use Spotify Web Playback SDK for full tracks
+    if (spotifyPlayer) {
+      if (currentIsPlaying) {
+        console.log('Pausing track via Spotify...');
+        spotifyPlayer.pause();
+      } else {
+        console.log('Playing track via Spotify...');
+        spotifyPlayer.play();
       }
     } else {
-      console.log('Playing track...');
-      if (audioRef.current) {
-        audioRef.current.play().catch(err => {
-          console.error('Audio playback failed:', err);
-          alert('Unable to play track. This may be due to browser restrictions or the track not being available.');
-        });
-        setIsPlaying(true);
-      }
+      console.warn('No Spotify player available - user needs to authenticate');
+      alert('Please connect your Spotify account to play full tracks. Click the "Connect with Spotify" button on the main page.');
     }
   };
 

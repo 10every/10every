@@ -77,7 +77,7 @@ const fetchFeaturedTracks = async (): Promise<Track[]> => {
       artist: track.artist,
       albumArt: track.album_art_url || placeholderAlbum,
       spotifyUrl: track.spotify_url,
-      audioUrl: track.preview_url || `https://www.soundjay.com/misc/sounds/bell-ringing-05.wav`,
+      audioUrl: track.spotify_url || `https://www.soundjay.com/misc/sounds/bell-ringing-05.wav`,
       duration: Math.floor(track.duration_ms / 1000) || 120,
       listened: false,
       rating: null,
