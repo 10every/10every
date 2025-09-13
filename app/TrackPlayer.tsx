@@ -55,26 +55,28 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
 
 
   const handlePlayPause = () => {
-    const currentIsPlaying = spotifyPlayer ? spotifyIsPlaying : isPlaying;
-    console.log('Play button clicked, isPlaying:', currentIsPlaying);
-    console.log('Spotify player available:', !!spotifyPlayer);
+    console.log('Play button clicked, isPlaying:', isPlaying);
     
-    if (!currentIsPlaying && !track.listened) {
+    if (!isPlaying && !track.listened) {
       onUpdate({ ...track, listened: true });
     }
     
-    // Use Spotify Web Playback SDK for full tracks
-    if (spotifyPlayer) {
-      if (currentIsPlaying) {
-        console.log('Pausing track via Spotify...');
-        spotifyPlayer.pause();
-      } else {
-        console.log('Playing track via Spotify...');
-        spotifyPlayer.play();
+    // Use HTML5 audio - works everywhere
+    if (isPlaying) {
+      console.log('Pausing track...');
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setIsPlaying(false);
       }
     } else {
-      console.warn('No Spotify player available - user needs to authenticate');
-      alert('Please connect your Spotify account to play full tracks. Click the "Connect with Spotify" button on the main page.');
+      console.log('Playing track...');
+      if (audioRef.current) {
+        audioRef.current.play().catch(err => {
+          console.error('Audio playback failed:', err);
+          alert('Unable to play track. This may be due to browser restrictions.');
+        });
+        setIsPlaying(true);
+      }
     }
   };
 
@@ -104,8 +106,8 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
   );
 
   return (
-    <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-background border border-border max-w-md w-full p-8 shadow-xl">
+    <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-background border border-border max-w-md w-full p-4 sm:p-8 shadow-xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-3">
             <span className="text-muted-foreground text-sm font-mono helvetica-oblique">
@@ -171,31 +173,31 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
         </div>
 
         {/* Controls */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6 sm:mb-8">
           <Button
             variant="outline"
             size="lg"
             onClick={handlePlayPause}
-            className="h-16 w-16 rounded-full"
+            className="h-14 w-14 sm:h-16 sm:w-16 rounded-full touch-manipulation"
           >
-            {(spotifyPlayer ? spotifyIsPlaying : isPlaying) ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
+            {isPlaying ? <Pause className="w-5 h-5 sm:w-6 sm:h-6" /> : <Play className="w-5 h-5 sm:w-6 sm:h-6 ml-0.5 sm:ml-1" />}
           </Button>
         </div>
 
         {/* Actions */}
-        <div className="flex justify-center items-center gap-8">
+        <div className="flex justify-center items-center gap-6 sm:gap-8">
           <div className="flex flex-col items-center gap-2">
-            <div className="flex gap-1">
+            <div className="flex gap-0.5 sm:gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Button
                   key={star}
                   variant="ghost"
                   size="sm"
                   onClick={() => handleRate(star)}
-                  className="h-8 w-8 p-0"
+                  className="h-7 w-7 sm:h-8 sm:w-8 p-0 touch-manipulation"
                 >
                   <Star
-                    className={`w-4 h-4 ${star <= rating ? 'text-primary fill-primary' : 'text-muted-foreground'}`}
+                    className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${star <= rating ? 'text-primary fill-primary' : 'text-muted-foreground'}`}
                   />
                 </Button>
               ))}
@@ -211,9 +213,9 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
             size="sm"
             onClick={handleAddToLibrary}
             disabled={downloaded}
-            className="h-8 w-8 p-0"
+            className="h-7 w-7 sm:h-8 sm:w-8 p-0 touch-manipulation"
           >
-            <Plus className={`w-4 h-4 ${downloaded ? 'text-primary' : 'text-muted-foreground'}`} />
+            <Plus className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${downloaded ? 'text-primary' : 'text-muted-foreground'}`} />
           </Button>
         </div>
 

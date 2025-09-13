@@ -36,7 +36,8 @@ export default function TrackTile({ track, onClick }: TrackTileProps) {
           className={`absolute inset-0 w-full h-full [backface-visibility:hidden]
           border border-border bg-background transition-all duration-300 ease-out
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
-          hover:border-primary hover:shadow-sm
+          hover:border-primary hover:shadow-sm touch-manipulation
+          active:scale-95 active:bg-muted/20
           ${hasInteracted && !track.revealed ? 'bg-muted/30 opacity-80' : ''}`}
         >
           <div className="absolute inset-0 grid place-items-center">

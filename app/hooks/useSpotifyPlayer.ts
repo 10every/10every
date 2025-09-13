@@ -130,10 +130,10 @@ export function useSpotifyPlayer({
   };
 
   const playTrack = async (spotifyUri: string) => {
-    console.log('playTrack called with:', spotifyUri);
-    console.log('Player exists:', !!player);
-    console.log('Device ID:', deviceId);
-    console.log('Access token:', accessToken ? 'Present' : 'Missing');
+    console.log('🎵 playTrack called with:', spotifyUri);
+    console.log('🎵 Player exists:', !!player);
+    console.log('🎵 Device ID:', deviceId);
+    console.log('🎵 Access token:', accessToken ? 'Present' : 'Missing');
 
     if (!player || !deviceId) {
       console.error('Cannot play track: missing player or deviceId');

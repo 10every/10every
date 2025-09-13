@@ -198,6 +198,7 @@ export default function App() {
       console.log('Loading tracks...');
       const tracks = await fetchFeaturedTracks();
       console.log('Loaded tracks:', tracks.length);
+      console.log('First track:', tracks[0]);
       setState(prev => ({ ...prev, tracks }));
     };
     loadTracks();
@@ -410,46 +411,46 @@ export default function App() {
       )}
 
       <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-8 md:mb-10 relative">
-          <div className="mb-4">
-            <Logo className="mx-auto h-24 w-auto" />
+        <header className="text-center mb-6 sm:mb-8 md:mb-10 relative">
+          <div className="mb-3 sm:mb-4">
+            <Logo className="mx-auto h-20 sm:h-24 w-auto" />
           </div>
 
-          <div className="absolute top-0 right-0 flex items-center gap-2">
+          <div className="absolute top-0 right-0 flex items-center gap-1 sm:gap-2 flex-wrap">
             <Button
               onClick={handleShowSubmission}
               variant="ghost"
               size="sm"
-              className="text-muted-foreground hover:text-foreground text-xs tracking-wide"
+              className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
             >
               <Upload className="w-3 h-3 mr-1" />
-              submit
+              <span className="hidden sm:inline">submit</span>
             </Button>
             <Button
               onClick={handleShowManifesto}
               variant="ghost"
               size="sm"
-              className="text-muted-foreground hover:text-foreground text-xs tracking-wide"
+              className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
             >
               <FileText className="w-3 h-3 mr-1" />
-              manifesto
+              <span className="hidden sm:inline">manifesto</span>
             </Button>
             <Button
               onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}
               variant="ghost"
               size="sm"
-              className="text-muted-foreground hover:text-foreground text-xs tracking-wide"
+              className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
             >
-              admin
+              <span className="hidden sm:inline">admin</span>
             </Button>
             {spotifyAccessToken && (
               <Button
                 onClick={handleSpotifyLogout}
                 variant="ghost"
                 size="sm"
-                className="text-muted-foreground hover:text-foreground text-xs tracking-wide"
+                className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
               >
-                spotify logout
+                <span className="hidden sm:inline">spotify logout</span>
               </Button>
             )}
           </div>
