@@ -48,16 +48,25 @@ export function TrackPlayer({ track, onClose, onUpdate, spotifyPlayer }: TrackPl
 
 
   const handlePlayPause = () => {
+    console.log('Play button clicked, isPlaying:', isPlaying);
+    console.log('Spotify player available:', !!spotifyPlayer);
+    
     if (!isPlaying && !track.listened) {
       onUpdate({ ...track, listened: true });
     }
     
     if (spotifyPlayer) {
       if (isPlaying) {
+        console.log('Pausing track...');
         spotifyPlayer.pause();
       } else {
-        spotifyPlayer.resume();
+        console.log('Playing track...');
+        spotifyPlayer.play();
       }
+    } else {
+      console.warn('No Spotify player available, trying fallback...');
+      // Fallback: show a message that user needs Spotify Premium
+      alert('Spotify Web Playback requires Spotify Premium. Please upgrade your account to play full tracks.');
     }
   };
 

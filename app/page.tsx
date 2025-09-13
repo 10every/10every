@@ -484,7 +484,7 @@ export default function App() {
               position,
               duration,
               pause,
-              resume,
+              play: resume, // resume is actually the play function
             } : undefined}
           />
         )}
