@@ -37,28 +37,35 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-background border border-border max-w-md w-full p-8 shadow-xl text-center">
-        <div className="mb-6">
-          <Music2 className="w-16 h-16 mx-auto mb-4 text-primary" />
-          <h2 className="text-2xl font-bold mb-2">Connect to Spotify</h2>
-          <p className="text-muted-foreground">
-            Link your Spotify account to play full tracks and discover new music
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-700 max-w-lg w-full p-10 shadow-2xl text-center rounded-2xl">
+        <div className="mb-8">
+          <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
+            <Music2 className="w-10 h-10 text-white" />
+          </div>
+          <h2 className="text-3xl font-bold mb-3 text-white">Welcome to 10every</h2>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            Connect your Spotify account to experience full tracks and discover new music through our daily algorithm
           </p>
         </div>
         
         <Button
           onClick={handleSpotifyLogin}
           disabled={isLoading}
-          className="w-full bg-green-600 hover:bg-green-700 text-white"
+          className="w-full bg-green-500 hover:bg-green-600 text-white text-lg py-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
         >
-          <ExternalLink className="w-4 h-4 mr-2" />
+          <ExternalLink className="w-5 h-5 mr-3" />
           {isLoading ? 'Connecting...' : 'Connect with Spotify'}
         </Button>
         
-        <p className="text-xs text-muted-foreground mt-4">
-          We'll only access your music playback controls, never your personal data
-        </p>
+        <div className="mt-6 space-y-2">
+          <p className="text-sm text-gray-400">
+            🔒 Secure authentication via Spotify
+          </p>
+          <p className="text-xs text-gray-500">
+            We only access playback controls, never your personal data
+          </p>
+        </div>
       </div>
     </div>
   );

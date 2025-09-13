@@ -221,11 +221,19 @@ export default function App() {
   // ---------------------------------------------------------------------------
 
   const handleTileClick = async (track: Track) => {
+    console.log('Tile clicked:', track);
+    console.log('Spotify access token:', spotifyAccessToken ? 'Present' : 'Missing');
+    console.log('Spotify URL:', track.spotifyUrl);
+    
     if (spotifyAccessToken && track.spotifyUrl) {
       // Extract Spotify track ID from URL
       const spotifyId = track.spotifyUrl.split('/').pop()?.split('?')[0];
+      console.log('Extracted Spotify ID:', spotifyId);
+      
       if (spotifyId) {
         const spotifyUri = `spotify:track:${spotifyId}`;
+        console.log('Playing Spotify URI:', spotifyUri);
+        console.log('Spotify player ready:', spotifyReady);
         await playTrack(spotifyUri);
       }
     }

@@ -112,9 +112,18 @@ export function useSpotifyPlayer({
   };
 
   const playTrack = async (spotifyUri: string) => {
-    if (!player || !deviceId) return;
+    console.log('playTrack called with:', spotifyUri);
+    console.log('Player exists:', !!player);
+    console.log('Device ID:', deviceId);
+    console.log('Access token:', accessToken ? 'Present' : 'Missing');
+
+    if (!player || !deviceId) {
+      console.error('Cannot play track: missing player or deviceId');
+      return;
+    }
 
     try {
+      console.log('Making API call to play track...');
       const response = await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
         method: 'PUT',
         body: JSON.stringify({ uris: [spotifyUri] }),
@@ -124,9 +133,15 @@ export function useSpotifyPlayer({
         },
       });
 
+      console.log('API response status:', response.status);
+      
       if (!response.ok) {
-        throw new Error('Failed to play track');
+        const errorText = await response.text();
+        console.error('API error response:', errorText);
+        throw new Error(`Failed to play track: ${response.status} ${errorText}`);
       }
+      
+      console.log('Track play request successful');
     } catch (error) {
       console.error('Error playing track:', error);
     }
