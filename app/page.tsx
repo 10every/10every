@@ -15,7 +15,7 @@ import { ChevronLeft, ChevronRight, FileText, Upload } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Logo } from './components/Logo';
 import { useSpotifyPlayer } from './hooks/useSpotifyPlayer';
-import type { Track, AppState, DemoState } from './types';
+import type { Track, AppState } from './types';
 
 const placeholderAlbum = '/placeholder.png';
 const logoImage = '/logo.png';
@@ -127,7 +127,6 @@ export default function App() {
     allTracksGone: false,
     showManifesto: false,
     showSubmission: false,
-    demoState: 'initial',
   }));
 
   // Spotify authentication state
@@ -281,7 +280,6 @@ export default function App() {
       allTracksGone: false,
       showManifesto: false,
       showSubmission: false,
-      demoState: 'initial',
     });
 
   const handleShowManifesto = () =>
@@ -296,60 +294,6 @@ export default function App() {
   const handleCloseSubmission = () =>
     setState((prev) => ({ ...prev, showSubmission: false }));
 
-  const createDemoTracks = (demoState: DemoState): Track[] => {
-    const baseTracks = generateMockTracks();
-
-    if (demoState === 'some-revealed') {
-      return baseTracks.map((track, index) => {
-        if (index < 4) {
-          const revealed: Track = {
-            ...track,
-            revealed: true,
-            listened: true,
-            listenProgress: 15 + Math.random() * 85,
-            rating: track.rating,
-          };
-          if (index === 0) {
-            revealed.rating = 5;
-            revealed.downloaded = true;
-          } else if (index === 1) {
-            revealed.rating = 4;
-          } else if (index === 2) {
-            revealed.downloaded = true;
-          }
-          return revealed;
-        }
-        return track;
-      });
-    }
-
-    if (demoState === 'end-of-day') {
-      return baseTracks.map((track, index) => ({
-        ...track,
-        revealed: true,
-        listened: true,
-        listenProgress: 20 + Math.random() * 80,
-        rating: index < 7 ? Math.floor(Math.random() * 5) + 1 : null,
-        downloaded: index < 3,
-      }));
-    }
-
-    return baseTracks;
-  };
-
-  const handleDemoStateChange = (newState: DemoState) => {
-    const demoTracks = createDemoTracks(newState);
-    setState((prev) => ({
-      ...prev,
-      tracks: calculateRankings(demoTracks),
-      demoState: newState,
-      showRecap: newState === 'end-of-day',
-      allTracksGone: newState === 'end-of-day',
-      selectedTrack: null,
-      showManifesto: false,
-      showSubmission: false,
-    }));
-  };
 
   // ---------------------------------------------------------------------------
   // UI
@@ -366,41 +310,10 @@ export default function App() {
 
         {state.showManifesto && <Manifesto onClose={handleCloseManifesto} />}
 
-        <div className="fixed bottom-2 right-2">
-          <Button
-            onClick={() => handleDemoStateChange('some-revealed')}
-            variant="outline"
-            size="sm"
-            className="bg-background/80 backdrop-blur-sm"
-          >
-            <ChevronLeft className="w-4 h-4 mr-1" />
-            Back to Reveals
-          </Button>
-        </div>
       </div>
     );
   }
 
-  const getDemoStateLabel = () =>
-    state.demoState === 'initial'
-      ? 'Initial State'
-      : state.demoState === 'some-revealed'
-      ? 'Some Tracks Revealed'
-      : 'End of Day';
-
-  const getNextDemoState = (): DemoState =>
-    state.demoState === 'initial'
-      ? 'some-revealed'
-      : state.demoState === 'some-revealed'
-      ? 'end-of-day'
-      : 'initial';
-
-  const getPrevDemoState = (): DemoState =>
-    state.demoState === 'initial'
-      ? 'end-of-day'
-      : state.demoState === 'some-revealed'
-      ? 'initial'
-      : 'some-revealed';
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -492,27 +405,14 @@ export default function App() {
         {state.showManifesto && <Manifesto onClose={handleCloseManifesto} />}
         {state.showSubmission && <SubmissionPage onClose={handleCloseSubmission} />}
 
-        <div className="fixed bottom-0 right-0 flex items-center gap-2 p-2">
+        <div className="fixed bottom-4 right-4">
           <Button
-            onClick={() => handleDemoStateChange(getPrevDemoState())}
+            onClick={() => setState(prev => ({ ...prev, showRecap: true, allTracksGone: true }))}
             variant="outline"
             size="sm"
             className="bg-background/80 backdrop-blur-sm"
           >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-
-          <div className="px-3 py-1 bg-background/80 backdrop-blur-sm border border-border rounded text-xs text-muted-foreground">
-            {getDemoStateLabel()}
-          </div>
-
-          <Button
-            onClick={() => handleDemoStateChange(getNextDemoState())}
-            variant="outline"
-            size="sm"
-            className="bg-background/80 backdrop-blur-sm"
-          >
-            <ChevronRight className="w-4 h-4" />
+            Leaderboard
           </Button>
         </div>
       </div>

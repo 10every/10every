@@ -249,7 +249,7 @@ export function EndOfDayRecap({ tracks, onNewDay, onShowManifesto }: EndOfDayRec
             </div>
           )}
 
-          {/* Rankings */}
+          {/* Leaderboard */}
           {topTracks.length > 0 && (
             <div className="border border-border p-6 space-y-6">
               <h2 className="text-xl font-medium text-center">

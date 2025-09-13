@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
 import { Button } from './components/ui/button';
-const logoImage = '/logo.png';
+import { Logo } from './components/Logo';
 interface ManifestoProps {
   onClose: () => void;
 }
@@ -12,11 +12,7 @@ export function Manifesto({ onClose }: ManifestoProps) {
         {/* Header */}
         <div className="flex items-center justify-between mb-12">
           <div className="flex items-center">
-            <img 
-              src={logoImage} 
-              alt="10every manifesto" 
-              className="h-8"
-            />
+            <Logo className="h-8" />
           </div>
           <Button
             onClick={onClose}
