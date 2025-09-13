@@ -24,7 +24,7 @@ export default function TrackTile({ track, onClick }: TrackTileProps) {
   const hasInteracted = track.listened || (track.rating ?? 0) > 0 || track.downloaded;
 
   return (
-    <div className="relative w-full aspect-square [perspective:1000px] overflow-hidden">
+    <div className="relative w-full h-80 [perspective:1000px] overflow-hidden">
       <div
         className={`absolute inset-0 transition-transform duration-700 [transform-style:preserve-3d]
         ${track.revealed ? '[transform:rotateY(180deg)]' : ''}`}
