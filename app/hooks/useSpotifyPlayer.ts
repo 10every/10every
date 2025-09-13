@@ -42,8 +42,13 @@ export function useSpotifyPlayer({
     document.body.appendChild(script);
 
     script.onload = () => {
+      console.log('🎵 Spotify Web Playback SDK loaded');
       scriptLoaded.current = true;
       initializePlayer();
+    };
+
+    script.onerror = () => {
+      console.error('❌ Failed to load Spotify Web Playback SDK');
     };
 
     return () => {
@@ -54,11 +59,24 @@ export function useSpotifyPlayer({
   }, [accessToken]);
 
   const initializePlayer = () => {
-    if (!window.Spotify) return;
+    console.log('🎵 Initializing Spotify player...');
+    console.log('Window.Spotify available:', !!window.Spotify);
+    console.log('Access token available:', !!accessToken);
+    
+    if (!window.Spotify) {
+      console.error('❌ Spotify Web Playback SDK not available');
+      return;
+    }
+
+    if (!accessToken) {
+      console.error('❌ No access token available');
+      return;
+    }
 
     const spotifyPlayer = new window.Spotify.Player({
       name: '10every Player',
       getOAuthToken: (cb: (token: string) => void) => {
+        console.log('🎵 Providing OAuth token to player');
         cb(accessToken);
       },
       volume: 0.5,

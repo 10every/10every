@@ -27,16 +27,16 @@ const logoImage = '/logo.png';
 
 const generateMockTracks = (): Track[] => {
   const realSpotifyTracks = [
-    { artist: "Burial", title: "Archangel", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/4QvdyQPZrCZBhQZLlFRmjz" },
-    { artist: "Ryo Fukui", title: "It Could Happen to You", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/6KzKBBHU0hJsRDxsYQa3ml" },
-    { artist: "Black Country, New Road", title: "Chaos Space Marine", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/0x5MQXhBtOoaR9b6rVBmxV" },
-    { artist: "Eartheater", title: "Clean Break", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2nGJqWrCkG5NxCNb8YCLOk" },
-    { artist: "Arthur Russell", title: "Is It All Over My Face?", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/0cNJhsL5bqX8PGXxvFkSVt" },
-    { artist: "Yves Tumor", title: "God Is a Circle", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/4qwkJd4dXRaDBR8FGW8p6K" },
-    { artist: "Midori Takada", title: "Mr. Henri Rousseau's Dream", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5V5JMHQ5kp4iWrMU5M0jBs" },
-    { artist: "City Morgue", title: "33rd Blakk Glass", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/7MtCZKjJnE1HpCeGZgABLe" },
-    { artist: "Grouper", title: "Headache", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5pghKjCHUhgGc0aJ3Ey3Sv" },
-    { artist: "Aphex Twin", title: "Flim", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/7jDwJJLjTGRz2r7gj3Sk2s" }
+    { artist: "CMAT", title: "Where Are Your Kids Tonight?", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/4qjVtuuXzU8O6Z3I80JjB" },
+    { artist: "CMAT", title: "Stay For Something", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2jgbxTfK1U2leeuUudxAaD" },
+    { artist: "CMAT", title: "Can't Make You Happy", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/3h7cIUPJ0Re2JryPOxW0bL" },
+    { artist: "CMAT", title: "Such a Diva", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/4f7WXvbpugXffV1I2L5i5G" },
+    { artist: "CMAT", title: "California", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2T6d8iUQo1a1Lt9TboNqRW" },
+    { artist: "CMAT", title: "Have Fun!", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5S0uPH9I35AgMZJlu6LjkX" },
+    { artist: "CMAT", title: "Whatever You Want", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/3kSxrNy5X5yzaXk5hTdLb6" },
+    { artist: "CMAT", title: "I Don't Really Care for You", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2Iyz3f0diV6eLkfNDZLqYN" },
+    { artist: "CMAT", title: "Phone Me (ft. John Grant)", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5v2VXH3R9vNtUr0i5XL9iF" },
+    { artist: "CMAT", title: "I Want It All", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/3o4xJ0fJwmx6SF5XLs4f50" }
   ];
 
   return Array.from({ length: 10 }, (_, i) => ({
