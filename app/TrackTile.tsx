@@ -65,16 +65,14 @@ export default function TrackTile({ track, onClick }: TrackTileProps) {
         {/* BACK */}
         <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex items-center justify-center">
           {track.spotifyUrl ? (
-            <div style={{width: '300px', height: '380px'}}>
+            <div className="relative w-full aspect-square overflow-hidden rounded-xl">
               <iframe
-                style={{borderRadius: '12px'}}
-                src={`https://open.spotify.com/embed/track/${track.spotifyUrl.split('/').pop()?.split('?')[0]}?utm_source=generator`}
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                allowTransparency={true}
-                allow="encrypted-media"
+                title="Spotify player"
+                src={`https://open.spotify.com/embed/track/${track.spotifyUrl.split('/').pop()?.split('?')[0]}?theme=0`}
+                className="absolute inset-0 h-full w-full rounded-xl"
+                style={{ border: 0 }}
                 loading="lazy"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               />
             </div>
           ) : (
