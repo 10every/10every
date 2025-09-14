@@ -199,18 +199,6 @@ export default function App() {
     loadTracks();
   }, []);
 
-  // Hide all tracks after interaction
-  useEffect(() => {
-    const interactedTracks = state.tracks.filter(
-      (t) => t.listened || t.downloaded || t.rating !== null
-    );
-    if (interactedTracks.length === 10) {
-      const id = setTimeout(() => {
-        setState((prev) => ({ ...prev, allTracksGone: true, showRecap: true }));
-      }, 2000);
-      return () => clearTimeout(id);
-    }
-  }, [state.tracks]);
 
   // ---------------------------------------------------------------------------
   // Handlers
