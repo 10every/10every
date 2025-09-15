@@ -196,22 +196,22 @@ export default function App() {
     setShowSpotifyAuth(true);
   };
 
-  // Load real tracks on component mount
-  useEffect(() => {
-    const loadTracks = async () => {
-      try {
-        console.log('Loading tracks...');
-        const tracks = await fetchFeaturedTracks();
-        console.log('Loaded tracks:', tracks.length);
-        console.log('First track:', tracks[0]);
-        setState(prev => ({ ...prev, tracks }));
-      } catch (error) {
-        console.error('Error loading tracks, using mock data:', error);
-        // Keep the existing mock tracks if API fails
-      }
-    };
-    loadTracks();
-  }, []);
+  // Use mock tracks directly - no API calls
+  // useEffect(() => {
+  //   const loadTracks = async () => {
+  //     try {
+  //       console.log('Loading tracks...');
+  //       const tracks = await fetchFeaturedTracks();
+  //       console.log('Loaded tracks:', tracks.length);
+  //       console.log('First track:', tracks[0]);
+  //       setState(prev => ({ ...prev, tracks }));
+  //     } catch (error) {
+  //       console.error('Error loading tracks, using mock data:', error);
+  //       // Keep the existing mock tracks if API fails
+  //     }
+  //   };
+  //   loadTracks();
+  // }, []);
 
 
   // ---------------------------------------------------------------------------
@@ -387,6 +387,7 @@ export default function App() {
           </Button>
         </div>
       </div>
+
     </div>
   );
 }
