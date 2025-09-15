@@ -125,8 +125,10 @@ export default function AdminPage() {
     : sortedSubmissions;
 
   const handlePublishSelection = async () => {
+    console.log('Publish button clicked!');
     const selectedTracks = submissions.filter(s => s.selected);
     console.log('Selected tracks:', selectedTracks.length, selectedTracks);
+    console.log('All submissions:', submissions);
     
     if (selectedTracks.length === 10) {
       try {
@@ -233,11 +235,10 @@ export default function AdminPage() {
                 
                 <Button
                   onClick={handlePublishSelection}
-                  disabled={selectedCount !== 10}
                   className="text-xs tracking-wide"
                 >
                   <Music2 className="w-3 h-3 mr-1" />
-                  Publish Selection
+                  Publish Selection ({selectedCount}/10)
                 </Button>
                 
               <Button
