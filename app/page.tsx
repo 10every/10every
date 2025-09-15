@@ -197,21 +197,21 @@ export default function App() {
   };
 
   // Use mock tracks directly - no API calls
-  // useEffect(() => {
-  //   const loadTracks = async () => {
-  //     try {
-  //       console.log('Loading tracks...');
-  //       const tracks = await fetchFeaturedTracks();
-  //       console.log('Loaded tracks:', tracks.length);
-  //       console.log('First track:', tracks[0]);
-  //       setState(prev => ({ ...prev, tracks }));
-  //     } catch (error) {
-  //       console.error('Error loading tracks, using mock data:', error);
-  //       // Keep the existing mock tracks if API fails
-  //     }
-  //   };
-  //   loadTracks();
-  // }, []);
+  useEffect(() => {
+    const loadTracks = async () => {
+      try {
+        console.log('Loading tracks...');
+        const tracks = await fetchFeaturedTracks();
+        console.log('Loaded tracks:', tracks.length);
+        console.log('First track:', tracks[0]);
+        setState(prev => ({ ...prev, tracks }));
+      } catch (error) {
+        console.error('Error loading tracks, using mock data:', error);
+        // Keep the existing mock tracks if API fails
+      }
+    };
+    loadTracks();
+  }, []);
 
 
   // ---------------------------------------------------------------------------
@@ -355,22 +355,21 @@ export default function App() {
         </header>
 
         <main className="scale-80 origin-top">
-          <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="h-84 w-full rounded-xl overflow-hidden">
-                <iframe
-                  src="https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=generator"
-                  width="100%"
-                  height="352"
-                  frameBorder="0"
-                  allowTransparency={true}
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                  style={{ borderRadius: '12px', border: 0 }}
-                />
-              </div>
-            ))}
-          </div>
+          {state.allTracksGone ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg tracking-wide">
+                Today&apos;s selection has concluded...
+              </p>
+            </div>
+          ) : state.tracks.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg tracking-wide">
+                Loading tracks...
+              </p>
+            </div>
+          ) : (
+            <TileGrid tracks={state.tracks} onTileClick={handleTileClick} />
+          )}
         </main>
 
 
