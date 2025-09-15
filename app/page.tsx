@@ -302,7 +302,7 @@ export default function App() {
 
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Spotify Authentication Modal */}
       {showSpotifyAuth && (
         <SpotifyAuth onAuthSuccess={handleSpotifyAuthSuccess} />
@@ -354,7 +354,7 @@ export default function App() {
           </div>
         </header>
 
-        <main>
+        <main className="scale-80 origin-top">
           <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="h-84 w-full rounded-xl overflow-hidden">
