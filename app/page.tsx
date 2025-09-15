@@ -359,7 +359,7 @@ export default function App() {
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="aspect-square rounded-xl overflow-hidden">
                 <iframe
-                  src={`https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=generator&theme=0`}
+                  src={`https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=oembed&theme=0`}
                   width="100%"
                   height="380"
                   frameBorder="0"
