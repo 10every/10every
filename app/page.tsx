@@ -53,9 +53,18 @@ const generateMockTracks = (): Track[] => {
 // Fetch real tracks from API
 const fetchFeaturedTracks = async (): Promise<Track[]> => {
   try {
-    const response = await fetch('/api/featured-tracks');
+    const response = await fetch('/api/featured-tracks', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Add timeout to prevent hanging requests
+      signal: AbortSignal.timeout(5000)
+    });
+    
     if (!response.ok) {
-      throw new Error('Failed to fetch tracks');
+      console.warn('API response not ok, using mock data');
+      return generateMockTracks();
     }
     
     const data = await response.json();
@@ -190,11 +199,16 @@ export default function App() {
   // Load real tracks on component mount
   useEffect(() => {
     const loadTracks = async () => {
-      console.log('Loading tracks...');
-      const tracks = await fetchFeaturedTracks();
-      console.log('Loaded tracks:', tracks.length);
-      console.log('First track:', tracks[0]);
-      setState(prev => ({ ...prev, tracks }));
+      try {
+        console.log('Loading tracks...');
+        const tracks = await fetchFeaturedTracks();
+        console.log('Loaded tracks:', tracks.length);
+        console.log('First track:', tracks[0]);
+        setState(prev => ({ ...prev, tracks }));
+      } catch (error) {
+        console.error('Error loading tracks, using mock data:', error);
+        // Keep the existing mock tracks if API fails
+      }
     };
     loadTracks();
   }, []);
