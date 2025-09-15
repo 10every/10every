@@ -196,7 +196,7 @@ export default function App() {
     setShowSpotifyAuth(true);
   };
 
-  // Use mock tracks directly - no API calls
+  // Load featured tracks from API
   useEffect(() => {
     const loadTracks = async () => {
       try {

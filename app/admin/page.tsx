@@ -121,13 +121,38 @@ export default function AdminPage() {
     ? sortedSubmissions.filter(s => s.selected)
     : sortedSubmissions;
 
-  const handlePublishSelection = () => {
+  const handlePublishSelection = async () => {
     const selectedTracks = submissions.filter(s => s.selected);
     if (selectedTracks.length === 10) {
-      setIsPublished(true);
-      setTimeout(() => {
-        // onPublishSelection(selectedTracks);
-      }, 1500);
+      try {
+        // Publish the selected tracks
+        const response = await fetch('/api/featured-tracks', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            tracks: selectedTracks.map(track => ({
+              spotify_url: track.spotifyUrl,
+              title: track.title,
+              artist: track.artist,
+              album_art_url: track.albumArt,
+              duration_ms: track.duration * 1000,
+            }))
+          })
+        });
+
+        if (response.ok) {
+          setIsPublished(true);
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1500);
+        } else {
+          console.error('Failed to publish tracks');
+        }
+      } catch (error) {
+        console.error('Error publishing tracks:', error);
+      }
     }
   };
 
