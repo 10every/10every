@@ -6,8 +6,7 @@ import { Button } from '../components/ui/button';
 import { Checkbox } from '../components/ui/checkbox';
 import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
-import placeholderAlbum from '/placeholder.png';
-import logoImage from '/logo.png';
+import Image from 'next/image';
 
 interface Submission {
   id: string;
@@ -39,8 +38,8 @@ export default function AdminPage() {
   // Load real submissions from API
   useEffect(() => {
     const loadSubmissions = async () => {
-      try {
-        const response = await fetch('/api/admin/submissions');
+    try {
+      const response = await fetch('/api/admin/submissions');
         const data = await response.json();
         setSubmissions(data.map((sub: any) => ({
           ...sub,
@@ -149,12 +148,14 @@ export default function AdminPage() {
         {/* Header */}
         <header className="border-b border-border bg-background/95 backdrop-blur-sm sticky top-0 z-10">
           <div className="container mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
               <div className="flex items-center gap-6">
-                <img 
-                  src={logoImage} 
+                <Image 
+                  src="/logo.png" 
                   alt="10every admin" 
-                  className="h-8"
+                  width={32}
+                  height={32}
+                  className="h-8 w-auto"
                 />
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
@@ -189,14 +190,14 @@ export default function AdminPage() {
                   Publish Selection
                 </Button>
                 
-                <Button
+              <Button
                   onClick={() => window.history.back()}
                   variant="ghost"
                   size="sm"
                   className="text-muted-foreground hover:text-foreground"
                 >
                   <X className="w-4 h-4" />
-                </Button>
+              </Button>
               </div>
             </div>
           </div>
@@ -275,9 +276,9 @@ export default function AdminPage() {
                         onCheckedChange={() => handleToggleSelection(submission.id)}
                         disabled={!submission.selected && selectedCount >= 10}
                         className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                      />
-                    </div>
-                    
+                    />
+                  </div>
+                  
                     {/* Order Number (for selected tracks) */}
                     {submission.selected && (
                       <div className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs helvetica-oblique">
@@ -287,20 +288,22 @@ export default function AdminPage() {
                     
                     {/* Album Art */}
                     <div className="w-12 h-12 rounded overflow-hidden flex-shrink-0">
-                      <img
-                        src={submission.albumArt}
+                      <Image
+                        src={submission.albumArt || '/placeholder.png'}
                         alt={`${submission.artist} - ${submission.title}`}
+                        width={48}
+                        height={48}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    
+                        
                     {/* Track Info */}
                     <div className="flex-1 min-w-0">
                       <div className="font-medium text-sm truncate">
                         {submission.title}
                       </div>
                       <div className="text-xs text-muted-foreground truncate">
-                        {submission.artist}
+                            {submission.artist}
                       </div>
                     </div>
                     
@@ -312,13 +315,13 @@ export default function AdminPage() {
                     {/* Submission Time */}
                     <div className="text-xs text-muted-foreground helvetica-oblique">
                       {submission.submittedAt}
-                    </div>
-                    
+                      </div>
+                      
                     {/* Play Button */}
-                    <Button
+                        <Button
                       onClick={() => handlePlayPreview(submission.id)}
                       variant="ghost"
-                      size="sm"
+                          size="sm"
                       className="opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       {currentlyPlaying === submission.id ? (
@@ -326,7 +329,7 @@ export default function AdminPage() {
                       ) : (
                         <Play className="w-3 h-3" />
                       )}
-                    </Button>
+                        </Button>
                     
                     {/* Selection indicator */}
                     {submission.selected && (
@@ -337,7 +340,7 @@ export default function AdminPage() {
                   </div>
                 ))
               )}
-            </div>
+                    </div>
 
             {/* Selection Summary */}
             {selectedCount > 0 && (
@@ -365,12 +368,12 @@ export default function AdminPage() {
                         className="bg-primary h-2 rounded-full transition-all duration-300"
                         style={{ width: `${(selectedCount / 10) * 100}%` }}
                       ></div>
-                    </div>
+        </div>
                     <p className="text-xs text-muted-foreground mt-2">
                       Select <span className="helvetica-oblique">{10 - selectedCount}</span> more tracks
-                    </p>
-                  </div>
-                )}
+            </p>
+          </div>
+        )}
               </div>
             )}
           </div>
