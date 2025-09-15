@@ -355,21 +355,23 @@ export default function App() {
         </header>
 
         <main>
-          {state.allTracksGone ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg tracking-wide">
-                Today&apos;s selection has concluded...
-              </p>
-            </div>
-          ) : state.tracks.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg tracking-wide">
-                Loading tracks...
-              </p>
-            </div>
-          ) : (
-            <TileGrid tracks={state.tracks} onTileClick={handleTileClick} />
-          )}
+          <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="aspect-square rounded-xl overflow-hidden">
+                <iframe
+                  src={`https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=generator&theme=0`}
+                  width="100%"
+                  height="380"
+                  frameBorder="0"
+                  allowTransparency={true}
+                  allow="encrypted-media"
+                  loading="lazy"
+                  className="w-full h-full rounded-xl"
+                  style={{ border: 0 }}
+                />
+              </div>
+            ))}
+          </div>
         </main>
 
 
