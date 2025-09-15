@@ -64,20 +64,6 @@ export function Manifesto({ onClose }: ManifestoProps) {
             </p>
           </div>
 
-          {/* Call to Action */}
-          <div className="pt-8 border-t border-border">
-            <div className="text-center space-y-4">
-              <p className="text-muted-foreground tracking-wide">
-                submit your music
-              </p>
-              <p className="text-xl">
-                text <span className="helvetica-oblique">+1 213 656 3747</span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                lines open @ <span className="helvetica-oblique">10:00am</span> daily
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Footer */}

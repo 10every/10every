@@ -38,11 +38,21 @@ export default function AdminPage() {
   // Load real submissions from API
   useEffect(() => {
     const loadSubmissions = async () => {
-    try {
-      const response = await fetch('/api/admin/submissions');
+      try {
+        const response = await fetch('/api/admin/submissions');
         const data = await response.json();
-        setSubmissions(data.map((sub: any) => ({
-          ...sub,
+        setSubmissions(data.submissions.map((sub: any) => ({
+          id: sub.id.toString(),
+          spotifyUrl: sub.spotify_url,
+          artist: sub.artist,
+          title: sub.title,
+          albumArt: sub.album_art_url || '/placeholder.png',
+          duration: Math.floor(sub.duration_ms / 1000),
+          submittedAt: new Date(sub.submitted_at).toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: false 
+          }),
           selected: false
         })));
       } catch (error) {
