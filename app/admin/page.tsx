@@ -6,8 +6,8 @@ import { Button } from '../components/ui/button';
 import { Checkbox } from '../components/ui/checkbox';
 import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
-import placeholderAlbum from 'figma:asset/963ca8d010380c0c5d9fd8410ce30af78dc9d3af.png';
-import logoImage from 'figma:asset/d836a810c282baedc9ebfc072ecee5bc72f3eda2.png';
+import placeholderAlbum from '/placeholder.png';
+import logoImage from '/logo.png';
 
 interface Submission {
   id: string;
