@@ -165,7 +165,7 @@ export default function AdminPage() {
         }
       } catch (error) {
         console.error('Error publishing tracks:', error);
-        alert('Error publishing tracks: ' + error.message);
+        alert('Error publishing tracks: ' + (error instanceof Error ? error.message : String(error)));
       }
     } else {
       console.log('Not enough tracks selected:', selectedTracks.length);
