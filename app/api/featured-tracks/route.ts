@@ -29,15 +29,19 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('POST /api/featured-tracks called');
     const { tracks } = await request.json();
+    console.log('Received tracks:', tracks);
 
     if (!tracks || !Array.isArray(tracks) || tracks.length !== 10) {
+      console.log('Invalid tracks data:', { tracks, length: tracks?.length });
       return NextResponse.json(
         { error: 'Exactly 10 tracks are required' },
         { status: 400 }
       );
     }
 
+    console.log('Creating featured_tracks table...');
     // Store the selected tracks in a simple JSON file or database table
     // For now, let's create a simple featured_tracks table
     const createTableStmt = db.prepare(`
@@ -53,11 +57,15 @@ export async function POST(request: NextRequest) {
       )
     `);
     createTableStmt.run();
+    console.log('Table created successfully');
 
+    console.log('Clearing existing featured tracks...');
     // Clear today's featured tracks
     const clearStmt = db.prepare(`DELETE FROM featured_tracks WHERE date = DATE('now')`);
     clearStmt.run();
+    console.log('Existing tracks cleared');
 
+    console.log('Inserting new featured tracks...');
     // Insert new featured tracks
     const insertStmt = db.prepare(`
       INSERT INTO featured_tracks (spotify_url, title, artist, album_art_url, duration_ms, track_order, date)
@@ -65,6 +73,7 @@ export async function POST(request: NextRequest) {
     `);
 
     tracks.forEach((track, index) => {
+      console.log(`Inserting track ${index + 1}:`, track);
       insertStmt.run(
         track.spotify_url,
         track.title,
@@ -75,12 +84,13 @@ export async function POST(request: NextRequest) {
       );
     });
 
+    console.log('All tracks inserted successfully');
     return NextResponse.json({ success: true });
 
   } catch (error) {
     console.error('Error setting featured tracks:', error);
     return NextResponse.json(
-      { error: 'Failed to set featured tracks' },
+      { error: 'Failed to set featured tracks', details: error.message },
       { status: 500 }
     );
   }
