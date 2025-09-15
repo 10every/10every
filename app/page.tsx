@@ -359,15 +359,14 @@ export default function App() {
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="aspect-square rounded-xl overflow-hidden">
                 <iframe
-                  src={`https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=oembed`}
-                  width="300"
-                  height="300"
+                  src="https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=generator"
+                  width="100%"
+                  height="352"
                   frameBorder="0"
                   allowTransparency={true}
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                   loading="lazy"
-                  className="w-full h-full rounded-xl"
-                  style={{ border: 0 }}
+                  style={{ borderRadius: '12px', border: 0 }}
                 />
               </div>
             ))}
