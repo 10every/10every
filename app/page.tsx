@@ -357,7 +357,7 @@ export default function App() {
         <main>
           <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="aspect-square rounded-xl overflow-hidden">
+              <div key={i} className="h-96 rounded-xl overflow-hidden">
                 <iframe
                   src="https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=generator"
                   width="100%"
