@@ -125,7 +125,7 @@ export default function AdminPage() {
     : sortedSubmissions;
 
   const handlePublishSelection = async () => {
-    console.log('Publish button clicked!');
+    console.log('Publish button clicked! - v2');
     const selectedTracks = submissions.filter(s => s.selected);
     console.log('Selected tracks:', selectedTracks.length, selectedTracks);
     console.log('All submissions:', submissions);
