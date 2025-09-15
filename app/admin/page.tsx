@@ -124,6 +124,24 @@ export default function AdminPage() {
     ? sortedSubmissions.filter(s => s.selected)
     : sortedSubmissions;
 
+  const handleAutoPick = () => {
+    console.log('Auto-picking 10 tracks...');
+    const shuffled = [...submissions].sort(() => Math.random() - 0.5);
+    const autoSelected = shuffled.slice(0, 10);
+    
+    setSubmissions(prev => {
+      const updated = prev.map(submission => ({
+        ...submission,
+        selected: autoSelected.some(selected => selected.id === submission.id)
+      }));
+      
+      const newCount = updated.filter(s => s.selected).length;
+      setSelectedCount(newCount);
+      console.log('Auto-selected count:', newCount);
+      return updated;
+    });
+  };
+
   const handlePublishSelection = async () => {
     console.log('Publish button clicked! - v2');
     const selectedTracks = submissions.filter(s => s.selected);
@@ -231,6 +249,16 @@ export default function AdminPage() {
                 >
                   {showSelected ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
                   {showSelected ? 'Show All' : 'Selected Only'}
+                </Button>
+                
+                <Button
+                  onClick={handleAutoPick}
+                  variant="outline"
+                  size="sm"
+                  className="text-xs tracking-wide"
+                >
+                  <Music2 className="w-3 h-3 mr-1" />
+                  Auto Pick 10
                 </Button>
                 
                 <Button

@@ -89,8 +89,13 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error setting featured tracks:', error);
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     return NextResponse.json(
-      { error: 'Failed to set featured tracks', details: error instanceof Error ? error.message : String(error) },
+      { 
+        error: 'Failed to set featured tracks', 
+        details: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      },
       { status: 500 }
     );
   }
