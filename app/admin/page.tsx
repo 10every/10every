@@ -38,8 +38,8 @@ export default function AdminPage() {
   // Load real submissions from API
   useEffect(() => {
     const loadSubmissions = async () => {
-      try {
-        const response = await fetch('/api/admin/submissions');
+    try {
+      const response = await fetch('/api/admin/submissions');
         const data = await response.json();
         setSubmissions(data.submissions.map((sub: any) => ({
           id: sub.id.toString(),
@@ -71,16 +71,19 @@ export default function AdminPage() {
   };
 
   const handleToggleSelection = (id: string) => {
+    console.log('Toggling selection for:', id);
     setSubmissions(prev => {
       const updated = prev.map(submission => {
         if (submission.id === id) {
           const newSelected = !submission.selected;
+          console.log('Updated selection for', id, 'to', newSelected);
           return { ...submission, selected: newSelected };
         }
         return submission;
       });
       
       const newCount = updated.filter(s => s.selected).length;
+      console.log('New selected count:', newCount);
       setSelectedCount(newCount);
       return updated;
     });
@@ -123,14 +126,16 @@ export default function AdminPage() {
 
   const handlePublishSelection = async () => {
     const selectedTracks = submissions.filter(s => s.selected);
+    console.log('Selected tracks:', selectedTracks.length, selectedTracks);
+    
     if (selectedTracks.length === 10) {
       try {
-        // Publish the selected tracks
-        const response = await fetch('/api/featured-tracks', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        console.log('Publishing tracks...');
+      const response = await fetch('/api/featured-tracks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
           body: JSON.stringify({
             tracks: selectedTracks.map(track => ({
               spotify_url: track.spotifyUrl,
@@ -142,17 +147,27 @@ export default function AdminPage() {
           })
         });
 
-        if (response.ok) {
+        console.log('Response status:', response.status);
+        const responseData = await response.json();
+        console.log('Response data:', responseData);
+
+      if (response.ok) {
+          console.log('Publish successful!');
           setIsPublished(true);
           setTimeout(() => {
             window.location.href = '/';
           }, 1500);
-        } else {
-          console.error('Failed to publish tracks');
+      } else {
+          console.error('Failed to publish tracks:', responseData);
+          alert('Failed to publish tracks. Check console for details.');
         }
       } catch (error) {
         console.error('Error publishing tracks:', error);
+        alert('Error publishing tracks: ' + error.message);
       }
+    } else {
+      console.log('Not enough tracks selected:', selectedTracks.length);
+      alert(`Please select exactly 10 tracks. Currently selected: ${selectedTracks.length}`);
     }
   };
 
@@ -330,7 +345,7 @@ export default function AdminPage() {
                         height={48}
                         className="w-full h-full object-cover"
                       />
-                    </div>
+                        </div>
                         
                     {/* Track Info */}
                     <div className="flex-1 min-w-0">
@@ -345,7 +360,7 @@ export default function AdminPage() {
                     {/* Duration */}
                     <div className="text-xs text-muted-foreground helvetica-oblique">
                       {formatDuration(submission.duration)}
-                    </div>
+                        </div>
                     
                     {/* Submission Time */}
                     <div className="text-xs text-muted-foreground helvetica-oblique">
