@@ -365,14 +365,6 @@ export default function App() {
               <span className="hidden sm:inline">manifesto</span>
             </Button>
             <Button
-              onClick={refreshTracks}
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
-            >
-              <span className="hidden sm:inline">refresh</span>
-            </Button>
-            <Button
               onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}
               variant="ghost"
               size="sm"

@@ -172,13 +172,13 @@ export default function AdminPage() {
         console.log('Response data:', responseData);
         console.log('Response data details:', JSON.stringify(responseData, null, 2));
 
-        if (response.ok) {
+      if (response.ok) {
           console.log('Publish successful!');
           setIsPublished(true);
           setTimeout(() => {
             window.location.href = '/';
           }, 1500);
-        } else {
+      } else {
           console.error('Failed to publish tracks:', responseData);
           console.error('Error details:', responseData.details);
           console.error('Error stack:', responseData.stack);
@@ -244,6 +244,16 @@ export default function AdminPage() {
               </div>
               
               <div className="flex items-center gap-3">
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="outline"
+                  size="sm"
+                  className="text-xs tracking-wide"
+                >
+                  <Clock className="w-3 h-3 mr-1" />
+                  Refresh
+                </Button>
+                
                 <Button
                   onClick={() => setShowSelected(!showSelected)}
                   variant="outline"
