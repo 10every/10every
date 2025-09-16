@@ -400,7 +400,7 @@ export default function App() {
                         {[1, 2, 3, 4, 5].map((star) => (
                           <CustomStar
                             key={star}
-                            size={24}
+                            size={28}
                             onClick={() => handleRating(track.id, star)}
                             className="cursor-pointer"
                           />
@@ -445,8 +445,8 @@ export default function App() {
                         <div className="text-4xl font-mono helvetica-oblique text-muted-foreground">
                           {String(i + 1).padStart(2, '0')}
                         </div>
-                      </div>
-                    </div>
+            </div>
+            </div>
                   )}
 
                   </div>
