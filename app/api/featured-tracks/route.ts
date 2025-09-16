@@ -3,87 +3,65 @@ import db from '@/lib/database';
 
 export async function GET() {
   try {
-    // Get today's featured tracks from JSON file
-    const fs = require('fs');
-    const path = require('path');
-    
-    const filePath = path.join(process.cwd(), 'data', 'featured-tracks.json');
-    
-    // Check if file exists
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ tracks: [] });
-    }
-    
-    // Read and parse the file
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    const featuredData = JSON.parse(fileContent);
-    
-    // Check if it's today's data
+    // Get today's featured tracks from database
     const today = new Date().toISOString().split('T')[0];
-    if (featuredData.date !== today) {
-      return NextResponse.json({ tracks: [] });
-    }
     
-    return NextResponse.json({ tracks: featuredData.tracks || [] });
+    const featuredTracks = db.prepare(`
+      SELECT * FROM featured_tracks 
+      WHERE date = ? 
+      ORDER BY position ASC
+    `).all(today);
+    
+    return NextResponse.json({ tracks: featuredTracks });
   } catch (error) {
-    console.error('Error fetching featured tracks:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch featured tracks' },
-      { status: 500 }
-    );
+    console.error('Error getting featured tracks:', error);
+    return NextResponse.json({ error: 'Failed to get featured tracks' }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('POST /api/featured-tracks called');
     const { tracks } = await request.json();
-    console.log('Received tracks:', tracks);
-
-    if (!tracks || !Array.isArray(tracks) || tracks.length !== 10) {
-      console.log('Invalid tracks data:', { tracks, length: tracks?.length });
-      return NextResponse.json(
-        { error: 'Exactly 10 tracks are required' },
-        { status: 400 }
-      );
+    
+    if (!tracks || !Array.isArray(tracks)) {
+      return NextResponse.json({ error: 'Invalid tracks data' }, { status: 400 });
     }
-
-    console.log('Storing featured tracks...');
-    // For now, let's use a simple approach - store in a JSON file
-    const fs = require('fs');
-    const path = require('path');
     
     const today = new Date().toISOString().split('T')[0];
-    const featuredTracks = {
-      date: today,
-      tracks: tracks.map((track, index) => ({
-        id: index + 1,
-        spotify_url: track.spotify_url,
-        title: track.title,
-        artist: track.artist,
-        album_art_url: track.album_art_url,
-        duration_ms: track.duration_ms,
-        track_order: index + 1
-      }))
-    };
-
-    // Write to a simple JSON file
-    const filePath = path.join(process.cwd(), 'data', 'featured-tracks.json');
-    fs.writeFileSync(filePath, JSON.stringify(featuredTracks, null, 2));
     
-    console.log('Featured tracks stored successfully');
-    return NextResponse.json({ success: true });
-
+    // Start transaction
+    const transaction = db.transaction(() => {
+      // Clear existing featured tracks for today
+      db.prepare('DELETE FROM featured_tracks WHERE date = ?').run(today);
+      
+      // Insert new featured tracks
+      const insertStmt = db.prepare(`
+        INSERT INTO featured_tracks (date, position, track_id, title, artist, spotify_url, duration, album_art)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `);
+      
+      tracks.forEach((track, index) => {
+        insertStmt.run(
+          today,
+          index + 1,
+          track.id,
+          track.title,
+          track.artist,
+          track.spotify_url,
+          track.duration,
+          track.album_art
+        );
+      });
+    });
+    
+    transaction();
+    
+    return NextResponse.json({ success: true, message: 'Featured tracks updated successfully' });
   } catch (error) {
     console.error('Error setting featured tracks:', error);
-    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
-    return NextResponse.json(
-      { 
-        error: 'Failed to set featured tracks', 
-        details: error instanceof Error ? error.message : String(error),
-        stack: error instanceof Error ? error.stack : undefined
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ 
+      error: 'Failed to set featured tracks', 
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }
