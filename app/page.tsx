@@ -443,9 +443,12 @@ export default function App() {
                             onClick={() => {
                               handleRating(track.id, star);
                             }}
-                            className="text-foreground hover:text-[#E0E7F0] transition-all duration-200 hover:scale-125 transform w-14 h-14 flex items-center justify-center pointer-events-auto bg-background/80 backdrop-blur-sm rounded-full border border-border/50 shadow-lg"
+                            className="transition-all duration-200 hover:scale-125 transform w-14 h-14 flex items-center justify-center pointer-events-auto rounded-full shadow-lg"
+                            style={{ backgroundColor: '#E0E7F0' }}
                           >
-                            <span className="text-5xl font-bold">*</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-foreground">
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
                           </button>
                         ))}
                       </div>
