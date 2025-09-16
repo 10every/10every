@@ -409,7 +409,7 @@ export default function App() {
                             onMouseEnter={() => setHoveredStar(star)}
                             onMouseLeave={() => setHoveredStar(null)}
                             className="cursor-pointer"
-                            isHovered={hoveredStar === star}
+                            isHovered={hoveredStar !== null && star <= hoveredStar}
                           />
                         ))}
                       </div>
