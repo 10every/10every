@@ -434,21 +434,20 @@ export default function App() {
 
                   {/* Exploding Stars Rating System - appears above the tile */}
                   {track.revealed && !track.rating && (
-                    <div className="absolute -top-24 left-1/2 transform -translate-x-1/2 pointer-events-none animate-in zoom-in-50 duration-500 z-10">
-                      <div className="text-xs text-foreground mb-3 text-center font-medium">Rate this track</div>
-                      <div className="flex justify-center space-x-4">
+                    <div className="absolute -top-32 left-1/2 transform -translate-x-1/2 z-50">
+                      <div className="text-sm text-black mb-4 text-center font-bold bg-white px-3 py-1 rounded">Rate this track</div>
+                      <div className="flex justify-center space-x-3">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
                             key={star}
                             onClick={() => {
+                              console.log('Star clicked:', star);
                               handleRating(track.id, star);
                             }}
-                            className="transition-all duration-200 hover:scale-125 transform w-14 h-14 flex items-center justify-center pointer-events-auto rounded-full shadow-lg"
+                            className="w-16 h-16 flex items-center justify-center rounded-full shadow-xl border-2 border-black"
                             style={{ backgroundColor: '#E0E7F0' }}
                           >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-foreground">
-                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                            </svg>
+                            <span className="text-3xl text-black font-bold">★</span>
                           </button>
                         ))}
                       </div>
