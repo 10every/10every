@@ -23,7 +23,8 @@ const logoImage = '/logo.png';
 // -----------------------------------------------------------------------------
 
 const generateMockTracks = (): Track[] => {
-  const realSpotifyTracks = [
+  // Fallback tracks if no featured tracks are available
+  const fallbackTracks = [
     { artist: "Radiohead", title: "Creep", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/70LcF31zb1H0PyJoS1Sx1r" },
     { artist: "The Beatles", title: "Come Together", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/2EqlS6tkEnglzr7tkKAAYD" },
     { artist: "Nirvana", title: "Smells Like Teen Spirit", albumArt: placeholderAlbum, spotifyUrl: "https://open.spotify.com/track/5ghIJDpPoe3CfHMGu71E6T" },
@@ -46,7 +47,7 @@ const generateMockTracks = (): Track[] => {
     listenProgress: 0,
     revealed: false,
     score: 0,
-    ...realSpotifyTracks[i],
+    ...fallbackTracks[i],
   }));
 };
 
@@ -54,47 +55,37 @@ const generateMockTracks = (): Track[] => {
 const fetchFeaturedTracks = async (): Promise<Track[]> => {
   try {
     const response = await fetch('/api/featured-tracks', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Add timeout to prevent hanging requests
-      signal: AbortSignal.timeout(5000)
+      cache: 'no-store'
     });
     
     if (!response.ok) {
-      console.warn('API response not ok, using mock data');
-      return generateMockTracks();
+      throw new Error('Failed to fetch featured tracks');
     }
     
     const data = await response.json();
-    const tracks = data.tracks || [];
     
-    // If no tracks are featured today, use mock data
-    if (tracks.length === 0) {
-      console.log('No featured tracks today, using mock data');
+    if (!data.tracks || data.tracks.length === 0) {
       return generateMockTracks();
     }
     
-    // Convert API data to Track format
-    return tracks.map((track: any, index: number) => ({
-      id: index + 1, // Use sequential numbering 1-10
-      title: track.title,
-      artist: track.artist,
-      albumArt: track.album_art_url || placeholderAlbum,
-      spotifyUrl: track.spotify_url,
-      audioUrl: track.spotify_url || `https://www.soundjay.com/misc/sounds/bell-ringing-05.wav`,
-      duration: Math.floor(track.duration_ms / 1000) || 120,
+    // Convert featured tracks to Track format
+    return data.tracks.map((track: any, index: number) => ({
+      id: track.id || index + 1,
+      audioUrl: `https://www.soundjay.com/misc/sounds/bell-ringing-05.wav`,
+      duration: track.duration || 120 + Math.random() * 180,
       listened: false,
       rating: null,
       downloaded: false,
       listenProgress: 0,
-      revealed: false, // Start as unrevealed - will reveal after 10% listen
+      revealed: false,
       score: 0,
+      artist: track.artist || 'Unknown Artist',
+      title: track.title || 'Unknown Title',
+      albumArt: track.album_art || placeholderAlbum,
+      spotifyUrl: track.spotify_url || 'https://open.spotify.com/track/70LcF31zb1H0PyJoS1Sx1r'
     }));
   } catch (error) {
     console.error('Error fetching featured tracks:', error);
-    // Fallback to mock data if API fails
     return generateMockTracks();
   }
 };
@@ -147,6 +138,24 @@ export default function App() {
     } else {
       setShowSpotifyAuth(true);
     }
+  }, []);
+
+  // Load featured tracks on mount
+  useEffect(() => {
+    const loadFeaturedTracks = async () => {
+      try {
+        const featuredTracks = await fetchFeaturedTracks();
+        setState(prev => ({
+          ...prev,
+          tracks: featuredTracks
+        }));
+      } catch (error) {
+        console.error('Failed to load featured tracks:', error);
+        // Keep using mock tracks as fallback
+      }
+    };
+
+    loadFeaturedTracks();
   }, []);
 
   // Spotify Web Playback SDK
@@ -211,7 +220,8 @@ export default function App() {
       }
     };
     loadTracks();
-  }, []);
+  }, []); 
+  
 
 
   // ---------------------------------------------------------------------------
