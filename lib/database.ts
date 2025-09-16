@@ -44,6 +44,19 @@ db.exec(`
     date DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (submission_id) REFERENCES submissions (id)
   );
+
+  CREATE TABLE IF NOT EXISTS featured_tracks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date DATE NOT NULL,
+    position INTEGER NOT NULL,
+    track_id TEXT,
+    title TEXT,
+    artist TEXT,
+    spotify_url TEXT,
+    duration INTEGER,
+    album_art TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 export default db;
