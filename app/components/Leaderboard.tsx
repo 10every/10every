@@ -1,5 +1,6 @@
 'use client';
 
+// Leaderboard component with daily and all-time rankings
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
