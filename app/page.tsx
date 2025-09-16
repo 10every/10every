@@ -433,7 +433,7 @@ export default function App() {
                   )}
 
                   {/* Exploding Stars Rating System - appears above the tile */}
-                  {isRevealed && !track.rating && (
+                  {track.revealed && !track.rating && (
                     <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 pointer-events-none animate-in zoom-in-50 duration-500">
                       <div className="text-xs text-muted-foreground mb-3 text-center">Rate this track</div>
                       <div className="flex justify-center space-x-3">
@@ -453,7 +453,7 @@ export default function App() {
                   )}
 
                   {/* Rating Confirmation - brief flash after rating */}
-                  {isRevealed && track.rating && (
+                  {track.revealed && track.rating && (
                     <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 pointer-events-none">
                       <div className="bg-foreground/90 text-background rounded-lg px-3 py-2 shadow-lg animate-in zoom-in-50 duration-300">
                         <div className="text-xs text-center font-medium">
