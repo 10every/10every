@@ -12,6 +12,7 @@ import { SpotifyAuth } from './components/SpotifyAuth';
 import { ChevronLeft, ChevronRight, FileText, Upload } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Logo } from './components/Logo';
+import { CustomStar } from './components/CustomStar';
 import { useSpotifyPlayer } from './hooks/useSpotifyPlayer';
 import type { Track, AppState } from './types';
 
@@ -278,7 +279,16 @@ export default function App() {
     }
   };
 
-
+  const handleRating = (trackId: number, rating: number) => {
+    setState((prev) => ({
+      ...prev,
+      tracks: prev.tracks.map((t) => 
+        t.id === trackId 
+          ? { ...t, rating, score: t.score + (rating * 15) }
+          : t
+      ),
+    }));
+  };
 
   const handleNewDay = () =>
     setState({
@@ -376,6 +386,28 @@ export default function App() {
         </header>
 
         <main className="scale-75 origin-top">
+          {/* Star Rating System - appears above tiles when a track is revealed */}
+          {state.tracks.some(track => track.revealed && !track.rating) && (
+            <div className="mx-auto max-w-2xl mb-8 text-center">
+              <div className="text-lg font-medium text-foreground mb-4">Rate the revealed track</div>
+              <div className="flex justify-center space-x-3">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <CustomStar
+                    key={star}
+                    size={48}
+                    onClick={() => {
+                      const revealedTrack = state.tracks.find(t => t.revealed && !t.rating);
+                      if (revealedTrack) {
+                        handleRating(revealedTrack.id, star);
+                      }
+                    }}
+                    className="cursor-pointer"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {state.tracks.map((track, i) => {
               const [isRevealed, setIsRevealed] = useState(false);
