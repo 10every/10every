@@ -30,8 +30,8 @@ export function CustomStar({ filled = false, onClick, onMouseEnter, onMouseLeave
           className="transition-all duration-200"
           style={{
             filter: filled || isHovered
-              ? 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4))' 
-              : 'drop-shadow(0 1px 3px rgba(224, 231, 240, 0.4))'
+              ? 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2))' 
+              : 'drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1))'
           }}
         />
       </svg>
