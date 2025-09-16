@@ -3,22 +3,28 @@ import db from '@/lib/database';
 
 export async function GET() {
   try {
-    // Get today's featured tracks
-    const today = new Date().toISOString().split('T')[0];
-    const stmt = db.prepare(`
-      SELECT * FROM featured_tracks
-      WHERE date = ?
-      ORDER BY track_order
-    `);
+    // Get today's featured tracks from JSON file
+    const fs = require('fs');
+    const path = require('path');
     
-    const featuredTracks = stmt.all(today);
+    const filePath = path.join(process.cwd(), 'data', 'featured-tracks.json');
     
-    // If no featured tracks, return empty array
-    if (featuredTracks.length === 0) {
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
       return NextResponse.json({ tracks: [] });
     }
     
-    return NextResponse.json({ tracks: featuredTracks });
+    // Read and parse the file
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const featuredData = JSON.parse(fileContent);
+    
+    // Check if it's today's data
+    const today = new Date().toISOString().split('T')[0];
+    if (featuredData.date !== today) {
+      return NextResponse.json({ tracks: [] });
+    }
+    
+    return NextResponse.json({ tracks: featuredData.tracks || [] });
   } catch (error) {
     console.error('Error fetching featured tracks:', error);
     return NextResponse.json(
@@ -42,52 +48,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('Creating featured_tracks table...');
-    // Store the selected tracks in a simple JSON file or database table
-    // For now, let's create a simple featured_tracks table
-    const createTableStmt = db.prepare(`
-      CREATE TABLE IF NOT EXISTS featured_tracks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        spotify_url TEXT NOT NULL,
-        title TEXT NOT NULL,
-        artist TEXT NOT NULL,
-        album_art_url TEXT,
-        duration_ms INTEGER,
-        track_order INTEGER,
-        date TEXT DEFAULT (date('now'))
-      )
-    `);
-    createTableStmt.run();
-    console.log('Table created successfully');
-
-    console.log('Clearing existing featured tracks...');
-    // Clear today's featured tracks
+    console.log('Storing featured tracks...');
+    // For now, let's use a simple approach - store in a JSON file
+    const fs = require('fs');
+    const path = require('path');
+    
     const today = new Date().toISOString().split('T')[0];
-    const clearStmt = db.prepare(`DELETE FROM featured_tracks WHERE date = ?`);
-    clearStmt.run(today);
-    console.log('Existing tracks cleared');
+    const featuredTracks = {
+      date: today,
+      tracks: tracks.map((track, index) => ({
+        id: index + 1,
+        spotify_url: track.spotify_url,
+        title: track.title,
+        artist: track.artist,
+        album_art_url: track.album_art_url,
+        duration_ms: track.duration_ms,
+        track_order: index + 1
+      }))
+    };
 
-    console.log('Inserting new featured tracks...');
-    // Insert new featured tracks
-    const insertStmt = db.prepare(`
-      INSERT INTO featured_tracks (spotify_url, title, artist, album_art_url, duration_ms, track_order, date)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `);
-
-    tracks.forEach((track, index) => {
-      console.log(`Inserting track ${index + 1}:`, track);
-      insertStmt.run(
-        track.spotify_url,
-        track.title,
-        track.artist,
-        track.album_art_url,
-        track.duration_ms,
-        index + 1,
-        today
-      );
-    });
-
-    console.log('All tracks inserted successfully');
+    // Write to a simple JSON file
+    const filePath = path.join(process.cwd(), 'data', 'featured-tracks.json');
+    fs.writeFileSync(filePath, JSON.stringify(featuredTracks, null, 2));
+    
+    console.log('Featured tracks stored successfully');
     return NextResponse.json({ success: true });
 
   } catch (error) {
