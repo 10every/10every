@@ -391,7 +391,7 @@ export default function App() {
                 <div key={i} className="h-84 w-full rounded-xl overflow-hidden relative group">
                   {/* Spotify Embed Background */}
                   <iframe
-                    src={`https://open.spotify.com/embed/track/${track.spotifyUrl.split('/').pop()}?utm_source=generator`}
+                    src={`https://open.spotify.com/embed/track/${track.spotifyUrl?.split('/').pop() || '70LcF31zb1H0PyJoS1Sx1r'}?utm_source=generator`}
                     width="100%"
                     height="352"
                     frameBorder="0"
