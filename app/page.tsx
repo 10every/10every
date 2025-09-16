@@ -389,20 +389,27 @@ export default function App() {
           <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {state.tracks.map((track, i) => {
               const [isRevealed, setIsRevealed] = useState(false);
+              const [hoveredStar, setHoveredStar] = useState<number | null>(null);
               const isTopRow = i < 5;
               
               return (
                 <div key={i} className="relative">
                   {/* Star Rating System - above top row, below bottom row */}
                   {track.revealed && !track.rating && (
-                    <div className={`absolute ${isTopRow ? '-top-16' : '-bottom-16'} left-1/2 transform -translate-x-1/2 z-20`}>
+                    <div className={`absolute ${isTopRow ? '-top-12' : '-bottom-12'} left-1/2 transform -translate-x-1/2 z-20`}>
                       <div className="flex justify-center space-x-1">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <CustomStar
                             key={star}
-                            size={32}
-                            onClick={() => handleRating(track.id, star)}
+                            size={37}
+                            onClick={() => {
+                              handleRating(track.id, star);
+                              setHoveredStar(null);
+                            }}
+                            onMouseEnter={() => setHoveredStar(star)}
+                            onMouseLeave={() => setHoveredStar(null)}
                             className="cursor-pointer"
+                            isHovered={hoveredStar === star}
                           />
                         ))}
                       </div>
