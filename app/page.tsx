@@ -394,30 +394,6 @@ export default function App() {
         </header>
 
         <main className="scale-80 origin-top">
-          {/* Rating System - appears above tiles when a track is revealed */}
-          {state.tracks.some(track => track.revealed && !track.rating) && (
-            <div className="mx-auto max-w-4xl mb-8">
-              <div className="bg-background/80 backdrop-blur-sm border border-border/50 rounded-lg px-6 py-4 shadow-sm">
-                <div className="text-sm text-muted-foreground mb-3 text-center">Rate the revealed track</div>
-                <div className="flex justify-center space-x-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      onClick={() => {
-                        const revealedTrack = state.tracks.find(t => t.revealed && !t.rating);
-                        if (revealedTrack) {
-                          handleRating(revealedTrack.id, star);
-                        }
-                      }}
-                      className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-xl hover:scale-110 transform w-8 h-8 flex items-center justify-center"
-                    >
-                      <span className="text-2xl">*</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
 
           <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {state.tracks.map((track, i) => {
@@ -449,6 +425,39 @@ export default function App() {
                         </div>
                         <div className="text-sm text-muted-foreground/60">
                           Click to reveal
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Exploding Stars Rating System - appears behind the tile */}
+                  {isRevealed && !track.rating && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="bg-background/95 backdrop-blur-sm border border-border/50 rounded-lg px-4 py-3 shadow-lg animate-in zoom-in-50 duration-500">
+                        <div className="text-xs text-muted-foreground mb-2 text-center">Rate this track</div>
+                        <div className="flex justify-center space-x-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              onClick={() => {
+                                handleRating(track.id, star);
+                              }}
+                              className="text-muted-foreground hover:text-foreground transition-all duration-200 text-lg hover:scale-110 transform w-6 h-6 flex items-center justify-center pointer-events-auto"
+                            >
+                              <span className="text-xl">*</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Rating Confirmation - brief flash after rating */}
+                  {isRevealed && track.rating && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="bg-foreground/90 text-background rounded-lg px-3 py-2 shadow-lg animate-in zoom-in-50 duration-300">
+                        <div className="text-xs text-center font-medium">
+                          Rated {track.rating} star{track.rating !== 1 ? 's' : ''}!
                         </div>
                       </div>
                     </div>
