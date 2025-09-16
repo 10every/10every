@@ -278,16 +278,6 @@ export default function App() {
     }
   };
 
-  const handleRating = (trackId: number, rating: number) => {
-    setState((prev) => ({
-      ...prev,
-      tracks: prev.tracks.map((t) => 
-        t.id === trackId 
-          ? { ...t, rating, score: t.score + (rating * 15) }
-          : t
-      ),
-    }));
-  };
 
 
   const handleNewDay = () =>
@@ -431,39 +421,6 @@ export default function App() {
                     </div>
                   )}
 
-                  {/* Text-based Rating Box - appears over revealed tile */}
-                  {track.revealed && !track.rating && (
-                    <div className="absolute inset-0 flex items-center justify-center z-10">
-                      <div 
-                        className="bg-background/95 backdrop-blur-sm border border-border/50 rounded-xl px-6 py-4 shadow-lg cursor-pointer hover:bg-background transition-all duration-200"
-                        onClick={() => {
-                          console.log('Rating box clicked for track:', track.id);
-                          // Show rating options
-                          const rating = prompt('Rate this track (1-5):');
-                          if (rating && !isNaN(Number(rating)) && Number(rating) >= 1 && Number(rating) <= 5) {
-                            console.log('Rating submitted:', rating);
-                            handleRating(track.id, Number(rating));
-                          }
-                        }}
-                      >
-                        <div className="text-center">
-                          <div className="text-lg font-medium text-foreground mb-2">Rate this track</div>
-                          <div className="text-sm text-muted-foreground">Click to rate 1-5</div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Rating Confirmation */}
-                  {track.revealed && track.rating && (
-                    <div className="absolute inset-0 flex items-center justify-center z-10">
-                      <div className="bg-foreground/90 text-background rounded-xl px-4 py-3 shadow-lg">
-                        <div className="text-center text-sm font-medium">
-                          Rated {track.rating} star{track.rating !== 1 ? 's' : ''}!
-                        </div>
-            </div>
-            </div>
-                  )}
 
 
                 </div>
