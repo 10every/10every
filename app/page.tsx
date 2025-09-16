@@ -434,18 +434,18 @@ export default function App() {
 
                   {/* Exploding Stars Rating System - appears above the tile */}
                   {track.revealed && !track.rating && (
-                    <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 pointer-events-none animate-in zoom-in-50 duration-500">
-                      <div className="text-xs text-muted-foreground mb-3 text-center">Rate this track</div>
-                      <div className="flex justify-center space-x-3">
+                    <div className="absolute -top-24 left-1/2 transform -translate-x-1/2 pointer-events-none animate-in zoom-in-50 duration-500 z-10">
+                      <div className="text-xs text-foreground mb-3 text-center font-medium">Rate this track</div>
+                      <div className="flex justify-center space-x-4">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
                             key={star}
                             onClick={() => {
                               handleRating(track.id, star);
                             }}
-                            className="text-muted-foreground hover:text-[#E0E7F0] transition-all duration-200 hover:scale-125 transform w-12 h-12 flex items-center justify-center pointer-events-auto"
+                            className="text-foreground hover:text-[#E0E7F0] transition-all duration-200 hover:scale-125 transform w-14 h-14 flex items-center justify-center pointer-events-auto bg-background/80 backdrop-blur-sm rounded-full border border-border/50 shadow-lg"
                           >
-                            <span className="text-4xl">*</span>
+                            <span className="text-5xl font-bold">*</span>
                           </button>
                         ))}
                       </div>
