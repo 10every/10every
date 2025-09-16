@@ -409,9 +409,9 @@ export default function App() {
                           handleRating(revealedTrack.id, star);
                         }
                       }}
-                      className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-xl hover:scale-110 transform"
+                      className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-xl hover:scale-110 transform w-8 h-8 flex items-center justify-center"
                     >
-                      ★
+                      <span className="text-2xl">*</span>
                     </button>
                   ))}
                 </div>
