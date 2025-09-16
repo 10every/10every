@@ -4,13 +4,14 @@ import db from '@/lib/database';
 export async function GET() {
   try {
     // Get today's featured tracks
+    const today = new Date().toISOString().split('T')[0];
     const stmt = db.prepare(`
       SELECT * FROM featured_tracks
-      WHERE date = DATE('now')
+      WHERE date = ?
       ORDER BY track_order
     `);
     
-    const featuredTracks = stmt.all();
+    const featuredTracks = stmt.all(today);
     
     // If no featured tracks, return empty array
     if (featuredTracks.length === 0) {
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
         album_art_url TEXT,
         duration_ms INTEGER,
         track_order INTEGER,
-        date TEXT DEFAULT DATE('now')
+        date TEXT DEFAULT (date('now'))
       )
     `);
     createTableStmt.run();
@@ -61,15 +62,16 @@ export async function POST(request: NextRequest) {
 
     console.log('Clearing existing featured tracks...');
     // Clear today's featured tracks
-    const clearStmt = db.prepare(`DELETE FROM featured_tracks WHERE date = DATE('now')`);
-    clearStmt.run();
+    const today = new Date().toISOString().split('T')[0];
+    const clearStmt = db.prepare(`DELETE FROM featured_tracks WHERE date = ?`);
+    clearStmt.run(today);
     console.log('Existing tracks cleared');
 
     console.log('Inserting new featured tracks...');
     // Insert new featured tracks
     const insertStmt = db.prepare(`
       INSERT INTO featured_tracks (spotify_url, title, artist, album_art_url, duration_ms, track_order, date)
-      VALUES (?, ?, ?, ?, ?, ?, DATE('now'))
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
 
     tracks.forEach((track, index) => {
@@ -80,7 +82,8 @@ export async function POST(request: NextRequest) {
         track.artist,
         track.album_art_url,
         track.duration_ms,
-        index + 1
+        index + 1,
+        today
       );
     });
 
