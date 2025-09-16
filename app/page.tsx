@@ -246,7 +246,7 @@ export default function App() {
       ...prev,
       tracks: prev.tracks.map((t) => 
         t.id === track.id 
-          ? { ...t, revealed: true, listened: true, listenProgress: 10 }
+          ? { ...t, revealed: true, listened: true, listenProgress: 100 }
           : t
       )
     }));
@@ -276,6 +276,17 @@ export default function App() {
         }
       }
     }
+  };
+
+  const handleRating = (trackId: number, rating: number) => {
+    setState((prev) => ({
+      ...prev,
+      tracks: prev.tracks.map((t) => 
+        t.id === trackId 
+          ? { ...t, rating, score: t.score + (rating * 15) }
+          : t
+      ),
+    }));
   };
 
 
@@ -414,6 +425,42 @@ export default function App() {
                         <div className="text-sm text-muted-foreground/60">
                           Click to reveal
                         </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Rating System - appears when revealed and listened */}
+                  {isRevealed && track.listened && !track.rating && (
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-background/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg animate-in slide-in-from-bottom-2 duration-300">
+                      <div className="text-xs text-muted-foreground mb-2 text-center">Rate this track</div>
+                      <div className="flex space-x-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            onClick={() => {
+                              handleRating(track.id, star);
+                              // Add a little pop animation
+                              const button = document.querySelector(`[data-star="${star}"]`);
+                              if (button) {
+                                button.classList.add('animate-ping');
+                                setTimeout(() => button.classList.remove('animate-ping'), 300);
+                              }
+                            }}
+                            data-star={star}
+                            className="text-yellow-400 hover:text-yellow-300 transition-colors duration-150 text-lg hover:scale-110 transform"
+                          >
+                            ★
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Rating Confirmation - shows after rating */}
+                  {isRevealed && track.rating && (
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500/90 backdrop-blur-sm rounded-lg px-3 py-1 shadow-lg animate-in slide-in-from-bottom-2 duration-300">
+                      <div className="text-xs text-white text-center">
+                        Rated {track.rating} star{track.rating !== 1 ? 's' : ''}!
                       </div>
                     </div>
                   )}
