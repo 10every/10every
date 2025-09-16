@@ -386,34 +386,30 @@ export default function App() {
         </header>
 
         <main className="scale-75 origin-top">
-          {/* Star Rating System - appears above tiles when a track is revealed */}
-          {state.tracks.some(track => track.revealed && !track.rating) && (
-            <div className="mx-auto max-w-2xl mb-8 text-center">
-              <div className="text-lg font-medium text-foreground mb-4">Rate the revealed track</div>
-              <div className="flex justify-center space-x-3">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <CustomStar
-                    key={star}
-                    size={48}
-                    onClick={() => {
-                      const revealedTrack = state.tracks.find(t => t.revealed && !t.rating);
-                      if (revealedTrack) {
-                        handleRating(revealedTrack.id, star);
-                      }
-                    }}
-                    className="cursor-pointer"
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
           <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {state.tracks.map((track, i) => {
               const [isRevealed, setIsRevealed] = useState(false);
+              const isTopRow = i < 5;
               
               return (
-                <div key={i} className="h-84 w-full rounded-xl overflow-hidden relative group">
+                <div key={i} className="relative">
+                  {/* Star Rating System - above top row, below bottom row */}
+                  {track.revealed && !track.rating && (
+                    <div className={`absolute ${isTopRow ? '-top-16' : '-bottom-16'} left-1/2 transform -translate-x-1/2 z-20`}>
+                      <div className="flex justify-center space-x-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <CustomStar
+                            key={star}
+                            size={24}
+                            onClick={() => handleRating(track.id, star)}
+                            className="cursor-pointer"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="h-84 w-full rounded-xl overflow-hidden relative group">
                   {/* Spotify Embed Background */}
                   <div className="relative" style={{ backgroundColor: 'rgba(224, 231, 240, 0.1)' }}>
                     <iframe
@@ -453,8 +449,7 @@ export default function App() {
                     </div>
                   )}
 
-
-
+                  </div>
                 </div>
               );
             })}
