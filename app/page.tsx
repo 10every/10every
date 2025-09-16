@@ -421,11 +421,8 @@ export default function App() {
                       onClick={() => setIsRevealed(true)}
                     >
                       <div className="text-center">
-                        <div className="text-4xl font-mono helvetica-oblique text-muted-foreground mb-2">
+                        <div className="text-4xl font-mono helvetica-oblique text-muted-foreground">
                           {String(i + 1).padStart(2, '0')}
-                        </div>
-                        <div className="text-sm text-muted-foreground/60">
-                          Click to reveal
                         </div>
                       </div>
                     </div>
