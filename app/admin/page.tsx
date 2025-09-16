@@ -170,16 +170,19 @@ export default function AdminPage() {
         console.log('Response status:', response.status);
         const responseData = await response.json();
         console.log('Response data:', responseData);
+        console.log('Response data details:', JSON.stringify(responseData, null, 2));
 
-      if (response.ok) {
+        if (response.ok) {
           console.log('Publish successful!');
           setIsPublished(true);
           setTimeout(() => {
             window.location.href = '/';
           }, 1500);
-      } else {
+        } else {
           console.error('Failed to publish tracks:', responseData);
-          alert('Failed to publish tracks. Check console for details.');
+          console.error('Error details:', responseData.details);
+          console.error('Error stack:', responseData.stack);
+          alert(`Failed to publish tracks: ${responseData.details || responseData.error || 'Unknown error'}`);
         }
       } catch (error) {
         console.error('Error publishing tracks:', error);
