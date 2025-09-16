@@ -55,7 +55,12 @@ const generateMockTracks = (): Track[] => {
 const fetchFeaturedTracks = async (): Promise<Track[]> => {
   try {
     const response = await fetch('/api/featured-tracks', {
-      cache: 'no-store'
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
     });
     
     if (!response.ok) {
@@ -140,11 +145,13 @@ export default function App() {
     }
   }, []);
 
-  // Load featured tracks on mount
+  // Load featured tracks on mount and refresh periodically
   useEffect(() => {
     const loadFeaturedTracks = async () => {
       try {
+        console.log('Loading featured tracks...');
         const featuredTracks = await fetchFeaturedTracks();
+        console.log('Loaded featured tracks:', featuredTracks.length);
         setState(prev => ({
           ...prev,
           tracks: featuredTracks
@@ -156,6 +163,11 @@ export default function App() {
     };
 
     loadFeaturedTracks();
+    
+    // Refresh every 30 seconds to get latest tracks
+    const interval = setInterval(loadFeaturedTracks, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   // Spotify Web Playback SDK
@@ -205,22 +217,20 @@ export default function App() {
     setShowSpotifyAuth(true);
   };
 
-  // Load featured tracks from API
-  useEffect(() => {
-    const loadTracks = async () => {
-      try {
-        console.log('Loading tracks...');
-        const tracks = await fetchFeaturedTracks();
-        console.log('Loaded tracks:', tracks.length);
-        console.log('First track:', tracks[0]);
-        setState(prev => ({ ...prev, tracks }));
-      } catch (error) {
-        console.error('Error loading tracks, using mock data:', error);
-        // Keep the existing mock tracks if API fails
-      }
-    };
-    loadTracks();
-  }, []); 
+  // Manual refresh function
+  const refreshTracks = async () => {
+    try {
+      console.log('Manually refreshing tracks...');
+      const featuredTracks = await fetchFeaturedTracks();
+      console.log('Refreshed tracks:', featuredTracks.length);
+      setState(prev => ({
+        ...prev,
+        tracks: featuredTracks
+      }));
+    } catch (error) {
+      console.error('Failed to refresh tracks:', error);
+    }
+  };
   
 
 
@@ -344,6 +354,14 @@ export default function App() {
               <span className="hidden sm:inline">manifesto</span>
             </Button>
             <Button
+              onClick={refreshTracks}
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
+            >
+              <span className="hidden sm:inline">refresh</span>
+            </Button>
+            <Button
               onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}
               variant="ghost"
               size="sm"
@@ -366,14 +384,14 @@ export default function App() {
 
         <main className="scale-80 origin-top">
           <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {Array.from({ length: 10 }).map((_, i) => {
+            {state.tracks.map((track, i) => {
               const [isRevealed, setIsRevealed] = useState(false);
               
               return (
                 <div key={i} className="h-84 w-full rounded-xl overflow-hidden relative group">
                   {/* Spotify Embed Background */}
                   <iframe
-                    src="https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=generator"
+                    src={`https://open.spotify.com/embed/track/${track.spotifyUrl.split('/').pop()}?utm_source=generator`}
                     width="100%"
                     height="352"
                     frameBorder="0"
