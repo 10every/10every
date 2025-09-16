@@ -319,6 +319,7 @@ export default function App() {
       allTracksGone: false,
       showManifesto: false,
       showSubmission: false,
+      showLeaderboard: false,
     });
 
   const handleShowManifesto = () =>
