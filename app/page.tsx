@@ -400,7 +400,7 @@ export default function App() {
                         {[1, 2, 3, 4, 5].map((star) => (
                           <CustomStar
                             key={star}
-                            size={28}
+                            size={32}
                             onClick={() => handleRating(track.id, star)}
                             className="cursor-pointer"
                           />
