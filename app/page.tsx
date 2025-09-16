@@ -429,8 +429,8 @@ export default function App() {
                     </div>
                   )}
 
-                  {/* Rating System - appears when revealed and listened */}
-                  {isRevealed && track.listened && !track.rating && (
+                  {/* Rating System - appears when revealed */}
+                  {isRevealed && !track.rating && (
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-background/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg animate-in slide-in-from-bottom-2 duration-300">
                       <div className="text-xs text-muted-foreground mb-2 text-center">Rate this track</div>
                       <div className="flex space-x-1">
@@ -461,9 +461,9 @@ export default function App() {
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500/90 backdrop-blur-sm rounded-lg px-3 py-1 shadow-lg animate-in slide-in-from-bottom-2 duration-300">
                       <div className="text-xs text-white text-center">
                         Rated {track.rating} star{track.rating !== 1 ? 's' : ''}!
-                      </div>
-                    </div>
-                  )}
+            </div>
+            </div>
+          )}
                 </div>
               );
             })}
