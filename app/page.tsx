@@ -443,7 +443,7 @@ export default function App() {
                             onClick={() => {
                               handleRating(track.id, star);
                             }}
-                            className="text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-125 transform w-12 h-12 flex items-center justify-center pointer-events-auto"
+                            className="text-muted-foreground hover:text-[#E0E7F0] transition-all duration-200 hover:scale-125 transform w-12 h-12 flex items-center justify-center pointer-events-auto"
                           >
                             <span className="text-4xl">*</span>
                           </button>
