@@ -57,6 +57,23 @@ db.exec(`
     album_art TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
+
+  CREATE TABLE IF NOT EXISTS ratings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    track_id TEXT NOT NULL,
+    rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    rated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_session TEXT,
+    UNIQUE(track_id, user_session)
+  );
+
+  CREATE TABLE IF NOT EXISTS track_scores (
+    track_id TEXT PRIMARY KEY,
+    total_ratings INTEGER DEFAULT 0,
+    total_score INTEGER DEFAULT 0,
+    average_rating REAL DEFAULT 0.0,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 export default db;

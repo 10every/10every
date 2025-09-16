@@ -28,4 +28,5 @@ export type AppState = {
   allTracksGone: boolean;
   showManifesto: boolean;
   showSubmission: boolean;
+  showLeaderboard: boolean;
 };
