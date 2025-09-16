@@ -402,16 +402,18 @@ export default function App() {
               return (
                 <div key={i} className="h-84 w-full rounded-xl overflow-hidden relative group">
                   {/* Spotify Embed Background */}
-                  <iframe
-                    src={`https://open.spotify.com/embed/track/${track.spotifyUrl?.split('/').pop() || '70LcF31zb1H0PyJoS1Sx1r'}?utm_source=generator`}
-                    width="100%"
-                    height="352"
-                    frameBorder="0"
-                    allowTransparency={true}
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
-                    style={{ borderRadius: '12px', border: 0 }}
-                  />
+                  <div className="relative" style={{ backgroundColor: 'rgba(224, 231, 240, 0.1)' }}>
+                    <iframe
+                      src={`https://open.spotify.com/embed/track/${track.spotifyUrl?.split('/').pop() || '70LcF31zb1H0PyJoS1Sx1r'}?utm_source=generator`}
+                      width="100%"
+                      height="352"
+                      frameBorder="0"
+                      allowTransparency={true}
+                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                      loading="lazy"
+                      style={{ borderRadius: '12px', border: 0 }}
+                    />
+                  </div>
                   
                   {/* Tile Overlay */}
                   {!isRevealed && (
