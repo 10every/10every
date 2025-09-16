@@ -394,29 +394,6 @@ export default function App() {
         </header>
 
         <main className="scale-80 origin-top">
-          {/* Simple Star Rating System */}
-          {state.tracks.some(track => track.revealed && !track.rating) && (
-            <div className="mx-auto max-w-2xl mb-8 text-center">
-              <div className="text-lg font-medium mb-4">Rate the revealed track</div>
-              <div className="flex justify-center space-x-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    onClick={() => {
-                      const revealedTrack = state.tracks.find(t => t.revealed && !t.rating);
-                      if (revealedTrack) {
-                        handleRating(revealedTrack.id, star);
-                      }
-                    }}
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-2xl hover:scale-110 transition-transform"
-                    style={{ backgroundColor: '#E0E7F0' }}
-                  >
-                    ★
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
 
           <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {state.tracks.map((track, i) => {
@@ -450,6 +427,38 @@ export default function App() {
                         </div>
                         <div className="text-sm text-muted-foreground/60">
                           Click to reveal
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Text-based Rating Box - appears over revealed tile */}
+                  {track.revealed && !track.rating && (
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <div 
+                        className="bg-background/95 backdrop-blur-sm border border-border/50 rounded-xl px-6 py-4 shadow-lg cursor-pointer hover:bg-background transition-all duration-200"
+                        onClick={() => {
+                          // Show rating options
+                          const rating = prompt('Rate this track (1-5):');
+                          if (rating && !isNaN(Number(rating)) && Number(rating) >= 1 && Number(rating) <= 5) {
+                            handleRating(track.id, Number(rating));
+                          }
+                        }}
+                      >
+                        <div className="text-center">
+                          <div className="text-lg font-medium text-foreground mb-2">Rate this track</div>
+                          <div className="text-sm text-muted-foreground">Click to rate 1-5</div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Rating Confirmation */}
+                  {track.revealed && track.rating && (
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <div className="bg-foreground/90 text-background rounded-xl px-4 py-3 shadow-lg">
+                        <div className="text-center text-sm font-medium">
+                          Rated {track.rating} star{track.rating !== 1 ? 's' : ''}!
                         </div>
                       </div>
                     </div>
