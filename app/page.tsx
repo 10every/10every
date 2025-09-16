@@ -418,7 +418,18 @@ export default function App() {
                   {!isRevealed && (
                     <div 
                       className="absolute inset-0 bg-background/90 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group-hover:bg-background/80 cursor-pointer"
-                      onClick={() => setIsRevealed(true)}
+                      onClick={() => {
+                        setIsRevealed(true);
+                        // Also update the global state
+                        setState((prev) => ({
+                          ...prev,
+                          tracks: prev.tracks.map((t) => 
+                            t.id === track.id 
+                              ? { ...t, revealed: true, listened: true, listenProgress: 100 }
+                              : t
+                          )
+                        }));
+                      }}
                     >
                       <div className="text-center">
                         <div className="text-4xl font-mono helvetica-oblique text-muted-foreground">
@@ -434,9 +445,11 @@ export default function App() {
                       <div 
                         className="bg-background/95 backdrop-blur-sm border border-border/50 rounded-xl px-6 py-4 shadow-lg cursor-pointer hover:bg-background transition-all duration-200"
                         onClick={() => {
+                          console.log('Rating box clicked for track:', track.id);
                           // Show rating options
                           const rating = prompt('Rate this track (1-5):');
                           if (rating && !isNaN(Number(rating)) && Number(rating) >= 1 && Number(rating) <= 5) {
+                            console.log('Rating submitted:', rating);
                             handleRating(track.id, Number(rating));
                           }
                         }}
@@ -456,8 +469,8 @@ export default function App() {
                         <div className="text-center text-sm font-medium">
                           Rated {track.rating} star{track.rating !== 1 ? 's' : ''}!
                         </div>
-                      </div>
-                    </div>
+            </div>
+            </div>
                   )}
 
 
