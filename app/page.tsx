@@ -394,6 +394,29 @@ export default function App() {
         </header>
 
         <main className="scale-80 origin-top">
+          {/* Simple Star Rating System */}
+          {state.tracks.some(track => track.revealed && !track.rating) && (
+            <div className="mx-auto max-w-2xl mb-8 text-center">
+              <div className="text-lg font-medium mb-4">Rate the revealed track</div>
+              <div className="flex justify-center space-x-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    onClick={() => {
+                      const revealedTrack = state.tracks.find(t => t.revealed && !t.rating);
+                      if (revealedTrack) {
+                        handleRating(revealedTrack.id, star);
+                      }
+                    }}
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-2xl hover:scale-110 transition-transform"
+                    style={{ backgroundColor: '#E0E7F0' }}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {state.tracks.map((track, i) => {
@@ -432,38 +455,6 @@ export default function App() {
                     </div>
                   )}
 
-                  {/* Exploding Stars Rating System - appears above the tile */}
-                  {track.revealed && !track.rating && (
-                    <div className="absolute -top-32 left-1/2 transform -translate-x-1/2 z-50">
-                      <div className="text-sm text-black mb-4 text-center font-bold bg-white px-3 py-1 rounded">Rate this track</div>
-                      <div className="flex justify-center space-x-3">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <button
-                            key={star}
-                            onClick={() => {
-                              console.log('Star clicked:', star);
-                              handleRating(track.id, star);
-                            }}
-                            className="w-16 h-16 flex items-center justify-center rounded-full shadow-xl border-2 border-black"
-                            style={{ backgroundColor: '#E0E7F0' }}
-                          >
-                            <span className="text-3xl text-black font-bold">★</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Rating Confirmation - brief flash after rating */}
-                  {track.revealed && track.rating && (
-                    <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 pointer-events-none">
-                      <div className="bg-foreground/90 text-background rounded-lg px-3 py-2 shadow-lg animate-in zoom-in-50 duration-300">
-                        <div className="text-xs text-center font-medium">
-                          Rated {track.rating} star{track.rating !== 1 ? 's' : ''}!
-                        </div>
-                      </div>
-                    </div>
-                  )}
 
                 </div>
               );
