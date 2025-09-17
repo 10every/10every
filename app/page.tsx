@@ -360,7 +360,7 @@ export default function App() {
         <SpotifyAuth onAuthSuccess={handleSpotifyAuthSuccess} />
       )}
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4">
         <header className="text-center mb-6 sm:mb-8 md:mb-10 relative">
           <div className="mb-3 sm:mb-4">
             <Logo className="mx-auto h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
@@ -407,7 +407,7 @@ export default function App() {
         </header>
 
         <main className="scale-75 origin-top">
-          <div className="mx-auto grid w-full max-w-8xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="mx-auto grid w-full max-w-9xl grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {state.tracks.map((track, i) => {
               const [isRevealed, setIsRevealed] = useState(false);
               const [hoveredStar, setHoveredStar] = useState<number | null>(null);
