@@ -5,7 +5,7 @@ interface LogoProps {
   className?: string;
 }
 
-export function Logo({ className = "h-36 w-auto" }: LogoProps) {
+export function Logo({ className = "h-72 w-auto" }: LogoProps) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -20,8 +20,8 @@ export function Logo({ className = "h-36 w-auto" }: LogoProps) {
       <Image
         src="/new logo.png"
         alt="10every"
-        width={140}
-        height={140}
+        width={280}
+        height={280}
         className={className}
       />
     </button>
