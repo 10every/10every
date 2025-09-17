@@ -5,7 +5,7 @@ interface LogoProps {
   className?: string;
 }
 
-export function Logo({ className = "h-24 w-auto" }: LogoProps) {
+export function Logo({ className = "h-28 w-auto" }: LogoProps) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -18,10 +18,10 @@ export function Logo({ className = "h-24 w-auto" }: LogoProps) {
       className="cursor-pointer hover:opacity-80 transition-opacity"
     >
       <Image
-        src="/logo.png"
+        src="/new logo.png"
         alt="10every"
-        width={96}
-        height={96}
+        width={115}
+        height={115}
         className={className}
       />
     </button>

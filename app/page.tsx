@@ -13,7 +13,6 @@ import { ChevronLeft, ChevronRight, FileText, Upload } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Logo } from './components/Logo';
 import { CustomStar } from './components/CustomStar';
-import { Leaderboard } from './components/Leaderboard';
 import { useSpotifyPlayer } from './hooks/useSpotifyPlayer';
 import type { Track, AppState } from './types';
 
@@ -131,7 +130,6 @@ export default function App() {
     allTracksGone: false,
     showManifesto: false,
     showSubmission: false,
-    showLeaderboard: false,
   }));
 
   // Spotify authentication state
@@ -319,7 +317,6 @@ export default function App() {
       allTracksGone: false,
       showManifesto: false,
       showSubmission: false,
-      showLeaderboard: false,
     });
 
   const handleShowManifesto = () =>
@@ -334,11 +331,6 @@ export default function App() {
   const handleCloseSubmission = () =>
     setState((prev) => ({ ...prev, showSubmission: false }));
 
-  const handleShowLeaderboard = () =>
-    setState((prev) => ({ ...prev, showLeaderboard: true }));
-
-  const handleCloseLeaderboard = () =>
-    setState((prev) => ({ ...prev, showLeaderboard: false }));
 
 
   // ---------------------------------------------------------------------------
@@ -392,15 +384,6 @@ export default function App() {
             >
               <FileText className="w-3 h-3 mr-1" />
               <span className="hidden sm:inline">manifesto</span>
-            </Button>
-            <Button
-              onClick={handleShowLeaderboard}
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
-            >
-              <span className="text-lg mr-1">🏆</span>
-              <span className="hidden sm:inline">leaderboard</span>
             </Button>
             <Button
               onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}
@@ -504,18 +487,7 @@ export default function App() {
 
         {state.showManifesto && <Manifesto onClose={handleCloseManifesto} />}
         {state.showSubmission && <SubmissionPage onClose={handleCloseSubmission} />}
-        {state.showLeaderboard && <Leaderboard onClose={handleCloseLeaderboard} />}
 
-        <div className="fixed bottom-4 right-4">
-          <Button
-            onClick={handleShowLeaderboard}
-            variant="outline"
-            size="sm"
-            className="bg-background/80 backdrop-blur-sm"
-          >
-            🏆 Leaderboard
-          </Button>
-        </div>
       </div>
 
     </div>
