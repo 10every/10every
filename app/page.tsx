@@ -361,9 +361,9 @@ export default function App() {
       )}
 
       <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-12 sm:mb-16 md:mb-20 relative">
+        <header className="text-center mb-6 sm:mb-8 md:mb-10 relative">
           <div className="mb-3 sm:mb-4">
-            <Logo className="mx-auto h-48 sm:h-56 md:h-64 lg:h-72 w-auto" />
+            <Logo className="mx-auto h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
           </div>
 
           <div className="absolute top-0 right-0 flex items-center gap-1 sm:gap-2 flex-wrap">
