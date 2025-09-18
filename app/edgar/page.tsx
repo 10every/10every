@@ -193,8 +193,8 @@ export default function EdgarPage() {
             <div className="flex items-center gap-4">
               <Logo className="h-8 w-auto" />
               <div>
-                <h1 className="text-2xl font-bold">edgar</h1>
-                <p className="text-sm text-muted-foreground">AI Music Assistant</p>
+                <h1 className="text-xs tracking-wide font-bold">edgar</h1>
+                <p className="text-xs tracking-wide text-muted-foreground">AI Music Assistant</p>
               </div>
             </div>
             <Button 
@@ -224,8 +224,8 @@ export default function EdgarPage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h2 className="text-3xl font-bold">How can edgar help you today?</h2>
-                <p className="text-muted-foreground text-lg">
+                <h2 className="text-xs tracking-wide font-bold">How can edgar help you today?</h2>
+                <p className="text-xs tracking-wide text-muted-foreground">
                   Upload an audio file and I'll analyze it to provide specific mixing and mastering feedback tailored to your track.
                 </p>
               </div>
@@ -247,10 +247,10 @@ export default function EdgarPage() {
                     className="flex items-center gap-2"
                   >
                     <Upload className="w-4 h-4" />
-                    Upload Audio File
+                    upload audio file
                   </Button>
                   {audioFile && (
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-xs tracking-wide text-muted-foreground">
                       {audioFile.name}
                     </span>
                   )}
@@ -262,7 +262,7 @@ export default function EdgarPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask edgar about mixing, mastering, or production..."
+                    placeholder="ask edgar about mixing, mastering, or production..."
                     className="w-full min-h-[60px] resize-none pr-12 rounded-full border-2 border-gray-200 focus:border-gray-400 focus:ring-0 shadow-sm"
                   />
                   <Button
@@ -308,17 +308,17 @@ export default function EdgarPage() {
                     }`}
                   >
                     {message.audioFile && (
-                      <div className="mb-2 p-2 bg-background/20 rounded text-xs flex items-center gap-1">
+                      <div className="mb-2 p-2 bg-background/20 rounded text-xs tracking-wide flex items-center gap-1">
                         <Music className="w-3 h-3" />
                         {message.audioFile.name}
                       </div>
                     )}
-                    <div className="whitespace-pre-wrap">{message.content}</div>
+                    <div className="whitespace-pre-wrap text-xs tracking-wide">{message.content}</div>
                   </div>
 
                   {message.type === 'user' && (
                     <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-primary-foreground text-sm font-medium">U</span>
+                      <span className="text-primary-foreground text-xs tracking-wide font-medium">U</span>
                     </div>
                   )}
                 </div>
@@ -337,7 +337,7 @@ export default function EdgarPage() {
                   </div>
                   <div className="bg-muted rounded-lg p-4 flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>edgar is analyzing...</span>
+                    <span className="text-xs tracking-wide">edgar is analyzing...</span>
                   </div>
                 </div>
               )}
@@ -362,10 +362,10 @@ export default function EdgarPage() {
                     className="flex items-center gap-2"
                   >
                     <Upload className="w-4 h-4" />
-                    Upload Audio
+                    upload audio
                   </Button>
                   {audioFile && (
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-xs tracking-wide text-muted-foreground">
                       {audioFile.name}
                     </span>
                   )}
@@ -378,7 +378,7 @@ export default function EdgarPage() {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder="Ask edgar about mixing, mastering, or production..."
+                      placeholder="ask edgar about mixing, mastering, or production..."
                       className="w-full min-h-[60px] resize-none rounded-full border-2 border-gray-200 focus:border-gray-400 focus:ring-0 shadow-sm pr-12"
                     />
                     <Button
