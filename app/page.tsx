@@ -9,7 +9,7 @@ import { EndOfDayRecap } from './EndOfDayRecap';
 import { Manifesto } from './Manifesto';
 import { SubmissionPage } from './SubmissionPage';
 import { SpotifyAuth } from './components/SpotifyAuth';
-import { ChevronLeft, ChevronRight, FileText, Upload, Bot } from 'lucide-react';
+import { ChevronLeft, ChevronRight, FileText, Upload } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Logo } from './components/Logo';
 import { CustomStar } from './components/CustomStar';
@@ -391,8 +391,8 @@ export default function App() {
               size="sm"
               className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
             >
-              <Bot className="w-3 h-3 mr-1" />
-              <span className="hidden sm:inline">Edgar</span>
+              <img src="/edgar.png" alt="edgar" className="w-3 h-3 mr-1 rounded-full" />
+              <span className="hidden sm:inline">edgar</span>
             </Button>
             <Button
               onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}

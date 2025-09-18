@@ -11,7 +11,7 @@ import { Logo } from '../components/Logo';
 
 interface Message {
   id: string;
-  type: 'user' | 'Edgar';
+  type: 'user' | 'edgar';
   content: string;
   timestamp: Date;
   audioFile?: File;
@@ -79,7 +79,7 @@ export default function EdgarPage() {
           const analysisData = await analysisResponse.json();
           const edgarResponse: Message = {
             id: (Date.now() + 1).toString(),
-            type: 'Edgar',
+            type: 'edgar',
             content: analysisData.response,
             timestamp: new Date()
           };
@@ -90,7 +90,7 @@ export default function EdgarPage() {
         console.error('Upload error:', error);
         const errorMessage: Message = {
           id: (Date.now() + 1).toString(),
-          type: 'Edgar',
+          type: 'edgar',
           content: 'Sorry, there was an error uploading your file. Please try again.',
           timestamp: new Date()
         };
@@ -144,7 +144,7 @@ export default function EdgarPage() {
           const analysisData = await analysisResponse.json();
           const edgarResponse: Message = {
             id: (Date.now() + 1).toString(),
-            type: 'Edgar',
+            type: 'edgar',
             content: analysisData.response,
             timestamp: new Date()
           };
@@ -156,8 +156,8 @@ export default function EdgarPage() {
         // No uploaded file, provide general response
         const edgarResponse: Message = {
           id: (Date.now() + 1).toString(),
-          type: 'Edgar',
-          content: "Hello! I'm Edgar, your AI music assistant. Upload an audio file and I'll analyze it to provide specific mixing and mastering feedback tailored to your track. What would you like to work on today?",
+          type: 'edgar',
+          content: "Hello! I'm edgar, your AI music assistant. Upload an audio file and I'll analyze it to provide specific mixing and mastering feedback tailored to your track. What would you like to work on today?",
           timestamp: new Date()
         };
         setMessages(prev => [...prev, edgarResponse]);
@@ -166,7 +166,7 @@ export default function EdgarPage() {
       console.error('Analysis error:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        type: 'Edgar',
+        type: 'edgar',
         content: 'Sorry, there was an error processing your request. Please try again.',
         timestamp: new Date()
       };
@@ -193,7 +193,7 @@ export default function EdgarPage() {
             <div className="flex items-center gap-4">
               <Logo className="h-8 w-auto" />
               <div>
-                <h1 className="text-2xl font-bold">Edgar</h1>
+                <h1 className="text-2xl font-bold">edgar</h1>
                 <p className="text-sm text-muted-foreground">AI Music Assistant</p>
               </div>
             </div>
@@ -224,7 +224,7 @@ export default function EdgarPage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h2 className="text-3xl font-bold">How can Edgar help you today?</h2>
+                <h2 className="text-3xl font-bold">How can edgar help you today?</h2>
                 <p className="text-muted-foreground text-lg">
                   Upload an audio file and I'll analyze it to provide specific mixing and mastering feedback tailored to your track.
                 </p>
@@ -262,7 +262,7 @@ export default function EdgarPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask Edgar about mixing, mastering, or production..."
+                    placeholder="Ask edgar about mixing, mastering, or production..."
                     className="w-full min-h-[60px] resize-none pr-12 rounded-full border-2 border-gray-200 focus:border-gray-400 focus:ring-0 shadow-sm"
                   />
                   <Button
@@ -288,11 +288,11 @@ export default function EdgarPage() {
                   key={message.id}
                   className={`flex gap-4 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  {message.type === 'Edgar' && (
+                  {message.type === 'edgar' && (
                     <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                       <Image
                         src="/edgar.png"
-                        alt="Edgar"
+                        alt="edgar"
                         width={32}
                         height={32}
                         className="w-full h-full object-cover"
@@ -337,7 +337,7 @@ export default function EdgarPage() {
                   </div>
                   <div className="bg-muted rounded-lg p-4 flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Edgar is analyzing...</span>
+                    <span>edgar is analyzing...</span>
                   </div>
                 </div>
               )}
@@ -378,7 +378,7 @@ export default function EdgarPage() {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder="Ask Edgar about mixing, mastering, or production..."
+                      placeholder="Ask edgar about mixing, mastering, or production..."
                       className="w-full min-h-[60px] resize-none rounded-full border-2 border-gray-200 focus:border-gray-400 focus:ring-0 shadow-sm pr-12"
                     />
                     <Button
