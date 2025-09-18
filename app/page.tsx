@@ -392,7 +392,7 @@ export default function App() {
               className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
             >
               <Bot className="w-3 h-3 mr-1" />
-              <span className="hidden sm:inline">edgar</span>
+              <span className="hidden sm:inline">Edgar</span>
             </Button>
             <Button
               onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}

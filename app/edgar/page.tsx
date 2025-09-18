@@ -9,7 +9,7 @@ import { Logo } from '../components/Logo';
 
 interface Message {
   id: string;
-  type: 'user' | 'edgar';
+  type: 'user' | 'Edgar';
   content: string;
   timestamp: Date;
   audioFile?: File;
@@ -20,6 +20,7 @@ export default function EdgarPage() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [hasStarted, setHasStarted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +42,8 @@ export default function EdgarPage() {
   const handleSendMessage = async () => {
     if (!input.trim() && !audioFile) return;
 
+    setHasStarted(true);
+
     const userMessage: Message = {
       id: Date.now().toString(),
       type: 'user',
@@ -57,7 +60,7 @@ export default function EdgarPage() {
     setTimeout(() => {
       const edgarResponse: Message = {
         id: (Date.now() + 1).toString(),
-        type: 'edgar',
+        type: 'Edgar',
         content: audioFile 
           ? `I've analyzed your track "${audioFile.name}". Here are my mixing and mastering notes:\n\n**Mixing Notes:**\n- The low end could use some tightening around 80-120Hz\n- Consider adding some presence to the vocals around 2-4kHz\n- The stereo image could be widened slightly\n\n**Mastering Notes:**\n- Overall level is good, but watch for peaks in the chorus\n- Consider a gentle high-shelf boost above 10kHz for air\n- The track could benefit from subtle compression on the master bus\n\nWould you like me to elaborate on any of these points?`
           : "Hello! I'm Edgar, your AI music assistant. Upload an audio file and I'll analyze it to provide specific mixing and mastering feedback tailored to your track. What would you like to work on today?",
@@ -78,7 +81,7 @@ export default function EdgarPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Header */}
       <div className="border-b border-border">
         <div className="container mx-auto px-4 py-4">
@@ -100,54 +103,136 @@ export default function EdgarPage() {
         </div>
       </div>
 
-      {/* Chat Interface */}
-      <div className="container mx-auto px-4 py-6 max-w-4xl">
-        <Card className="h-[600px] flex flex-col">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2">
-              <Bot className="w-5 h-5" />
-              Chat with Edgar
-            </CardTitle>
-          </CardHeader>
-          
-          <CardContent className="flex-1 flex flex-col">
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto space-y-4 mb-4">
-              {messages.length === 0 && (
-                <div className="text-center text-muted-foreground py-8">
-                  <Music className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>Upload an audio file to get started with Edgar's analysis</p>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {!hasStarted ? (
+          /* Initial State - ChatGPT Style */
+          <div className="flex-1 flex flex-col items-center justify-center px-4 py-12">
+            <div className="max-w-2xl w-full space-y-8">
+              {/* Welcome Message */}
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
+                  <Bot className="w-8 h-8 text-primary" />
                 </div>
-              )}
-              
+                <h2 className="text-3xl font-bold">How can Edgar help you today?</h2>
+                <p className="text-muted-foreground text-lg">
+                  Upload an audio file and I'll analyze it to provide specific mixing and mastering feedback tailored to your track.
+                </p>
+              </div>
+
+              {/* Input Box */}
+              <div className="space-y-4">
+                {/* File Upload */}
+                <div className="flex items-center justify-center gap-4">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="audio/*"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-2"
+                  >
+                    <Upload className="w-4 h-4" />
+                    Upload Audio File
+                  </Button>
+                  {audioFile && (
+                    <span className="text-sm text-muted-foreground">
+                      {audioFile.name}
+                    </span>
+                  )}
+                </div>
+
+                {/* Text Input */}
+                <div className="relative">
+                  <Textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Ask Edgar about mixing, mastering, or production..."
+                    className="w-full min-h-[60px] resize-none pr-12"
+                  />
+                  <Button
+                    onClick={handleSendMessage}
+                    disabled={!input.trim() && !audioFile}
+                    size="sm"
+                    className="absolute right-2 top-2"
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Example Prompts */}
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground text-center">Try asking:</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {[
+                    "How can I improve the mix of this track?",
+                    "What mastering adjustments would you suggest?",
+                    "How's the frequency balance?",
+                    "Any issues with the stereo image?"
+                  ].map((prompt) => (
+                    <button
+                      key={prompt}
+                      onClick={() => setInput(prompt)}
+                      className="p-3 text-left text-sm border border-border rounded-lg hover:bg-muted/50 transition-colors"
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* Chat Interface */
+          <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full">
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex gap-4 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
+                  {message.type === 'Edgar' && (
+                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Bot className="w-4 h-4 text-primary" />
+                    </div>
+                  )}
+                  
                   <div
                     className={`max-w-[80%] rounded-lg p-4 ${
                       message.type === 'user'
-                        ? 'bg-primary text-primary-foreground'
+                        ? 'bg-primary text-primary-foreground ml-auto'
                         : 'bg-muted'
                     }`}
                   >
                     {message.audioFile && (
-                      <div className="mb-2 p-2 bg-background/20 rounded text-xs">
-                        <Music className="w-4 h-4 inline mr-1" />
+                      <div className="mb-2 p-2 bg-background/20 rounded text-xs flex items-center gap-1">
+                        <Music className="w-3 h-3" />
                         {message.audioFile.name}
                       </div>
                     )}
                     <div className="whitespace-pre-wrap">{message.content}</div>
-                    <div className="text-xs opacity-70 mt-2">
-                      {message.timestamp.toLocaleTimeString()}
-                    </div>
                   </div>
+
+                  {message.type === 'user' && (
+                    <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-primary-foreground text-sm font-medium">U</span>
+                    </div>
+                  )}
                 </div>
               ))}
               
               {isLoading && (
-                <div className="flex justify-start">
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Bot className="w-4 h-4 text-primary" />
+                  </div>
                   <div className="bg-muted rounded-lg p-4 flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
                     <span>Edgar is analyzing...</span>
@@ -157,52 +242,54 @@ export default function EdgarPage() {
             </div>
 
             {/* Input Area */}
-            <div className="space-y-4">
-              {/* File Upload */}
-              <div className="flex items-center gap-2">
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="audio/*"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center gap-2"
-                >
-                  <Upload className="w-4 h-4" />
-                  Upload Audio
-                </Button>
-                {audioFile && (
-                  <span className="text-sm text-muted-foreground">
-                    {audioFile.name}
-                  </span>
-                )}
-              </div>
+            <div className="border-t border-border p-4">
+              <div className="space-y-4">
+                {/* File Upload */}
+                <div className="flex items-center gap-2">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="audio/*"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-2"
+                  >
+                    <Upload className="w-4 h-4" />
+                    Upload Audio
+                  </Button>
+                  {audioFile && (
+                    <span className="text-sm text-muted-foreground">
+                      {audioFile.name}
+                    </span>
+                  )}
+                </div>
 
-              {/* Text Input */}
-              <div className="flex gap-2">
-                <Textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Ask Edgar about mixing, mastering, or production..."
-                  className="flex-1 min-h-[60px] resize-none"
-                />
-                <Button
-                  onClick={handleSendMessage}
-                  disabled={!input.trim() && !audioFile}
-                  className="self-end"
-                >
-                  <Send className="w-4 h-4" />
-                </Button>
+                {/* Text Input */}
+                <div className="flex gap-2">
+                  <Textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Ask Edgar about mixing, mastering, or production..."
+                    className="flex-1 min-h-[60px] resize-none"
+                  />
+                  <Button
+                    onClick={handleSendMessage}
+                    disabled={!input.trim() && !audioFile}
+                    className="self-end"
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        )}
       </div>
     </div>
   );
