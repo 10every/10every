@@ -15,6 +15,8 @@ interface Message {
   content: string;
   timestamp: Date;
   audioFile?: File;
+  fileId?: string;
+  analysis?: any;
 }
 
 export default function EdgarPage() {
@@ -26,19 +28,76 @@ export default function EdgarPage() {
   const [hasStarted, setHasStarted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith('audio/')) {
       setAudioFile(file);
-      // Add a message showing the uploaded file
-      const newMessage: Message = {
-        id: Date.now().toString(),
-        type: 'user',
-        content: `Uploaded: ${file.name}`,
-        timestamp: new Date(),
-        audioFile: file
-      };
-      setMessages(prev => [...prev, newMessage]);
+      setIsLoading(true);
+
+      try {
+        // Upload file to server
+        const formData = new FormData();
+        formData.append('audio', file);
+
+        const uploadResponse = await fetch('/api/edgar/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Upload failed');
+        }
+
+        const uploadData = await uploadResponse.json();
+        
+        // Add a message showing the uploaded file
+        const newMessage: Message = {
+          id: Date.now().toString(),
+          type: 'user',
+          content: `Uploaded: ${file.name}`,
+          timestamp: new Date(),
+          audioFile: file,
+          fileId: uploadData.fileId,
+          analysis: uploadData.analysis
+        };
+        setMessages(prev => [...prev, newMessage]);
+
+        // Automatically get analysis
+        const analysisResponse = await fetch('/api/edgar/analyze', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fileId: uploadData.fileId,
+            userMessage: 'Analyze this track for mixing and mastering feedback',
+            analysis: uploadData.analysis
+          }),
+        });
+
+        if (analysisResponse.ok) {
+          const analysisData = await analysisResponse.json();
+          const edgarResponse: Message = {
+            id: (Date.now() + 1).toString(),
+            type: 'Edgar',
+            content: analysisData.response,
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, edgarResponse]);
+        }
+
+      } catch (error) {
+        console.error('Upload error:', error);
+        const errorMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'Edgar',
+          content: 'Sorry, there was an error uploading your file. Please try again.',
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, errorMessage]);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -56,24 +115,66 @@ export default function EdgarPage() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
     setIsLoading(true);
 
-    // Simulate Edgar's response (replace with actual AI integration)
-    setTimeout(() => {
-      const edgarResponse: Message = {
+    try {
+      // Find the most recent uploaded file's analysis data
+      const lastUploadedMessage = messages
+        .slice()
+        .reverse()
+        .find(msg => msg.analysis && msg.fileId);
+
+      if (lastUploadedMessage && lastUploadedMessage.analysis) {
+        // Get AI analysis for the uploaded file
+        const analysisResponse = await fetch('/api/edgar/analyze', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fileId: lastUploadedMessage.fileId,
+            userMessage: currentInput,
+            analysis: lastUploadedMessage.analysis
+          }),
+        });
+
+        if (analysisResponse.ok) {
+          const analysisData = await analysisResponse.json();
+          const edgarResponse: Message = {
+            id: (Date.now() + 1).toString(),
+            type: 'Edgar',
+            content: analysisData.response,
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, edgarResponse]);
+        } else {
+          throw new Error('Analysis failed');
+        }
+      } else {
+        // No uploaded file, provide general response
+        const edgarResponse: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'Edgar',
+          content: "Hello! I'm Edgar, your AI music assistant. Upload an audio file and I'll analyze it to provide specific mixing and mastering feedback tailored to your track. What would you like to work on today?",
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, edgarResponse]);
+      }
+    } catch (error) {
+      console.error('Analysis error:', error);
+      const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'Edgar',
-        content: audioFile 
-          ? `I've analyzed your track "${audioFile.name}". Here are my mixing and mastering notes:\n\n**Mixing Notes:**\n- The low end could use some tightening around 80-120Hz\n- Consider adding some presence to the vocals around 2-4kHz\n- The stereo image could be widened slightly\n\n**Mastering Notes:**\n- Overall level is good, but watch for peaks in the chorus\n- Consider a gentle high-shelf boost above 10kHz for air\n- The track could benefit from subtle compression on the master bus\n\nWould you like me to elaborate on any of these points?`
-          : "Hello! I'm Edgar, your AI music assistant. Upload an audio file and I'll analyze it to provide specific mixing and mastering feedback tailored to your track. What would you like to work on today?",
+        content: 'Sorry, there was an error processing your request. Please try again.',
         timestamp: new Date()
       };
-      
-      setMessages(prev => [...prev, edgarResponse]);
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsLoading(false);
       setAudioFile(null);
-    }, 2000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
