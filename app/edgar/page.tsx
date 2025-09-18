@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Textarea } from '../components/ui/textarea';
-import { Upload, Send, Music, Bot, Loader2 } from 'lucide-react';
+import { Upload, Send, Music, Loader2 } from 'lucide-react';
+import Image from 'next/image';
 import { Logo } from '../components/Logo';
 
 interface Message {
@@ -16,6 +18,7 @@ interface Message {
 }
 
 export default function EdgarPage() {
+  const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -95,7 +98,7 @@ export default function EdgarPage() {
             </div>
             <Button 
               variant="ghost" 
-              onClick={() => window.history.back()}
+              onClick={() => router.push('/')}
             >
               ← Back
             </Button>
@@ -111,8 +114,14 @@ export default function EdgarPage() {
             <div className="max-w-2xl w-full space-y-8">
               {/* Welcome Message */}
               <div className="text-center space-y-4">
-                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-                  <Bot className="w-8 h-8 text-primary" />
+                <div className="w-16 h-16 mx-auto rounded-full overflow-hidden">
+                  <Image
+                    src="/edgar.png"
+                    alt="Edgar"
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h2 className="text-3xl font-bold">How can Edgar help you today?</h2>
                 <p className="text-muted-foreground text-lg">
@@ -166,26 +175,6 @@ export default function EdgarPage() {
                 </div>
               </div>
 
-              {/* Example Prompts */}
-              <div className="space-y-3">
-                <p className="text-sm text-muted-foreground text-center">Try asking:</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {[
-                    "How can I improve the mix of this track?",
-                    "What mastering adjustments would you suggest?",
-                    "How's the frequency balance?",
-                    "Any issues with the stereo image?"
-                  ].map((prompt) => (
-                    <button
-                      key={prompt}
-                      onClick={() => setInput(prompt)}
-                      className="p-3 text-left text-sm border border-border rounded-lg hover:bg-muted/50 transition-colors"
-                    >
-                      {prompt}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         ) : (
@@ -199,8 +188,14 @@ export default function EdgarPage() {
                   className={`flex gap-4 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   {message.type === 'Edgar' && (
-                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Bot className="w-4 h-4 text-primary" />
+                    <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                      <Image
+                        src="/edgar.png"
+                        alt="Edgar"
+                        width={32}
+                        height={32}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   )}
                   
@@ -230,8 +225,14 @@ export default function EdgarPage() {
               
               {isLoading && (
                 <div className="flex gap-4">
-                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-4 h-4 text-primary" />
+                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                    <Image
+                      src="/edgar.png"
+                      alt="Edgar"
+                      width={32}
+                      height={32}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="bg-muted rounded-lg p-4 flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
