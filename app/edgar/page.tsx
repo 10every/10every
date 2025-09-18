@@ -263,13 +263,13 @@ export default function EdgarPage() {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Ask Edgar about mixing, mastering, or production..."
-                    className="w-full min-h-[60px] resize-none pr-12"
+                    className="w-full min-h-[60px] resize-none pr-12 rounded-full border-2 border-gray-200 focus:border-gray-400 focus:ring-0 shadow-sm"
                   />
                   <Button
                     onClick={handleSendMessage}
                     disabled={!input.trim() && !audioFile}
                     size="sm"
-                    className="absolute right-2 top-2"
+                    className="absolute right-2 top-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800"
                   >
                     <Send className="w-4 h-4" />
                   </Button>
@@ -373,20 +373,22 @@ export default function EdgarPage() {
 
                 {/* Text Input */}
                 <div className="flex gap-2">
-                  <Textarea
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Ask Edgar about mixing, mastering, or production..."
-                    className="flex-1 min-h-[60px] resize-none"
-                  />
-                  <Button
-                    onClick={handleSendMessage}
-                    disabled={!input.trim() && !audioFile}
-                    className="self-end"
-                  >
-                    <Send className="w-4 h-4" />
-                  </Button>
+                  <div className="flex-1 relative">
+                    <Textarea
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder="Ask Edgar about mixing, mastering, or production..."
+                      className="w-full min-h-[60px] resize-none rounded-full border-2 border-gray-200 focus:border-gray-400 focus:ring-0 shadow-sm pr-12"
+                    />
+                    <Button
+                      onClick={handleSendMessage}
+                      disabled={!input.trim() && !audioFile}
+                      className="absolute right-2 top-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800"
+                    >
+                      <Send className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
