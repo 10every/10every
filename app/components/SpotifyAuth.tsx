@@ -63,33 +63,34 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
           </div>
 
           {/* Connection Button */}
-          <div className="space-y-4">
-            <div className="relative w-full aspect-square">
+          <div className="space-y-4 flex justify-center">
+            <div className="relative w-24 h-24">
               <button
                 onClick={handleConnect}
                 disabled={isConnecting}
-                className="absolute inset-0 w-full h-full border border-border bg-background transition-all duration-300 ease-out
+                className="absolute inset-0 w-full h-full border border-slate-300 bg-slate-100 transition-all duration-300 ease-out
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
-                hover:border-primary hover:shadow-sm touch-manipulation
-                active:scale-95 active:bg-muted/20
-                disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-border disabled:hover:shadow-none
+                hover:border-slate-400 hover:shadow-sm touch-manipulation
+                active:scale-95 active:bg-slate-200
+                disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-slate-300 disabled:hover:shadow-none
                 disabled:active:scale-100"
               >
-                <div className="absolute inset-0 grid place-items-center p-6">
+                <div className="absolute inset-0 grid place-items-center p-3">
                   {isConnecting ? (
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="w-6 h-6 border-2 border-foreground/30 border-t-foreground rounded-full animate-spin"></div>
-                      <span className="text-sm tracking-wide">Initializing...</span>
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-slate-400/30 border-t-slate-600 rounded-full animate-spin"></div>
+                      <span className="text-xs tracking-wide text-slate-600">Loading...</span>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center gap-3">
-                      <ExternalLink className="w-6 h-6" />
-                      <span className="text-sm tracking-wide">Connect Spotify</span>
+                    <div className="flex flex-col items-center gap-2">
+                      <ExternalLink className="w-4 h-4 text-slate-600" />
+                      <span className="text-xs tracking-wide text-slate-600">Connect</span>
                     </div>
                   )}
                 </div>
               </button>
             </div>
+          </div>
 
             {/* Security Note */}
             <div className="flex items-start gap-2 text-xs text-muted-foreground">
