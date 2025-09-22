@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   title: "Signal from Noise",
   description: "Daily music discovery platform - ten curated tracks, revealed anonymously",
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
+    icon: '/edgar.png',
+    shortcut: '/edgar.png',
     apple: '/edgar.png',
   },
 };
