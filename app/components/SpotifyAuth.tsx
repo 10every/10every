@@ -92,14 +92,13 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
             </div>
           </div>
 
-            {/* Security Note */}
-            <div className="flex items-start gap-2 text-xs text-muted-foreground">
-              <Lock className="w-3 h-3 mt-0.5 flex-shrink-0" />
-              <p className="leading-relaxed">
-                We access only playback controls and track metadata. 
-                Your listening history and personal data remain private.
-              </p>
-            </div>
+          {/* Security Note */}
+          <div className="flex items-start gap-2 text-xs text-muted-foreground">
+            <Lock className="w-3 h-3 mt-0.5 flex-shrink-0" />
+            <p className="leading-relaxed">
+              We access only playback controls and track metadata. 
+              Your listening history and personal data remain private.
+            </p>
           </div>
 
           {/* Skip Option */}
