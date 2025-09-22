@@ -224,7 +224,7 @@ export default function AdminPage() {
           <div className="flex items-center justify-between">
               <div className="flex items-center gap-6">
                 <Image 
-                  src="/logo.png" 
+                  src="/new logo.png" 
                   alt="10every admin" 
                   width={32}
                   height={32}
