@@ -14,6 +14,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!spotifyUrl.trim()) return;
@@ -56,8 +57,8 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
           <div className="container mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <Logo className="h-24" />
-                <span className="text-muted-foreground tracking-wide">submit</span>
+                <Logo className="h-8 w-auto" />
+                <span className="text-xs tracking-wide text-muted-foreground">submit</span>
               </div>
               <Button
                 onClick={onClose}
@@ -81,14 +82,14 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <Music2 className="w-6 h-6" />
-                    <h1 className="tracking-wide">Submit Your Spotify Track</h1>
+                    <h1 className="text-xs tracking-wide">submit your spotify track</h1>
                   </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-3">
-                    <Label htmlFor="spotify-url" className="text-muted-foreground tracking-wide">
-                      Spotify Track URL
+                    <Label htmlFor="spotify-url" className="text-xs tracking-wide text-muted-foreground">
+                      spotify track url
                     </Label>
                     <Input
                       id="spotify-url"
@@ -99,24 +100,24 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       className="bg-input-background border-border"
                       disabled={isSubmitting || submitted}
                     />
-                    <p className="text-muted-foreground text-sm tracking-wide">
-                      Paste your Spotify track link here. Streams will credit you directly.
+                    <p className="text-xs tracking-wide text-muted-foreground">
+                      paste your spotify track link here. streams will credit you directly.
                     </p>
                   </div>
 
                   <Button
                     type="submit"
                     disabled={!isValidSpotifyUrl(spotifyUrl) || isSubmitting || submitted}
-                    className="w-full bg-foreground text-background hover:bg-foreground/90 tracking-wide"
+                    className="w-full bg-foreground text-background hover:bg-foreground/90 text-xs tracking-wide"
                   >
                     <Upload className="w-4 h-4 mr-2" />
-                    {isSubmitting ? 'Submitting...' : submitted ? 'Track Submitted' : 'Submit Track'}
+                    {isSubmitting ? 'submitting...' : submitted ? 'track submitted' : 'submit track'}
                   </Button>
 
                   {submitted && (
                     <div className="p-4 bg-muted rounded-lg">
-                      <p className="text-muted-foreground text-sm tracking-wide">
-                        Your track has been submitted for consideration in tomorrow's selection.
+                      <p className="text-xs tracking-wide text-muted-foreground">
+                        your track has been submitted for consideration in tomorrow's selection.
                       </p>
                     </div>
                   )}
@@ -125,7 +126,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
 
               {/* How It Works */}
               <div className="space-y-8">
-                <h2 className="tracking-wide">How 10every Works</h2>
+                <h2 className="text-xs tracking-wide">how 10every works</h2>
                 
                 <div className="space-y-8">
                   <div className="flex gap-4">
@@ -135,9 +136,9 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="tracking-wide">Submit</h3>
-                      <p className="text-muted-foreground tracking-wide">
-                        Share your Spotify track link with us.
+                      <h3 className="text-xs tracking-wide">submit</h3>
+                      <p className="text-xs tracking-wide text-muted-foreground">
+                        share your spotify track link with us.
                       </p>
                     </div>
                   </div>
@@ -149,9 +150,9 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="tracking-wide">Selection</h3>
-                      <p className="text-muted-foreground tracking-wide">
-                        First <span className="helvetica-oblique">10</span> tracks submitted daily get featured.
+                      <h3 className="text-xs tracking-wide">selection</h3>
+                      <p className="text-xs tracking-wide text-muted-foreground">
+                        first <span className="helvetica-oblique">10</span> tracks submitted daily get featured.
                       </p>
                     </div>
                   </div>
@@ -163,9 +164,9 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="tracking-wide">Anonymous Release</h3>
-                      <p className="text-muted-foreground tracking-wide">
-                        Tracks appear without artist names at <span className="helvetica-oblique">10am</span>.
+                      <h3 className="text-xs tracking-wide">anonymous release</h3>
+                      <p className="text-xs tracking-wide text-muted-foreground">
+                        tracks appear without artist names at <span className="helvetica-oblique">10am</span>.
                       </p>
                     </div>
                   </div>
@@ -177,9 +178,9 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="tracking-wide">Discovery</h3>
-                      <p className="text-muted-foreground tracking-wide">
-                        Listeners must hear <span className="helvetica-oblique">10%</span> before revealing artist.
+                      <h3 className="text-xs tracking-wide">discovery</h3>
+                      <p className="text-xs tracking-wide text-muted-foreground">
+                        listeners must hear <span className="helvetica-oblique">10%</span> before revealing artist.
                       </p>
                     </div>
                   </div>
@@ -192,11 +193,11 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
               <div className="p-6 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
                 <div className="flex items-center gap-3 mb-3">
                   <Clock className="w-5 h-5 text-green-700 dark:text-green-600" />
-                  <h3 className="text-green-900 dark:text-green-100 tracking-wide">Daily Deadline</h3>
+                  <h3 className="text-xs tracking-wide text-green-900 dark:text-green-100">daily deadline</h3>
                 </div>
-                <p className="text-green-700 dark:text-green-200 tracking-wide">
-                  Submit before <span className="helvetica-oblique">10am</span> to have a chance at today's feature.
-                  Only the first <span className="helvetica-oblique">10</span> submissions make it.
+                <p className="text-xs tracking-wide text-green-700 dark:text-green-200">
+                  submit before <span className="helvetica-oblique">10am</span> to have a chance at today's feature.
+                  only the first <span className="helvetica-oblique">10</span> submissions make it.
                 </p>
               </div>
             </div>

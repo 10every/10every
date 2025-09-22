@@ -386,15 +386,6 @@ export default function App() {
               <span className="hidden sm:inline">manifesto</span>
             </Button>
             <Button
-              onClick={() => window.open('/edgar', '_blank')}
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
-            >
-              <img src="/edgar.png" alt="edgar" className="w-3 h-3 mr-1 rounded-full" />
-              <span className="hidden sm:inline">edgar</span>
-            </Button>
-            <Button
               onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}
               variant="ghost"
               size="sm"
