@@ -42,7 +42,7 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-12">
-          <Logo className="h-24 mx-auto mb-8" />
+          <Logo className="h-24 sm:h-28 md:h-32 lg:h-36 mx-auto mb-8" />
           
           <div className="space-y-2">
             <h1 className="tracking-wide text-2xl">Connect & Discover</h1>
@@ -64,23 +64,32 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
 
           {/* Connection Button */}
           <div className="space-y-4">
-            <Button
-              onClick={handleConnect}
-              disabled={isConnecting}
-              className="w-full bg-foreground text-background hover:bg-foreground/90 py-4 tracking-wide"
-            >
-              {isConnecting ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-background/30 border-t-background rounded-full animate-spin"></div>
-                  <span>Initializing...</span>
+            <div className="relative w-full aspect-square">
+              <button
+                onClick={handleConnect}
+                disabled={isConnecting}
+                className="absolute inset-0 w-full h-full border border-border bg-background transition-all duration-300 ease-out
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+                hover:border-primary hover:shadow-sm touch-manipulation
+                active:scale-95 active:bg-muted/20
+                disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-border disabled:hover:shadow-none
+                disabled:active:scale-100"
+              >
+                <div className="absolute inset-0 grid place-items-center p-6">
+                  {isConnecting ? (
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-6 h-6 border-2 border-foreground/30 border-t-foreground rounded-full animate-spin"></div>
+                      <span className="text-sm tracking-wide">Initializing...</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-3">
+                      <ExternalLink className="w-6 h-6" />
+                      <span className="text-sm tracking-wide">Connect Spotify</span>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <ExternalLink className="w-4 h-4" />
-                  <span>Connect Spotify</span>
-                </div>
-              )}
-            </Button>
+              </button>
+            </div>
 
             {/* Security Note */}
             <div className="flex items-start gap-2 text-xs text-muted-foreground">
