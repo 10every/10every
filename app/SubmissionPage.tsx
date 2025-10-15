@@ -80,7 +80,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
               <div className="space-y-10">
                 <div className="space-y-6">
                   <div className="space-y-6">
-                    <h1 className="text-lg tracking-wide text-muted-foreground">submit your spotify track</h1>
+                    <h1 className="text-lg tracking-wide text-muted-foreground font-bold">submit your spotify track</h1>
                   </div>
                 </div>
 
@@ -139,7 +139,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
 
               {/* How It Works */}
               <div className="space-y-10">
-                <h2 className="text-lg tracking-wide text-muted-foreground">how 10every works</h2>
+                <h2 className="text-lg tracking-wide text-muted-foreground font-bold">how 10every works</h2>
                 
                 <div className="space-y-10">
                   <div className="flex gap-6">
