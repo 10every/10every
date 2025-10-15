@@ -108,7 +108,8 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                   <Button
                     type="submit"
                     disabled={!isValidSpotifyUrl(spotifyUrl) || isSubmitting || submitted}
-                    className="w-full bg-foreground text-background hover:bg-foreground/90 text-sm tracking-wide h-12"
+                    className="w-full text-sm tracking-wide h-12"
+                    style={{ backgroundColor: '#B7C9E5', color: '#000000' }}
                   >
                     <Upload className="w-5 h-5 mr-2" />
                     {isSubmitting ? 'submitting...' : submitted ? 'track submitted' : 'submit track'}
@@ -131,7 +132,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                 <div className="space-y-10">
                   <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique text-sm">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center helvetica-oblique text-sm" style={{ backgroundColor: '#B7C9E5', color: '#000000' }}>
                         1
                       </div>
                     </div>
@@ -145,7 +146,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
 
                   <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique text-sm">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center helvetica-oblique text-sm" style={{ backgroundColor: '#B7C9E5', color: '#000000' }}>
                         2
                       </div>
                     </div>
@@ -159,7 +160,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
 
                   <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique text-sm">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center helvetica-oblique text-sm" style={{ backgroundColor: '#B7C9E5', color: '#000000' }}>
                         3
                       </div>
                     </div>
@@ -173,7 +174,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
 
                   <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique text-sm">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center helvetica-oblique text-sm" style={{ backgroundColor: '#B7C9E5', color: '#000000' }}>
                         4
                       </div>
                     </div>
