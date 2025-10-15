@@ -42,7 +42,7 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-12">
-          <Logo className="h-24 sm:h-28 md:h-32 lg:h-36 mx-auto mb-8" />
+          <Logo className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto mx-auto mb-8" />
           
           <div className="space-y-2">
             <h1 className="tracking-wide text-2xl">Connect & Discover</h1>
