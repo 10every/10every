@@ -71,9 +71,20 @@ export function Manifesto({ onClose }: ManifestoProps) {
           <Button
             onClick={onClose}
             variant="outline"
-            className="tracking-wide text-sm"
+            className="tracking-wide text-sm relative overflow-hidden transition-all duration-200 hover:scale-105"
+            style={{
+              filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
+            }}
           >
-            Return to Today's Algorithm
+            {/* Glassmorphism reflective sheen */}
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 30%, transparent 60%)',
+                borderRadius: 'inherit'
+              }}
+            />
+            <span className="relative z-10">Return to Today's Algorithm</span>
           </Button>
         </div>
       </div>

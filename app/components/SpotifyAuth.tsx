@@ -73,9 +73,20 @@ export function SpotifyAuth({ onAuthSuccess }: SpotifyAuthProps) {
                 hover:border-slate-400 hover:shadow-sm touch-manipulation
                 active:scale-95 active:bg-slate-200
                 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-slate-300 disabled:hover:shadow-none
-                disabled:active:scale-100"
+                disabled:active:scale-100 relative overflow-hidden"
+                style={{
+                  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
+                }}
               >
-                <div className="absolute inset-0 grid place-items-center p-3">
+                {/* Glassmorphism reflective sheen */}
+                <div 
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 30%, transparent 60%)',
+                    borderRadius: 'inherit'
+                  }}
+                />
+                <div className="absolute inset-0 grid place-items-center p-3 relative z-10">
                   {isConnecting ? (
                     <div className="flex flex-col items-center gap-2">
                       <div className="w-4 h-4 border-2 border-slate-400/30 border-t-slate-600 rounded-full animate-spin"></div>

@@ -108,11 +108,25 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                   <Button
                     type="submit"
                     disabled={!isValidSpotifyUrl(spotifyUrl) || isSubmitting || submitted}
-                    className="w-full text-sm tracking-wide h-12"
-                    style={{ backgroundColor: '#B7C9E5', color: '#000000' }}
+                    className="w-full text-sm tracking-wide h-12 relative overflow-hidden transition-all duration-200 hover:scale-105"
+                    style={{ 
+                      backgroundColor: '#B7C9E5', 
+                      color: '#000000',
+                      filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
+                    }}
                   >
-                    <Upload className="w-5 h-5 mr-2" />
-                    {isSubmitting ? 'submitting...' : submitted ? 'track submitted' : 'submit track'}
+                    {/* Glassmorphism reflective sheen */}
+                    <div 
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 30%, transparent 60%)',
+                        borderRadius: 'inherit'
+                      }}
+                    />
+                    <div className="relative z-10 flex items-center justify-center">
+                      <Upload className="w-5 h-5 mr-2" />
+                      {isSubmitting ? 'submitting...' : submitted ? 'track submitted' : 'submit track'}
+                    </div>
                   </Button>
 
                   {submitted && (
