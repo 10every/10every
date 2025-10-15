@@ -74,21 +74,21 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
 
         {/* Main Content */}
         <main className="flex-1 container mx-auto px-6 py-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
               
               {/* Submission Form */}
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Music2 className="w-6 h-6" />
-                    <h1 className="text-xs tracking-wide">submit your spotify track</h1>
+              <div className="space-y-10">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <Music2 className="w-8 h-8" />
+                    <h1 className="text-lg tracking-wide">submit your spotify track</h1>
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-3">
-                    <Label htmlFor="spotify-url" className="text-xs tracking-wide text-muted-foreground">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="space-y-4">
+                    <Label htmlFor="spotify-url" className="text-sm tracking-wide text-muted-foreground">
                       spotify track url
                     </Label>
                     <Input
@@ -97,10 +97,10 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       value={spotifyUrl}
                       onChange={(e) => setSpotifyUrl(e.target.value)}
                       placeholder="https://open.spotify.com/track/..."
-                      className="bg-input-background border-border"
+                      className="bg-input-background border-border h-12 text-base"
                       disabled={isSubmitting || submitted}
                     />
-                    <p className="text-xs tracking-wide text-muted-foreground">
+                    <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                       paste your spotify track link here. streams will credit you directly.
                     </p>
                   </div>
@@ -108,15 +108,15 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                   <Button
                     type="submit"
                     disabled={!isValidSpotifyUrl(spotifyUrl) || isSubmitting || submitted}
-                    className="w-full bg-foreground text-background hover:bg-foreground/90 text-xs tracking-wide"
+                    className="w-full bg-foreground text-background hover:bg-foreground/90 text-sm tracking-wide h-12"
                   >
-                    <Upload className="w-4 h-4 mr-2" />
+                    <Upload className="w-5 h-5 mr-2" />
                     {isSubmitting ? 'submitting...' : submitted ? 'track submitted' : 'submit track'}
                   </Button>
 
                   {submitted && (
-                    <div className="p-4 bg-muted rounded-lg">
-                      <p className="text-xs tracking-wide text-muted-foreground">
+                    <div className="p-6 bg-muted rounded-lg">
+                      <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         your track has been submitted for consideration in tomorrow's selection.
                       </p>
                     </div>
@@ -125,61 +125,61 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
               </div>
 
               {/* How It Works */}
-              <div className="space-y-8">
-                <h2 className="text-xs tracking-wide">how 10every works</h2>
+              <div className="space-y-10">
+                <h2 className="text-lg tracking-wide">how 10every works</h2>
                 
-                <div className="space-y-8">
-                  <div className="flex gap-4">
+                <div className="space-y-10">
+                  <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique">
+                      <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique text-sm">
                         1
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-xs tracking-wide">submit</h3>
-                      <p className="text-xs tracking-wide text-muted-foreground">
+                    <div className="space-y-3">
+                      <h3 className="text-base tracking-wide">submit</h3>
+                      <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         share your spotify track link with us.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
+                  <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique">
+                      <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique text-sm">
                         2
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-xs tracking-wide">selection</h3>
-                      <p className="text-xs tracking-wide text-muted-foreground">
+                    <div className="space-y-3">
+                      <h3 className="text-base tracking-wide">selection</h3>
+                      <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         first <span className="helvetica-oblique">10</span> tracks submitted daily get featured.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
+                  <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique">
+                      <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique text-sm">
                         3
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-xs tracking-wide">anonymous release</h3>
-                      <p className="text-xs tracking-wide text-muted-foreground">
+                    <div className="space-y-3">
+                      <h3 className="text-base tracking-wide">anonymous release</h3>
+                      <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         tracks appear without artist names at <span className="helvetica-oblique">10am</span>.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
+                  <div className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique">
+                      <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center helvetica-oblique text-sm">
                         4
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-xs tracking-wide">discovery</h3>
-                      <p className="text-xs tracking-wide text-muted-foreground">
+                    <div className="space-y-3">
+                      <h3 className="text-base tracking-wide">discovery</h3>
+                      <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         listeners must hear <span className="helvetica-oblique">10%</span> before revealing artist.
                       </p>
                     </div>
