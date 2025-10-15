@@ -80,7 +80,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
               <div className="space-y-10">
                 <div className="space-y-6">
                   <div className="space-y-6">
-                    <h1 className="text-lg tracking-wide">submit your spotify track</h1>
+                    <h1 className="text-lg tracking-wide text-muted-foreground">submit your spotify track</h1>
                   </div>
                 </div>
 
@@ -139,7 +139,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
 
               {/* How It Works */}
               <div className="space-y-10">
-                <h2 className="text-lg tracking-wide">how 10every works</h2>
+                <h2 className="text-lg tracking-wide text-muted-foreground">how 10every works</h2>
                 
                 <div className="space-y-10">
                   <div className="flex gap-6">
@@ -149,7 +149,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <h3 className="text-base tracking-wide">submit</h3>
+                      <h3 className="text-base tracking-wide text-muted-foreground">submit</h3>
                       <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         share your spotify track link with us.
                       </p>
@@ -163,7 +163,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <h3 className="text-base tracking-wide">selection</h3>
+                      <h3 className="text-base tracking-wide text-muted-foreground">selection</h3>
                       <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         first <span className="helvetica-oblique">10</span> tracks submitted daily get featured.
                       </p>
@@ -177,7 +177,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <h3 className="text-base tracking-wide">anonymous release</h3>
+                      <h3 className="text-base tracking-wide text-muted-foreground">anonymous release</h3>
                       <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         tracks appear without artist names at <span className="helvetica-oblique">10am</span>.
                       </p>
@@ -191,7 +191,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <h3 className="text-base tracking-wide">discovery</h3>
+                      <h3 className="text-base tracking-wide text-muted-foreground">discovery</h3>
                       <p className="text-sm tracking-wide text-muted-foreground leading-relaxed">
                         listeners must hear <span className="helvetica-oblique">10%</span> before revealing artist.
                       </p>
