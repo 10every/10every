@@ -56,9 +56,8 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
         <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-10">
           <div className="container mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Logo className="h-12 w-auto" />
-                <span className="text-xs tracking-wide text-muted-foreground">submit</span>
+              <div className="flex items-center">
+                <Logo className="h-20 sm:h-24 md:h-28 w-auto" />
               </div>
               <Button
                 onClick={onClose}
