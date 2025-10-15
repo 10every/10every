@@ -26,7 +26,7 @@ export function Manifesto({ onClose }: ManifestoProps) {
 
         {/* Manifesto Content */}
         <div className="flex-1 space-y-4 leading-relaxed">
-          <div className="space-y-3">
+          <div className="space-y-6">
             <p className="text-base">
               Algorithms have become the most destructive force in modern music. Gatekeeping has always existed, but now virality and paid streams dominate discovery, leaving emerging artists invisible. The result is an overcrowded, manipulated ecosystem where the best work rarely surfaces.
             </p>
@@ -58,7 +58,7 @@ export function Manifesto({ onClose }: ManifestoProps) {
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-6">
             <p className="text-base">
               <span className="helvetica-oblique">10</span>every removes algorithmic control and creates a more equitable landscape where discovery is random, authentic, and artist-driven. It's a platform built to give unheard voices their moment — and to restore the thrill of finding music outside the noise.
             </p>
