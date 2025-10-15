@@ -385,14 +385,6 @@ export default function App() {
               <FileText className="w-3 h-3 mr-1" />
               <span className="hidden sm:inline">manifesto</span>
             </Button>
-            <Button
-              onClick={() => window.open('/admin?password=10every_Admin_2025_Secure!', '_blank')}
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-foreground text-xs tracking-wide touch-manipulation px-2 py-1"
-            >
-              <span className="hidden sm:inline">admin</span>
-            </Button>
             {spotifyAccessToken && (
               <Button
                 onClick={handleSpotifyLogout}
