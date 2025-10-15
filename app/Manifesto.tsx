@@ -27,40 +27,41 @@ export function Manifesto({ onClose }: ManifestoProps) {
         {/* Manifesto Content */}
         <div className="flex-1 space-y-4 leading-relaxed">
           <div className="space-y-6">
+            <h2 className="text-lg tracking-wide text-muted-foreground">A daily ritual for real discovery</h2>
+            
             <p className="text-base text-muted-foreground">
-              Algorithms have become the most destructive force in modern music. Gatekeeping has always existed, but now virality and paid streams dominate discovery, leaving emerging artists invisible. The result is an overcrowded, manipulated ecosystem where the best work rarely surfaces.
+              Every day, about 40,000 new tracks are added to Spotify. That is tens of thousands of minutes of music pouring in daily. Even a hyperactive listener could never keep up. So how is all this music parsed, surfaced, and shared? By an algorithm. A black box that shapes what we hear, who gets noticed, what succeeds, and what vanishes into the flood. No transparency. No human pulse. Opaque rankings and metrics decide who is seen and who is lost in the noise.
             </p>
 
             <p className="text-base text-muted-foreground">
-              <span className="helvetica-oblique">10</span>every is a new way to share and discover music that's fair, random, and human-first. Every day at <span className="helvetica-oblique">10</span>am, the first ten tracks submitted are released anonymously. No algorithms, no favoritism — just music, stripped of hype and bias.
+              Algorithms have become the most destructive force in modern music. Gatekeeping has always existed, but virality and paid streams now dominate discovery and leave emerging artists invisible. The ecosystem is overcrowded and manipulated. Endless oversaturation buries new voices before they can be heard.
+            </p>
+
+            <p className="text-base text-muted-foreground">
+              <span className="helvetica-oblique">10</span>every is a new way to share and discover music that is fair, random, and human-first. Every day at <span className="helvetica-oblique">10</span>am, the first ten tracks submitted are released anonymously. No algorithms. No favoritism. Just music, stripped of hype and bias.
             </p>
           </div>
 
           <div className="border-l-2 border-primary/20 pl-6 space-y-3">
             <div className="space-y-1">
-              <h3 className="font-medium tracking-wide text-sm">Submission</h3>
-              <p className="text-sm">Artists text us their Spotify link (ensuring streams credit them directly).</p>
+              <h3 className="font-medium tracking-wide text-sm text-muted-foreground">Submission</h3>
+              <p className="text-sm text-muted-foreground">Artists paste their Spotify link directly on the <span className="helvetica-oblique">10</span>every site. Streams credit them directly.</p>
             </div>
 
             <div className="space-y-1">
-              <h3 className="font-medium tracking-wide text-sm">Presentation</h3>
-              <p className="text-sm">Tracks appear as anonymous tiles.</p>
+              <h3 className="font-medium tracking-wide text-sm text-muted-foreground">Presentation</h3>
+              <p className="text-sm text-muted-foreground">Tracks appear as anonymous tiles. You click to reveal and rate. One at a time.</p>
             </div>
 
             <div className="space-y-1">
-              <h3 className="font-medium tracking-wide text-sm">Engagement</h3>
-              <p className="text-sm">Listeners must hear at least <span className="helvetica-oblique">10%</span> before rating or revealing the artist.</p>
-            </div>
-
-            <div className="space-y-1">
-              <h3 className="font-medium tracking-wide text-sm">Fairness</h3>
-              <p className="text-sm">Everyone gets the same chance, every day.</p>
+              <h3 className="font-medium tracking-wide text-sm text-muted-foreground">Fairness</h3>
+              <p className="text-sm text-muted-foreground">Everyone gets the same chance, every day.</p>
             </div>
           </div>
 
           <div className="space-y-6">
             <p className="text-base text-muted-foreground">
-              <span className="helvetica-oblique">10</span>every removes algorithmic control and creates a more equitable landscape where discovery is random, authentic, and artist-driven. It's a platform built to give unheard voices their moment — and to restore the thrill of finding music outside the noise.
+              At its core, <span className="helvetica-oblique">10</span>every revives the ritual of listening together. Like a new-age radio, it invites you to return at the same time each day. Come to discover what is new. See if your track was chosen. Share a collective moment of music outside the noise.
             </p>
           </div>
 
