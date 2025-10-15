@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Upload, Clock, Music2 } from 'lucide-react';
+import { X, Upload, Clock } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Input } from './components/ui/input';
 import { Label } from './components/ui/label';
@@ -79,8 +79,7 @@ export function SubmissionPage({ onClose }: SubmissionPageProps) {
               {/* Submission Form */}
               <div className="space-y-10">
                 <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <Music2 className="w-8 h-8" />
+                  <div className="space-y-6">
                     <h1 className="text-lg tracking-wide">submit your spotify track</h1>
                   </div>
                 </div>
